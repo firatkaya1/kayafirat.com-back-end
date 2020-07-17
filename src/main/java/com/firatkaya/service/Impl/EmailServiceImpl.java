@@ -34,7 +34,7 @@ public class EmailServiceImpl implements EmailService {
 		String verificationAddress = "localhost:4200/confirm/"+token;
 		String messageText= "Dear " + emailAddress+"\n\n"
 	            +"please verifiy your account.\n\n"
-	            +"<html><body> "
+	            +"<html><body>  "
 	            +"<a href='"+verificationAddress+"'>"
 	            +"Click Link.<br>"
 	            +"</a></body></html>"
