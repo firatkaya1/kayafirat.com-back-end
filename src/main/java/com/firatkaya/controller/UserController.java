@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.MessagingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +22,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.firatkaya.model.User;
+import com.firatkaya.service.EmailService;
 import com.firatkaya.service.UserService;
+
 
 @CrossOrigin("http://localhost:4200")
 @RestController
@@ -30,7 +34,10 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
+	@Autowired
+	EmailService emailService;
 	
+
 	@GetMapping
 	public ResponseEntity<List<User>> getAllUsers(){
 		return ResponseEntity.ok(userService.getAllUser());
@@ -93,7 +100,7 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); 
 	}
 	
-	@GetMapping("/verification/{email}/{id}")
+	@PostMapping("/verification/{email}/{id}")
 	public ResponseEntity<?> verificationUser(@PathVariable(value = "email",required = true) String email,
 											  @PathVariable(value = "id",required = true) String id){
 		
@@ -105,6 +112,14 @@ public class UserController {
 		} 		
 		
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+	}
+	
+	@PostMapping("/sendemail/{email}")
+	public ResponseEntity<?> sendEmail(@PathVariable(value = "email",required = true) String email) throws MessagingException {
+		User user = userService.getUser(email);
+		emailService.sendVerificationEmail(email,user.getUserId());
+		return ResponseEntity.ok(HttpStatus.OK);
+		
 	}
 	
 	@GetMapping(value = "search/{keyword}")

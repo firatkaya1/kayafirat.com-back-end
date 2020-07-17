@@ -16,6 +16,7 @@ import com.firatkaya.model.UserProfile;
 import com.firatkaya.repository.UserRepository;
 import com.firatkaya.service.UserService;
 
+
 @Service
 public class UserServiceImp implements UserService {
 	
@@ -24,6 +25,8 @@ public class UserServiceImp implements UserService {
 	@Autowired
 	private UserRepository userRepository;
 
+	
+	
 	@Override
 	public List<User> getAllUser() {
 		return (List<User>) userRepository.findAll();
@@ -76,15 +79,10 @@ public class UserServiceImp implements UserService {
 	}
 
 	@Override
-	public boolean verificationUser(String userId, String userEmail) {
-		boolean verifyId = userRepository.existsByUserId(userId);
-		boolean verifyEmail = userRepository.existsByUserEmail(userEmail);
-		
-		if(verifyId && verifyEmail){
-			return true;
-		}
-		
-		return false;
+	public boolean verificationUser(String userId, String email) {
+		boolean	isUserExists;
+		isUserExists = userRepository.existsByUserEmailandUserId(email, userId) == 1 ? true : false;
+		return isUserExists;
 	}
 
 	@Override
@@ -96,10 +94,7 @@ public class UserServiceImp implements UserService {
 	public User getUserbyUserid(String userId) {
 		return userRepository.findByUserId(userId);
 	}
-	
-	
 
-	
 	
 	
 }

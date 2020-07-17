@@ -1,8 +1,9 @@
-	package com.firatkaya.controller;
+package com.firatkaya.controller;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,7 @@ import com.firatkaya.model.Post;
 import com.firatkaya.model.StaticsViews;
 import com.firatkaya.service.PostService;
 import com.firatkaya.service.StaticsViewService;
+
 
 @CrossOrigin("http://localhost:4200")
 @RestController
@@ -66,8 +68,6 @@ public class PostController {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); 
 	}
 	
-	
-	
 	@GetMapping(value = "lastposts/{postnumber}/{ordertype}")
 	public ResponseEntity<Collection<?>> lastpost(@PathVariable(value = "postnumber",required = true) int limit,
 													@PathVariable(value = "ordertype",required = true) String ordertype) {
@@ -86,7 +86,6 @@ public class PostController {
 		return ResponseEntity.ok(HttpStatus.OK);
 		
 	}
-	
 	
 	
 	
