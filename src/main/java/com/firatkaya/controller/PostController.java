@@ -6,6 +6,7 @@ import java.util.List;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.firatkaya.model.Post;
+import com.firatkaya.model.PostExceptr;
 import com.firatkaya.model.StaticsViews;
+import com.firatkaya.repository.PostRepository;
 import com.firatkaya.service.PostService;
 import com.firatkaya.service.StaticsViewService;
 
@@ -31,12 +34,21 @@ public class PostController {
 	@Autowired
 	PostService postService;
 	
+	@Autowired 
+	PostRepository postRepo;
+	
 	@Autowired
 	StaticsViewService staticViewService;
 	
-	@GetMapping
-	public ResponseEntity<List<Post>> getAllPosts(){
-		return ResponseEntity.ok(postService.getAllPost());
+	@GetMapping(value="/{pagenumber}/{pageSize}/sorted/{sortedBy}/orderby/{orderBy}")
+	public ResponseEntity<Page<PostExceptr>> getAllPosts(
+			@PathVariable(value = "pagenumber",required = true) int pageNumber,
+			@PathVariable(value = "pageSize",required = true) int pageSize,
+			@PathVariable(value = "sortedBy",required = true) String sortedBy,
+			@PathVariable(value = "orderBy",required = true) String orderBy){
+		
+	
+		return ResponseEntity.ok(postService.getAllPost(pageNumber, pageSize, sortedBy, orderBy));
 	}
 	
 	@GetMapping(value = "postId/{postId}")

@@ -2,6 +2,8 @@ package com.firatkaya.repository;
 
 import java.util.Collection;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -9,13 +11,18 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.firatkaya.model.Post;
+import com.firatkaya.model.PostExceptr;
 
 @Repository
-public interface PostRepository extends JpaRepository<Post,String>  {
+public interface PostRepository extends JpaRepository<Post,String>{
 	
 	@Modifying
 	@Query(value = "UPDATE post SET post_max_comment = post_max_comment + 1 WHERE post_id = :postId",nativeQuery = true)
 	void updateMaxComment(@Param("postId") String postId);
+	
+	@Query(value = "SELECT post_id,post_tag,post_title,post_header,post_time,post_max_view,post_max_comment FROM firatkayablog.post",nativeQuery = true)
+	Page<PostExceptr> findAllProjectedBy(Pageable page);
+	
 	
 	boolean existsByPostId(String postId);
 	

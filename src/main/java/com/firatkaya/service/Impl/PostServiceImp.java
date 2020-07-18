@@ -1,10 +1,13 @@
 package com.firatkaya.service.Impl;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.firatkaya.model.Post;
@@ -20,13 +23,20 @@ public class PostServiceImp implements PostService{
 	@Autowired
 	PostRepository postRepository;
 	
-	
 	@Autowired
 	CommentRepository commentRepository;
 
 	@Override
-	public List<Post> getAllPost() {
-		return postRepository.findAll();
+	public Page<PostExceptr> getAllPost(int pageNumber,int pageSize,String sortedBy,String orderBy) {
+		Sort sort; 
+		if(orderBy.equals("asc")) 
+			 sort = Sort.by(sortedBy).ascending();
+		 else 
+			 sort = Sort.by(sortedBy).descending();
+		
+		Pageable pageable = PageRequest.of(pageNumber - 1, pageSize,sort);
+	
+		return postRepository.findAllProjectedBy(pageable);
 	}
 
 	@Override
