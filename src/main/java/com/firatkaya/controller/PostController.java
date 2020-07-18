@@ -96,8 +96,9 @@ public class PostController {
 	public ResponseEntity<?> updateMaxView(@RequestBody StaticsViews staticview) {
 		staticViewService.addStaticViews(staticview);
 		return ResponseEntity.ok(HttpStatus.OK);
-		
 	}
+	
+	
 	
 	
 	

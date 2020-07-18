@@ -37,7 +37,6 @@ public class UserController {
 	@Autowired
 	EmailService emailService;
 	
-
 	@GetMapping
 	public ResponseEntity<List<User>> getAllUsers(){
 		return ResponseEntity.ok(userService.getAllUser());
@@ -125,6 +124,11 @@ public class UserController {
 	@GetMapping(value = "search/{keyword}")
 	public ResponseEntity<Collection<?>> searchUser(@PathVariable(value = "keyword",required = true) String keyword) {
 		return ResponseEntity.ok(userService.searchUser(keyword));
+	}
+	
+	@GetMapping(value = "/validaterecaptcha/{key}")
+	public ResponseEntity<?> validatereCaptcha(@PathVariable(value = "key",required = true) String key) {
+		return ResponseEntity.ok(userService.validateCaptcha(key));
 	}
 	
 }

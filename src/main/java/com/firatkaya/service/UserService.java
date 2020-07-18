@@ -25,6 +25,8 @@ public interface UserService {
 	boolean verificationUser(String userId,String userEmail);
 	
 	Collection<?> searchUser(String keyword);
+	
+	String validateCaptcha(String key);
 
 	
 }

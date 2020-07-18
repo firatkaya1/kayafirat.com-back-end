@@ -7,7 +7,9 @@ import java.util.UUID;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.firatkaya.model.User;
 import com.firatkaya.model.UserExceptr;
@@ -21,11 +23,17 @@ import com.firatkaya.service.UserService;
 public class UserServiceImp implements UserService {
 	
 	private static final String DEFAULT_PROFIL_PHOTO="assets/images/profile.svg";
+	private static final String SECRET_KEY = "6LfC_bIZAAAAAC18vxthubhOnwLOF119RaS-GEC1";
+	private static final String VERİFY_CAPTCHA_URL_V2 = "https://www.google.com/recaptcha/api/siteverify?";
 	
 	@Autowired
 	private UserRepository userRepository;
-
 	
+	private final RestTemplate restTemplate;
+	
+	public UserServiceImp(RestTemplateBuilder restTemplateBuilder) {
+        this.restTemplate = restTemplateBuilder.build();
+    }
 	
 	@Override
 	public List<User> getAllUser() {
@@ -93,6 +101,12 @@ public class UserServiceImp implements UserService {
 	@Override
 	public User getUserbyUserid(String userId) {
 		return userRepository.findByUserId(userId);
+	}
+
+	@Override
+	public String validateCaptcha(String key) {
+		String url = VERİFY_CAPTCHA_URL_V2 + "secret="+SECRET_KEY+"&response="+key;
+		return restTemplate.getForObject(url, String.class);
 	}
 
 	
