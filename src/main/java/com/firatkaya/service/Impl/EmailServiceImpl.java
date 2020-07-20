@@ -55,6 +55,33 @@ public class EmailServiceImpl implements EmailService {
 	}
 	
 	@Override
+	public void sendResetPasswordEmail(String emailAddress, String id) throws MessagingException {
+		String token = createToken(emailAddress,id);
+		String verificationAddress = "localhost:4200/forgotpassword/reset/"+token;
+		String messageText= "Dear " + emailAddress+"\n\n"
+	            +"please reset your  password.\n\n "
+	            +"<html><body>  "
+	            +"<a href='"+verificationAddress+"'>"
+	            +"Click Link.<br>"
+	            +"</a></body></html>"
+	            + "Link : "+verificationAddress;
+		
+		MimeMessage message = mailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message,true);
+		helper.setFrom("fratkaya@mail.com");
+		helper.setSubject("Reset Password");
+		helper.setTo(emailAddress);
+		helper.setText(messageText,true);
+	        try{
+	            this.mailSender.send(message);
+	        }
+	        catch (MailException ex) {
+	            System.err.println(ex.getMessage());
+	        }
+		
+	}
+	
+	@Override
 	public String createToken(String email,String id) {
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
         
@@ -73,5 +100,47 @@ public class EmailServiceImpl implements EmailService {
         
 		     return builder.compact();   	    
 	}
+
+	@Override
+	public void sendSuccessResetPassword(String emailAddress) throws MessagingException {
+		String messageText= "Dear " + emailAddress+"\n\n"
+	            +"Congralts. Password updated. Thanks";
+		
+		MimeMessage message = mailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message,true);
+		helper.setFrom("fratkaya@mail.com");
+		helper.setSubject("Reset Password Success");
+		helper.setTo(emailAddress);
+		helper.setText(messageText,true);
+	        try{
+	            this.mailSender.send(message);
+	        }
+	        catch (MailException ex) {
+	            System.err.println(ex.getMessage());
+	        }
+		
+	}
+	
+	@Override
+	public void sendSuccessVerification(String emailAddress) throws MessagingException {
+		String messageText= "Dear " + emailAddress+"\n\n"
+	            +"Congralts. Verification accepted.. Thanks";
+		
+		MimeMessage message = mailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message,true);
+		helper.setFrom("fratkaya@mail.com");
+		helper.setSubject("Reset Password Success");
+		helper.setTo(emailAddress);
+		helper.setText(messageText,true);
+	        try{
+	            this.mailSender.send(message);
+	        }
+	        catch (MailException ex) {
+	            System.err.println(ex.getMessage());
+	        }
+		
+	}
+
+	
 
 }

@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
+import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import com.firatkaya.model.UserExceptr;
 import com.firatkaya.model.UserPermissions;
 import com.firatkaya.model.UserProfile;
 import com.firatkaya.repository.UserRepository;
+import com.firatkaya.service.EmailService;
 import com.firatkaya.service.UserService;
 
 
@@ -28,6 +30,9 @@ public class UserServiceImp implements UserService {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private EmailService emailService;
 	
 	private final RestTemplate restTemplate;
 	
@@ -107,6 +112,24 @@ public class UserServiceImp implements UserService {
 	public String validateCaptcha(String key) {
 		String url = VERİFY_CAPTCHA_URL_V2 + "secret="+SECRET_KEY+"&response="+key;
 		return restTemplate.getForObject(url, String.class);
+	}
+
+	
+	@Transactional
+	@Override
+	public boolean updatePassword(String email,String userid,String password) {
+		boolean	isUserExists;
+		isUserExists = userRepository.existsByUserEmailandUserId(email, userid) == 1 ? true : false;
+		if(isUserExists) {
+			userRepository.updateUserPassword(email, password);
+			try {
+				emailService.sendSuccessResetPassword(email);
+			} catch (MessagingException e) {
+				e.printStackTrace();
+			}
+		}	
+	
+		return isUserExists;
 	}
 
 	

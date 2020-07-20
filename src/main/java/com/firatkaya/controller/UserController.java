@@ -107,6 +107,11 @@ public class UserController {
 			User user = userService.getUser(email);
 			user.setVerification(true);
 			userService.updateUser(user);
+			try {
+				emailService.sendSuccessVerification(email);
+			} catch (MessagingException e) {
+				e.printStackTrace();
+			}
 			return ResponseEntity.ok(HttpStatus.OK);
 		} 		
 		
@@ -114,10 +119,33 @@ public class UserController {
 	}
 	
 	@PostMapping("/sendemail/{email}")
-	public ResponseEntity<?> sendEmail(@PathVariable(value = "email",required = true) String email) throws MessagingException {
+	public ResponseEntity<?> sendVerificationEmail(@PathVariable(value = "email",required = true) String email) throws MessagingException {
 		User user = userService.getUser(email);
 		emailService.sendVerificationEmail(email,user.getUserId());
 		return ResponseEntity.ok(HttpStatus.OK);
+		
+	}
+	
+	@PostMapping("/sendResetEmail/{email}")
+	public ResponseEntity<?> sendResetEmail(@PathVariable(value = "email",required = true) String email) throws MessagingException {
+		User user = userService.getUser(email);
+		if(user !=null ) {
+			emailService.sendResetPasswordEmail(email,user.getUserId());
+			return ResponseEntity.ok(HttpStatus.OK);
+		}
+		
+		return ResponseEntity.notFound().build();
+		
+	}
+	
+	@PostMapping("/reset/{email}/{password}")
+	public ResponseEntity<?> resetPassword(@PathVariable(value = "email",required = true) String email,@PathVariable(value = "password",required = true) String password) throws MessagingException {
+		User user = userService.getUser(email);
+		if(user !=null ) {
+			userService.updatePassword(email, user.getUserId(), password);
+			return ResponseEntity.ok(HttpStatus.OK);
+		}
+		return ResponseEntity.notFound().build();
 		
 	}
 	

@@ -63,6 +63,12 @@ public class PostController {
 		return ResponseEntity.ok(myPost);
 	}
 	
+	@GetMapping(value = "postTag/{postTag}")
+	public ResponseEntity<Collection<?>> getPostTag(@PathVariable(value = "postTag",required = true) String postTag){
+		
+		return ResponseEntity.ok(postService.getByPostTag(postTag));
+	}
+	
 	@PostMapping
 	public ResponseEntity<?> addPost(@RequestBody Post post){
 		postService.savePost(post);

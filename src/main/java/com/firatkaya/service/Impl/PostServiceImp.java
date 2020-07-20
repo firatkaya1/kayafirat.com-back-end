@@ -79,5 +79,10 @@ public class PostServiceImp implements PostService{
 	public Post getByPostTitle(String postTitle) {
 		return postRepository.findByPostTitle(postTitle);
 	}
+
+	@Override
+	public Collection<?> getByPostTag(String postTag) {
+		return postRepository.findByAllPostTag(postTag, PostExceptr.class);
+	}
 	
 }

@@ -38,6 +38,10 @@ public interface PostRepository extends JpaRepository<Post,String>{
 	@Query(value ="SELECT * FROM post order by post_time ASC LIMIT :lim", nativeQuery = true)
 	<T> Collection<T> orderByAsc(@Param("lim") int limit,Class<T> type);
 	
+	@Query(value ="SELECT * FROM post where post_tag = :postTag", nativeQuery = true)
+	<T> Collection<T> findByAllPostTag(@Param("postTag") String postTag,Class<T> type);
+	
+	
 	@Query(value="SELECT * FROM post where "
 			+ "post_tag LIKE (CONCAT(:keyword,'%')) or "
 			+ "post_tag LIKE (CONCAT('%',:keyword)) or "

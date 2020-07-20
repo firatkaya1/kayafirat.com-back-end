@@ -28,5 +28,6 @@ public interface UserService {
 	
 	String validateCaptcha(String key);
 
+	boolean updatePassword(String email,String userid,String password);
 	
 }

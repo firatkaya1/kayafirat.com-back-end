@@ -3,6 +3,7 @@ package com.firatkaya.repository;
 import java.util.Collection;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -31,6 +32,10 @@ public interface UserRepository  extends JpaRepository<User,String>  {
 			+ "user_name LIKE (CONCAT('%',:keyword)) or "
 			+ "user_name LIKE (CONCAT('%',:keyword,'%')) LIMIT 10 ",nativeQuery = true)	
 	<T> Collection<T> searchByUsernameAndUseremail(@Param("keyword") String keyword,Class<T> type);
+	
+	@Modifying
+	@Query(value = "UPDATE user SET user_password = :password  WHERE user_email = :email",nativeQuery = true)
+	void updateUserPassword(@Param("email") String email,@Param("password") String password);
 	
 	
 }

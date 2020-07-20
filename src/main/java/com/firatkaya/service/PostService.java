@@ -26,4 +26,6 @@ public interface PostService {
 	Collection<?> lastPost(int limit,String ordertype);
 	
 	Collection<?> searchPost(String keyword);
+	
+	Collection<?> getByPostTag(String postTag);
 }
