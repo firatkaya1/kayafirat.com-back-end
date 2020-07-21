@@ -7,7 +7,7 @@ public interface CommentExceptr {
 
 	String getComment_Id();
 	
-	String getUser_Id();
+	String getUser_name();
 	
 	String getComment_Message();
 	

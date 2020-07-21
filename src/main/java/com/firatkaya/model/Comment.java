@@ -31,8 +31,8 @@ public class Comment  implements Serializable{
 	@Column(name = "comment_Id")
 	private String commentId;
 
-	@Column(name = "user_id")
-	private String userId;
+	@Column(name = "user_name")
+	private String username;
 	
 	@Column(name = "comment_Message")
 	private String commentMessage;

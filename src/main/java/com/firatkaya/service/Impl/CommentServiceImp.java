@@ -32,7 +32,7 @@ public class CommentServiceImp implements CommentService{
 	
 	@Override
 	public List<Comment> getAllComments(String postId) {
-		return null;
+		return commentRepository.findAll();
 	} 
 
 	@Override
