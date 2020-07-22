@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.firatkaya.model.User;
+import com.firatkaya.model.UserPermissions;
 import com.firatkaya.service.EmailService;
 import com.firatkaya.service.UserService;
 
@@ -57,10 +58,10 @@ public class UserController {
 		return ResponseEntity.notFound().build();	
 	}
 	
-	@GetMapping(value="/userid/{userid}")
-	public ResponseEntity<?> getUser(@PathVariable(value = "userid",required = true) String userid){
+	@GetMapping(value="/username/{username}")
+	public ResponseEntity<?> getUserByUsername(@PathVariable(value = "username",required = true) String username){
 		
-		User user = userService.getUserbyUserid(userid);
+		User user = userService.getUserbyUsername(username);
 		List<User> myList = new ArrayList<>();
 		if(user != null) {
 			myList.add(user);
@@ -83,6 +84,15 @@ public class UserController {
 	public ResponseEntity<?> updateUser(@RequestBody User user){
 		
 		if(userService.updateUser(user) != null) {
+			return ResponseEntity.ok().build();
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); 
+	}
+	
+	@PutMapping(value="/update/userpermissions/{username}")
+	public ResponseEntity<?> updateUserPermissions(@RequestBody UserPermissions userPermissions,@PathVariable(value = "username",required = true) String username){
+		
+		if(userService.updateUserPermissions(username,userPermissions)) {
 			return ResponseEntity.ok().build();
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); 
@@ -158,5 +168,48 @@ public class UserController {
 	public ResponseEntity<?> validatereCaptcha(@PathVariable(value = "key",required = true) String key) {
 		return ResponseEntity.ok(userService.validateCaptcha(key));
 	}
+	
+	@PutMapping(value="/update/usergithub/{email}/{githubaddress}")
+	public ResponseEntity<?> updateUserGithubAddress(@PathVariable(value = "email",required = true) String email,@PathVariable(value = "githubaddress",required = true) String githubaddress){
+		
+		if(userService.updateUserGithubAddress(email, githubaddress)) {
+			return ResponseEntity.status(HttpStatus.OK).build();
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); 
+	}
+	
+	@PutMapping(value="/update/userlinkedin/{email}/{linkedinaddress}")
+	public ResponseEntity<?> updateUserLinkedinAddress(@PathVariable(value = "email",required = true) String email,@PathVariable(value = "linkedinaddress",required = true) String linkedinaddress){
+		
+		if(userService.updateUserLinkedinAddress(email, linkedinaddress)) {
+			return ResponseEntity.status(HttpStatus.OK).build();
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); 
+	}
+	
+	@PutMapping(value="/update/userbirthdate/{email}/{birthdate}")
+	public ResponseEntity<?> updateUserBirthdate(@PathVariable(value = "email",required = true) String email,@PathVariable(value = "birthdate",required = true) String birthdate){
+		
+		if(userService.updateUserBirthDate(email, birthdate)) {
+			return ResponseEntity.status(HttpStatus.OK).build();
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); 
+	}
+	
+	@PutMapping(value="/update/userpass/{email}/{userpassword}")
+	public ResponseEntity<?> updateUserPassword(@PathVariable(value = "email",required = true) String email,@PathVariable(value = "userpassword",required = true) String userpassword){
+		
+		if(userService.updateUserPasswordSettings(email, userpassword)) {
+			return ResponseEntity.status(HttpStatus.OK).build();
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); 
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 }

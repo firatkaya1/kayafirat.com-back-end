@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.firatkaya.model.Post;
 import com.firatkaya.model.PostExceptr;
+import com.firatkaya.model.PostExceptrSearch;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post,String>{
@@ -51,8 +52,10 @@ public interface PostRepository extends JpaRepository<Post,String>{
 			+ "post_header LIKE (CONCAT('%',:keyword,'%')) or "
 			+ "post_title LIKE (CONCAT(:keyword,'%')) or "
 			+ "post_title LIKE (CONCAT('%',:keyword)) or "
-			+ "post_title LIKE (CONCAT('%',:keyword,'%')) LIMIT 10 ",nativeQuery = true)		
-	<T> Collection<T> searchByTitleHeaderTag(@Param("keyword") String keyword,Class<T> type);
+			+ "post_title LIKE (CONCAT('%',:keyword,'%'))",nativeQuery = true)		
+	Page<PostExceptrSearch> searchByTitleHeaderTag(Pageable page,@Param("keyword") String keyword);
+	
+	
 		
 	@Modifying
 	@Query(value = "UPDATE post SET post_max_view = post_max_view + 1 WHERE post_id = :postId",nativeQuery = true)

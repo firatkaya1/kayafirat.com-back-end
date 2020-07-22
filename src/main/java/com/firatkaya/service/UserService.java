@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.firatkaya.model.User;
+import com.firatkaya.model.UserPermissions;
 
 @Service
 public interface UserService {
@@ -14,13 +15,15 @@ public interface UserService {
 	
 	User getUser(String email);
 	
-	User getUserbyUserid(String userId);
+	User getUserbyUsername(String username);
 	
 	User saveUser(User user);
 	
 	User updateUser(User user);
 	
 	boolean deleteUser(String email);
+	
+	boolean updateUserPermissions(String username,UserPermissions userPermissions);
 	
 	boolean verificationUser(String userId,String userEmail);
 	
@@ -30,4 +33,13 @@ public interface UserService {
 
 	boolean updatePassword(String email,String userid,String password);
 	
+	boolean updateUserGithubAddress(String email,String githubaddress);
+	
+	boolean updateUserLinkedinAddress(String email,String linkedinaddress);
+	
+	boolean updateUserUsername(String email,String username);
+	
+	boolean updateUserBirthDate(String email,String date);
+	
+	boolean updateUserPasswordSettings(String email, String pass);
 }

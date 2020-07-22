@@ -71,8 +71,16 @@ public class PostServiceImp implements PostService{
 		else  return null;
 	}
 	
-	public Collection<?> searchPost(String keyword){
-		return postRepository.searchByTitleHeaderTag(keyword,PostExceptrSearch.class);
+	public Page<PostExceptrSearch> searchPost(String keyword,int pageNumber,int pageSize,String sortedBy,String orderBy){
+		Sort sort; 
+		if(orderBy.equals("asc")) 
+			 sort = Sort.by(sortedBy).ascending();
+		 else 
+			 sort = Sort.by(sortedBy).descending();
+		
+		Pageable pageable = PageRequest.of(pageNumber - 1, pageSize,sort);
+		
+		return postRepository.searchByTitleHeaderTag(pageable,keyword);
 	}
 
 	@Override

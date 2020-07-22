@@ -81,6 +81,18 @@ public class UserServiceImp implements UserService {
 	
 	@Transactional
 	@Override
+	public boolean updateUserPermissions(String username,UserPermissions userPermissions) {
+		User user = userRepository.findByUserName(username);
+		if(userRepository.existsByUserEmail(user.getUserEmail())) {
+			  userPermissions.setUserEmail(user.getUserEmail());
+		      userRepository.updateUserPermissions(userPermissions);
+		      return true;
+		}
+		return false;
+	}
+	
+	@Transactional
+	@Override
 	public boolean deleteUser(String email) {
 		
 		if(userRepository.existsByUserEmail(email)) {
@@ -104,8 +116,8 @@ public class UserServiceImp implements UserService {
 	}
 
 	@Override
-	public User getUserbyUserid(String userId) {
-		return userRepository.findByUserId(userId);
+	public User getUserbyUsername(String username) {
+		return userRepository.findByUserName(username);
 	}
 
 	@Override
@@ -113,7 +125,6 @@ public class UserServiceImp implements UserService {
 		String url = VERİFY_CAPTCHA_URL_V2 + "secret="+SECRET_KEY+"&response="+key;
 		return restTemplate.getForObject(url, String.class);
 	}
-
 	
 	@Transactional
 	@Override
@@ -133,5 +144,39 @@ public class UserServiceImp implements UserService {
 	}
 
 	
+	@Transactional
+	@Override
+	public boolean updateUserUsername(String email, String username) {
+		userRepository.updateUserUsername(email, username);
+		return true;
+	}
+	
+	@Transactional
+	@Override
+	public boolean updateUserGithubAddress(String email, String githubaddress) {
+		userRepository.updateGithubAddress(email, githubaddress);
+		return true;
+	}
+	
+	@Transactional
+	@Override
+	public boolean updateUserLinkedinAddress(String email, String linkedinaddress) {
+		userRepository.updateLinkedinAddress(email, linkedinaddress);
+		return true;
+	}
+	
+	@Transactional
+	@Override
+	public boolean updateUserBirthDate(String email, String date) {
+		userRepository.updateUserBirthDate(email, date);
+		return true;
+	}
+
+	@Transactional
+	@Override
+	public boolean updateUserPasswordSettings(String email, String pass) {
+		userRepository.updateUserPassword(email, pass);
+		return true;
+	}
 	
 }

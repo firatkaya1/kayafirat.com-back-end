@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.firatkaya.model.Post;
 import com.firatkaya.model.PostExceptr;
+import com.firatkaya.model.PostExceptrSearch;
 
 @Service
 public interface PostService {
@@ -25,7 +26,7 @@ public interface PostService {
 	
 	Collection<?> lastPost(int limit,String ordertype);
 	
-	Collection<?> searchPost(String keyword);
+	Page<PostExceptrSearch> searchPost(String keyword,int pageNumber,int pageSize,String sortedBy,String orderBy);
 	
 	Collection<?> getByPostTag(String postTag);
 }

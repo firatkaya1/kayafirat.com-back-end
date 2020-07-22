@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.firatkaya.model.Post;
 import com.firatkaya.model.PostExceptr;
+import com.firatkaya.model.PostExceptrSearch;
 import com.firatkaya.model.StaticsViews;
 import com.firatkaya.repository.PostRepository;
 import com.firatkaya.service.PostService;
@@ -93,9 +94,15 @@ public class PostController {
 		return ResponseEntity.ok(postService.lastPost(limit,ordertype));
 	}
 		
-	@GetMapping(value = "search/{keyword}")
-	public ResponseEntity<Collection<?>> searchPost(@PathVariable(value = "keyword",required = true) String keyword) {
-		return ResponseEntity.ok(postService.searchPost(keyword));
+	@GetMapping(value = "search/{keyword}/{pagenumber}/{pageSize}/sorted/{sortedBy}/orderby/{orderBy}")
+	public ResponseEntity<Page<PostExceptrSearch>> searchPost(@PathVariable(value = "keyword",required = true) String keyword,
+			@PathVariable(value = "pagenumber",required = true) int pageNumber,
+			@PathVariable(value = "pageSize",required = true) int pageSize,
+			@PathVariable(value = "sortedBy",required = true) String sortedBy,
+			@PathVariable(value = "orderBy",required = true) String orderBy) {
+		
+		
+		return ResponseEntity.ok(postService.searchPost(keyword,pageNumber, pageSize, sortedBy, orderBy));
 	}
 	
 	@PostMapping(value = "/updateview")
