@@ -99,10 +99,10 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); 
 	}
 
-	@DeleteMapping(value = "/{email}")
-	public ResponseEntity<?> deleteByUsername(@PathVariable(value = "email",required = true) String email) {
+	@DeleteMapping
+	public ResponseEntity<?> deleteByUsername(@RequestBody HashMap<String, String> request) {
 		
-		boolean result = userService.deleteUser(email);
+		boolean result = userService.deleteUser(request.get("email"));
 		
 		if(result)
 			return ResponseEntity.status(HttpStatus.OK).build(); 
@@ -110,16 +110,15 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); 
 	}
 	
-	@PostMapping("/verification/{email}/{id}")
-	public ResponseEntity<?> verificationUser(@PathVariable(value = "email",required = true) String email,
-											  @PathVariable(value = "id",required = true) String id){
+	@PostMapping("/verification")
+	public ResponseEntity<?> verificationUser(@RequestBody HashMap<String, String> request){
 		
-		if(userService.verificationUser(id, email)) {
-			User user = userService.getUser(email);
+		if(userService.verificationUser(request.get("id"), request.get("email")))   {
+			User user = userService.getUser(request.get("email"));
 			user.setVerification(true);
 			userService.updateUser(user);
 			try {
-				emailService.sendSuccessVerification(email);
+				emailService.sendSuccessVerification(user.getUserEmail());
 			} catch (MessagingException e) {
 				e.printStackTrace();
 			}
@@ -129,10 +128,10 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 	}
 	
-	@PostMapping("/sendemail/{email}")
-	public ResponseEntity<?> sendVerificationEmail(@PathVariable(value = "email",required = true) String email) throws MessagingException {
-		User user = userService.getUser(email);
-		emailService.sendVerificationEmail(email,user.getUserId());
+	@PostMapping("/sendemail")
+	public ResponseEntity<?> sendVerificationEmail(@RequestBody HashMap<String, String> request) throws MessagingException {
+		User user = userService.getUser(request.get("email"));
+		emailService.sendVerificationEmail(user.getUserEmail(),user.getUserId());
 		return ResponseEntity.ok(HttpStatus.OK);
 		
 	}
@@ -169,56 +168,29 @@ public class UserController {
 		return ResponseEntity.ok(userService.validateCaptcha(key));
 	}
 	
-	@PutMapping(value="/update/username/{email}/{username}")
-	public ResponseEntity<?> updateUserUsername(@PathVariable(value = "email",required = true) String email,@PathVariable(value = "username",required = true) String username){
-		
-		if(userService.updateUserUsername(email, username)) {
-			return ResponseEntity.status(HttpStatus.OK).build();
+	@PutMapping(value="/update")
+	public ResponseEntity<?> updateUserUsername(@RequestBody HashMap<String, String>  request){
+	String key=request.get("");
+	String useremail = request.get("email");
+	switch (key) {
+		case "username":
+			userService.updateUserUsername(useremail, request.get("username"));
+			break;
+		case "githubaddress":
+			userService.updateUserGithubAddress(useremail, request.get("githubaddress"));			
+			break;	
+		case "linkedinaddress":
+			userService.updateUserGithubAddress(useremail, request.get("linkedinaddress"));			
+			break;
+		case "githubaddress3":
+			userService.updateUserBirthDate(useremail, request.get("birthdate"));	
+			break;	
+		default:
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); 
+	return ResponseEntity.status(HttpStatus.OK).build(); 
+	
+	
 	}
-	
-	@PutMapping(value="/update/usergithub/{email}/{githubaddress}")
-	public ResponseEntity<?> updateUserGithubAddress(@PathVariable(value = "email",required = true) String email,@PathVariable(value = "githubaddress",required = true) String githubaddress){
-		
-		if(userService.updateUserGithubAddress(email, githubaddress)) {
-			return ResponseEntity.status(HttpStatus.OK).build();
-		}
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); 
-	}
-	
-	@PutMapping(value="/update/userlinkedin/{email}/{linkedinaddress}")
-	public ResponseEntity<?> updateUserLinkedinAddress(@PathVariable(value = "email",required = true) String email,@PathVariable(value = "linkedinaddress",required = true) String linkedinaddress){
-		
-		if(userService.updateUserLinkedinAddress(email, linkedinaddress)) {
-			return ResponseEntity.status(HttpStatus.OK).build();
-		}
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); 
-	}
-	
-	@PutMapping(value="/update/userbirthdate/{email}/{birthdate}")
-	public ResponseEntity<?> updateUserBirthdate(@PathVariable(value = "email",required = true) String email,@PathVariable(value = "birthdate",required = true) String birthdate){
-		
-		if(userService.updateUserBirthDate(email, birthdate)) {
-			return ResponseEntity.status(HttpStatus.OK).build();
-		}
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); 
-	}
-	
-	@PutMapping(value="/update/userpass/{email}/{userpassword}")
-	public ResponseEntity<?> updateUserPassword(@PathVariable(value = "email",required = true) String email,@PathVariable(value = "userpassword",required = true) String userpassword){
-		
-		if(userService.updateUserPasswordSettings(email, userpassword)) {
-			return ResponseEntity.status(HttpStatus.OK).build();
-		}
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); 
-	}
-	
-	
-	
-	
-	
-	
-	
 	
 }
