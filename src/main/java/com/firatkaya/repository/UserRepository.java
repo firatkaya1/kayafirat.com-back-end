@@ -61,9 +61,12 @@ public interface UserRepository  extends JpaRepository<User,String>  {
 	void updateUserBirthDate(@Param("email") String email,@Param("birthdate") String birthdate);
 	
 	@Modifying 
-	@Query(value = "UPDATE user SET user_name = :username  WHERE user_email = :email;"
-			+ "UPDATE comment SET user_name = :username  WHERE user_name = :username;",nativeQuery = true)
-	void updateUserUsername(@Param("email") String email,@Param("username") String birthdate);
+	@Query(value = "UPDATE user SET user_name = :username  WHERE user_email = :email",nativeQuery = true)
+	void updateUserUsernameOnUser(@Param("email") String email,@Param("username") String birthdate);
+	
+	@Modifying 
+	@Query(value ="UPDATE comment SET user_name = :username  WHERE user_ = :email",nativeQuery = true)
+	void updateUserUsernameOnComment(@Param("email") String email,@Param("username") String username);
 	
 	@Modifying 
 	@Query(value = "UPDATE user_profile SET user_github = :username  WHERE user_email = :email",nativeQuery = true)

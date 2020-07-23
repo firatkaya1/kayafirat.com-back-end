@@ -2,6 +2,7 @@ package com.firatkaya.controller;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -136,24 +137,23 @@ public class UserController {
 		
 	}
 	
-	@PostMapping("/sendResetEmail/{email}")
-	public ResponseEntity<?> sendResetEmail(@PathVariable(value = "email",required = true) String email) throws MessagingException {
-		User user = userService.getUser(email);
+	@PostMapping("/sendResetEmail")
+	public ResponseEntity<?> sendResetEmail(@RequestBody HashMap<String, String>  request) throws MessagingException {
+		
+		User user = userService.getUser(request.get("email"));
 		if(user !=null ) {
-			emailService.sendResetPasswordEmail(email,user.getUserId());
+			emailService.sendResetPasswordEmail(user.getUserEmail(),user.getUserId());
 			return ResponseEntity.ok(HttpStatus.OK);
 		}
-		
 		return ResponseEntity.notFound().build();
-		
 	}
 	
-	@PostMapping("/reset/{email}/{password}")
-	public ResponseEntity<?> resetPassword(@PathVariable(value = "email",required = true) String email,@PathVariable(value = "password",required = true) String password) throws MessagingException {
-		User user = userService.getUser(email);
+	@PostMapping("/reset")
+	public ResponseEntity<?> resetPassword(@RequestBody HashMap<String, String>  request) throws MessagingException {
+		User user = userService.getUser(request.get("email"));
 		if(user !=null ) {
-			userService.updatePassword(email, user.getUserId(), password);
-			return ResponseEntity.ok(HttpStatus.OK);
+			userService.updatePassword(user.getUserEmail(), request.get("password"));
+			return ResponseEntity.ok(HttpStatus.OK);	
 		}
 		return ResponseEntity.notFound().build();
 		
@@ -167,6 +167,15 @@ public class UserController {
 	@GetMapping(value = "/validaterecaptcha/{key}")
 	public ResponseEntity<?> validatereCaptcha(@PathVariable(value = "key",required = true) String key) {
 		return ResponseEntity.ok(userService.validateCaptcha(key));
+	}
+	
+	@PutMapping(value="/update/username/{email}/{username}")
+	public ResponseEntity<?> updateUserUsername(@PathVariable(value = "email",required = true) String email,@PathVariable(value = "username",required = true) String username){
+		
+		if(userService.updateUserUsername(email, username)) {
+			return ResponseEntity.status(HttpStatus.OK).build();
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); 
 	}
 	
 	@PutMapping(value="/update/usergithub/{email}/{githubaddress}")

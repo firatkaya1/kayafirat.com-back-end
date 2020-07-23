@@ -128,26 +128,24 @@ public class UserServiceImp implements UserService {
 	
 	@Transactional
 	@Override
-	public boolean updatePassword(String email,String userid,String password) {
-		boolean	isUserExists;
-		isUserExists = userRepository.existsByUserEmailandUserId(email, userid) == 1 ? true : false;
-		if(isUserExists) {
+	public boolean updatePassword(String email,String password) {
+		
 			userRepository.updateUserPassword(email, password);
 			try {
 				emailService.sendSuccessResetPassword(email);
+				return true;
 			} catch (MessagingException e) {
 				e.printStackTrace();
 			}
-		}	
-	
-		return isUserExists;
+			return false;
 	}
 
 	
 	@Transactional
 	@Override
 	public boolean updateUserUsername(String email, String username) {
-		userRepository.updateUserUsername(email, username);
+		userRepository.updateUserUsernameOnUser(email, username);
+		userRepository.updateUserUsernameOnComment(email, username);
 		return true;
 	}
 	

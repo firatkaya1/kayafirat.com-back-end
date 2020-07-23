@@ -31,7 +31,7 @@ public interface UserService {
 	
 	String validateCaptcha(String key);
 
-	boolean updatePassword(String email,String userid,String password);
+	boolean updatePassword(String email,String password);
 	
 	boolean updateUserGithubAddress(String email,String githubaddress);
 	
