@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.firatkaya.model.User;
 import com.firatkaya.model.UserPermissions;
@@ -42,4 +43,6 @@ public interface UserService {
 	boolean updateUserBirthDate(String email,String date);
 	
 	boolean updateUserPasswordSettings(String email, String pass);
+	
+	void updateUserImage(MultipartFile file,String userId);
 }

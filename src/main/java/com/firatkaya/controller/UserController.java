@@ -1,7 +1,9 @@
 package com.firatkaya.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.firatkaya.model.User;
 import com.firatkaya.model.UserPermissions;
@@ -182,6 +185,15 @@ public class UserController {
 	return ResponseEntity.status(HttpStatus.OK).build(); 
 	
 	
+	}
+	
+	@PostMapping(value = "/updatepicture/{userId}")
+	public ResponseEntity<?> updatepicture(@RequestParam MultipartFile file,@PathVariable(value="userId") String userId) throws IOException {
+		
+		System.out.println("Post Saati :"+new Date());
+		userService.updateUserImage(file,userId);
+		
+		return ResponseEntity.ok(HttpStatus.OK);
 	}
 	
 }

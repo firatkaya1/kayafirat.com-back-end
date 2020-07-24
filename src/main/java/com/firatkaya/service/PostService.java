@@ -29,4 +29,10 @@ public interface PostService {
 	Page<PostExceptrSearch> searchPost(String keyword,int pageNumber,int pageSize,String sortedBy,String orderBy);
 	
 	Collection<?> getByPostTag(String postTag);
+	
+	/*
+	boolean checkImage(MultipartFile file) throws IOException;
+	
+	boolean checkScanId(String scanId); 
+	*/
 }

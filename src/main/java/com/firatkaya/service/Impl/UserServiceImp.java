@@ -1,5 +1,9 @@
 package com.firatkaya.service.Impl;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -11,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.firatkaya.model.User;
 import com.firatkaya.model.UserExceptr;
@@ -175,6 +180,20 @@ public class UserServiceImp implements UserService {
 	public boolean updateUserPasswordSettings(String email, String pass) {
 		userRepository.updateUserPassword(email, pass);
 		return true;
+	}
+	
+	@Transactional
+	@Override
+	public void updateUserImage(MultipartFile file,String userId) {
+		byte[] bytes;
+		try {
+			bytes = file.getBytes();
+			Path path = Paths.get("/home/kaya/Desktop/JAVA/UPLOAD/" + userId);
+	        Files.write(path, bytes);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 }
