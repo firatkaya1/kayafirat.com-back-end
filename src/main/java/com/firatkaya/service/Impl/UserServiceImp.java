@@ -188,8 +188,9 @@ public class UserServiceImp implements UserService {
 		byte[] bytes;
 		try {
 			bytes = file.getBytes();
-			Path path = Paths.get("/home/kaya/Desktop/JAVA/UPLOAD/" + userId);
+			Path path = Paths.get("/home/kaya/Desktop/Angular-Projects/firatkaya/src/assets/upload/" + userId +"."+ file.getOriginalFilename().split("\\.")[1]);
 	        Files.write(path, bytes);
+	        userRepository.updateUserPhoto(userId, path.toString().substring(50, path.toString().length()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

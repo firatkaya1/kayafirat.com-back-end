@@ -75,6 +75,10 @@ public interface UserRepository  extends JpaRepository<User,String>  {
 	@Modifying 
 	@Query(value = "UPDATE user_profile SET user_linkedin = :userlinkedin  WHERE user_email = :email",nativeQuery = true)
 	void updateLinkedinAddress(@Param("email") String email,@Param("userlinkedin") String userlinkedin);
+	
+	@Modifying 
+	@Query(value = "UPDATE user SET user_profile_photo = :path  WHERE user_id = :userId",nativeQuery = true)
+	void updateUserPhoto(@Param("userId") String userId,@Param("path") String path);
 
 
 

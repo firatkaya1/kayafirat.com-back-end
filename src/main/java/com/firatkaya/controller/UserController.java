@@ -3,7 +3,6 @@ package com.firatkaya.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -188,11 +187,9 @@ public class UserController {
 	}
 	
 	@PostMapping(value = "/updatepicture/{userId}")
-	public ResponseEntity<?> updatepicture(@RequestParam MultipartFile file,@PathVariable(value="userId") String userId) throws IOException {
+	public ResponseEntity<?> updatepicture(@RequestParam("file")  MultipartFile file,@PathVariable(value="userId") String userId) throws IOException {
 		
-		System.out.println("Post Saati :"+new Date());
 		userService.updateUserImage(file,userId);
-		
 		return ResponseEntity.ok(HttpStatus.OK);
 	}
 	
