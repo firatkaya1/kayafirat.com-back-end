@@ -145,7 +145,7 @@ public class UserServiceImp implements UserService {
 	@Override
 	public boolean updateUserUsername(String email, String username) {
 		userRepository.updateUserUsernameOnUser(email, username);
-		userRepository.updateUserUsernameOnComment(email, username);
+		userRepository.updateUserUsernameOnComment(username);
 		return true;
 	}
 	

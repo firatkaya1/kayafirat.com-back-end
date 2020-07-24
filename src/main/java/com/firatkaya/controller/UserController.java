@@ -81,15 +81,6 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.CONFLICT).build(); 
 	}
 	
-	@PutMapping(value="/update")
-	public ResponseEntity<?> updateUser(@RequestBody User user){
-		
-		if(userService.updateUser(user) != null) {
-			return ResponseEntity.ok().build();
-		}
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); 
-	}
-	
 	@PutMapping(value="/update/userpermissions/{username}")
 	public ResponseEntity<?> updateUserPermissions(@RequestBody UserPermissions userPermissions,@PathVariable(value = "username",required = true) String username){
 		
@@ -170,7 +161,7 @@ public class UserController {
 	
 	@PutMapping(value="/update")
 	public ResponseEntity<?> updateUserUsername(@RequestBody HashMap<String, String>  request){
-	String key=request.get("");
+	String key=request.get("key");
 	String useremail = request.get("email");
 	switch (key) {
 		case "username":
@@ -180,9 +171,9 @@ public class UserController {
 			userService.updateUserGithubAddress(useremail, request.get("githubaddress"));			
 			break;	
 		case "linkedinaddress":
-			userService.updateUserGithubAddress(useremail, request.get("linkedinaddress"));			
+			userService.updateUserLinkedinAddress(useremail, request.get("linkedinaddress"));			
 			break;
-		case "githubaddress3":
+		case "birthdate":
 			userService.updateUserBirthDate(useremail, request.get("birthdate"));	
 			break;	
 		default:

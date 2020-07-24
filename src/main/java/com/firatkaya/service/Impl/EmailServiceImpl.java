@@ -129,7 +129,7 @@ public class EmailServiceImpl implements EmailService {
 		MimeMessage message = mailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message,true);
 		helper.setFrom("fratkaya@mail.com");
-		helper.setSubject("Reset Password Success");
+		helper.setSubject("Verification Success");
 		helper.setTo(emailAddress);
 		helper.setText(messageText,true);
 	        try{

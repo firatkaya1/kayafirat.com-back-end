@@ -53,7 +53,7 @@ public interface UserRepository  extends JpaRepository<User,String>  {
 			+ "WHERE user_email = :#{#user.userEmail} ",nativeQuery = true)
 	void updateUserPermissions(@Param("user") UserPermissions userPermissions);
 	
-	@Query(value="SELECT EXISTS(SELECT * FROM user WHERE user_email=:email and user_id = :userId);",nativeQuery = true)
+	@Query(value="SELECT EXISTS(SELECT * FROM user WHERE user_email=:email and user_id = :userId and is_verification = 0);",nativeQuery = true)
 	int existsByUserEmailandUserId(@Param("email") String email,@Param("userId") String userId);
 
 	@Modifying 
@@ -65,8 +65,8 @@ public interface UserRepository  extends JpaRepository<User,String>  {
 	void updateUserUsernameOnUser(@Param("email") String email,@Param("username") String birthdate);
 	
 	@Modifying 
-	@Query(value ="UPDATE comment SET user_name = :username  WHERE user_ = :email",nativeQuery = true)
-	void updateUserUsernameOnComment(@Param("email") String email,@Param("username") String username);
+	@Query(value ="UPDATE comment SET user_name = :username  WHERE user_name = :username",nativeQuery = true)
+	void updateUserUsernameOnComment(@Param("username") String username);
 	
 	@Modifying 
 	@Query(value = "UPDATE user_profile SET user_github = :username  WHERE user_email = :email",nativeQuery = true)
