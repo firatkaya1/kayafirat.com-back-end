@@ -3,6 +3,7 @@ package com.firatkaya.service;
 import java.util.Collection;
 import java.util.List;
 
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -10,7 +11,7 @@ import com.firatkaya.model.User;
 import com.firatkaya.model.UserPermissions;
 
 @Service
-public interface UserService {
+public interface UserService extends UserDetailsService {
 
 	List<User> getAllUser();
 	

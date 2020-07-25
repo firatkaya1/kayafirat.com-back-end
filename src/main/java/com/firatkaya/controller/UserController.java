@@ -5,13 +5,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,10 +27,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.firatkaya.model.AuthenticationRequest;
 import com.firatkaya.model.User;
 import com.firatkaya.model.UserPermissions;
+import com.firatkaya.security.JwtUtil;
 import com.firatkaya.service.EmailService;
 import com.firatkaya.service.UserService;
+
 
 
 @CrossOrigin("http://localhost:4200")
@@ -41,24 +47,29 @@ public class UserController {
 	@Autowired
 	EmailService emailService;
 	
+	@Autowired
+	AuthenticationManager authenticationManager;
+	
+	@Autowired
+	JwtUtil jwtUtil;
+	
 	@GetMapping
 	public ResponseEntity<List<User>> getAllUsers(){
 		return ResponseEntity.ok(userService.getAllUser());
-	}
+	} 
 	
-	@GetMapping(value = "/login")
-	public ResponseEntity<HttpStatus> checkUser(@RequestParam Map<String,String> requestParams) {
-		String userEmail = requestParams.get("email");
-		String userPassword = requestParams.get("password");
-		User user = userService.getUser(userEmail);
-		if(user != null) {
-			if(user.getUserPassword().equals(userPassword)) {
-				return ResponseEntity.ok(HttpStatus.OK);
-			} else {
-				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-			}		
+	@PostMapping(value = "/login")
+	public ResponseEntity<?> checkUser(@RequestBody AuthenticationRequest authRequest) throws Exception {
+		try {
+			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
 		}
-		return ResponseEntity.notFound().build();	
+		catch (BadCredentialsException e) {
+			throw new Exception("Incorrect username or passwod. ",e);
+		}
+		final UserDetails userDetails = userService.loadUserByUsername(authRequest.getUsername());
+		final String jwt = jwtUtil.generateToken(userDetails);
+		
+		return ResponseEntity.ok(jwt);	
 	}
 	
 	@GetMapping(value="/username/{username}")
@@ -188,7 +199,7 @@ public class UserController {
 	
 	@PostMapping(value = "/updatepicture/{userId}")
 	public ResponseEntity<?> updatepicture(@RequestParam("file")  MultipartFile file,@PathVariable(value="userId") String userId) throws IOException {
-		
+
 		userService.updateUserImage(file,userId);
 		return ResponseEntity.ok(HttpStatus.OK);
 	}
