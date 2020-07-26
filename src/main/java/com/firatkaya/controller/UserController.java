@@ -35,8 +35,7 @@ import com.firatkaya.service.EmailService;
 import com.firatkaya.service.UserService;
 
 
-
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("api/v1/user")
 public class UserController {
@@ -53,13 +52,12 @@ public class UserController {
 	@Autowired
 	JwtUtil jwtUtil;
 	
-	@GetMapping
-	public ResponseEntity<List<User>> getAllUsers(){
-		return ResponseEntity.ok(userService.getAllUser());
-	} 
-	
+	//Non-Authenticate
 	@PostMapping(value = "/login")
-	public ResponseEntity<?> checkUser(@RequestBody AuthenticationRequest authRequest) throws Exception {
+	public ResponseEntity<?> login(@RequestBody AuthenticationRequest authRequest) throws Exception {
+		System.out.println("login başarılı");
+		System.out.println("name:"+authRequest.getUsername());
+		System.out.println("name:"+authRequest.getPassword());
 		try {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
 		}
@@ -72,6 +70,7 @@ public class UserController {
 		return ResponseEntity.ok(jwt);	
 	}
 	
+	//Authenticate
 	@GetMapping(value="/username/{username}")
 	public ResponseEntity<?> getUserByUsername(@PathVariable(value = "username",required = true) String username){
 		
@@ -85,6 +84,20 @@ public class UserController {
 		return ResponseEntity.notFound().build();	
 	}
 	
+	//Authenticate
+	@PostMapping(value="/username/photo")
+	public ResponseEntity<?> getUserPhotoByUsername(@RequestBody HashMap<String, String>  request){
+		
+		User user = userService.getUserbyUsername(request.get("username"));
+		if(user != null) {
+			System.out.println("response : "+user.getUserProfilPhoto());
+			return ResponseEntity.ok(user.getUserProfilPhoto());
+		
+		}
+		return ResponseEntity.notFound().build();	
+	}
+	
+	 //Non-Authenticate
 	@PostMapping(value="/register")
 	public ResponseEntity<?> addUser(@RequestBody User user){
 		
@@ -93,7 +106,7 @@ public class UserController {
 		}
 		return ResponseEntity.status(HttpStatus.CONFLICT).build(); 
 	}
-	
+	 //Authenticate
 	@PutMapping(value="/update/userpermissions/{username}")
 	public ResponseEntity<?> updateUserPermissions(@RequestBody UserPermissions userPermissions,@PathVariable(value = "username",required = true) String username){
 		
@@ -102,7 +115,7 @@ public class UserController {
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); 
 	}
-
+	 //Authenticate
 	@DeleteMapping
 	public ResponseEntity<?> deleteByUsername(@RequestBody HashMap<String, String> request) {
 		
@@ -113,7 +126,7 @@ public class UserController {
 		
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); 
 	}
-	
+	 //Non-Authenticate
 	@PostMapping("/verification")
 	public ResponseEntity<?> verificationUser(@RequestBody HashMap<String, String> request){
 		
@@ -132,6 +145,7 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 	}
 	
+	//Authenticate
 	@PostMapping("/sendemail")
 	public ResponseEntity<?> sendVerificationEmail(@RequestBody HashMap<String, String> request) throws MessagingException {
 		User user = userService.getUser(request.get("email"));
@@ -139,7 +153,7 @@ public class UserController {
 		return ResponseEntity.ok(HttpStatus.OK);
 		
 	}
-	
+	//Non- Authenticate
 	@PostMapping("/sendResetEmail")
 	public ResponseEntity<?> sendResetEmail(@RequestBody HashMap<String, String>  request) throws MessagingException {
 		
@@ -151,6 +165,7 @@ public class UserController {
 		return ResponseEntity.notFound().build();
 	}
 	
+	//Non- Authenticate
 	@PostMapping("/reset")
 	public ResponseEntity<?> resetPassword(@RequestBody HashMap<String, String>  request) throws MessagingException {
 		User user = userService.getUser(request.get("email"));
@@ -162,16 +177,18 @@ public class UserController {
 		
 	}
 	
+	// Authenticate
 	@GetMapping(value = "search/{keyword}")
 	public ResponseEntity<Collection<?>> searchUser(@PathVariable(value = "keyword",required = true) String keyword) {
 		return ResponseEntity.ok(userService.searchUser(keyword));
 	}
 	
-	@GetMapping(value = "/validaterecaptcha/{key}")
-	public ResponseEntity<?> validatereCaptcha(@PathVariable(value = "key",required = true) String key) {
-		return ResponseEntity.ok(userService.validateCaptcha(key));
+	// Non-Authenticate
+	@PostMapping(value = "/validaterecaptcha")
+	public ResponseEntity<?> validatereCaptcha(@RequestBody HashMap<String, String>  request) {
+		return ResponseEntity.ok(userService.validateCaptcha(request.get("key")));
 	}
-	
+	// Authenticate
 	@PutMapping(value="/update")
 	public ResponseEntity<?> updateUserUsername(@RequestBody HashMap<String, String>  request){
 	String key=request.get("key");
@@ -196,12 +213,13 @@ public class UserController {
 	
 	
 	}
-	
+    //Authenticate
 	@PostMapping(value = "/updatepicture/{userId}")
 	public ResponseEntity<?> updatepicture(@RequestParam("file")  MultipartFile file,@PathVariable(value="userId") String userId) throws IOException {
 
 		userService.updateUserImage(file,userId);
 		return ResponseEntity.ok(HttpStatus.OK);
 	}
+	
 	
 }

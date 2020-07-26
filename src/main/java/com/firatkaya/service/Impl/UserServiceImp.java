@@ -202,7 +202,7 @@ public class UserServiceImp implements UserService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		return new org.springframework.security.core.userdetails.User("foo","foo",new ArrayList<>());
+		return new org.springframework.security.core.userdetails.User("firatkaya","foo",new ArrayList<>());
 	}
 	
 }
