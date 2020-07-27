@@ -1,6 +1,7 @@
 package com.firatkaya.repository;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -82,6 +83,8 @@ public interface UserRepository  extends JpaRepository<User,String>  {
 
 
 
+	@Query(value = "SELECT user_email, user_password FROM user where user_email=:email", nativeQuery = true)
+	public List<Object[]> findUser(@Param("email") String email);
 
 
 

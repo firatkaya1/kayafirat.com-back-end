@@ -84,14 +84,17 @@ public class UserController {
 	//Authenticate
 	@PostMapping(value="/username/photo")
 	public ResponseEntity<?> getUserPhotoByUsername(@RequestBody HashMap<String, String>  request){
-		
+		System.out.println("Profil resmi istemi");
 		User user = userService.getUserbyUsername(request.get("username"));
 		if(user != null) {
 			return ResponseEntity.ok(user.getUserProfilPhoto());
 		} 
 		User user2 = userService.getUser(request.get("username"));
 		if(user2 != null) {
-			return ResponseEntity.ok(user2.getUserProfilPhoto());
+			List<String> list = new ArrayList<String>();
+			list.add(user2.getUserName());
+			list.add(user2.getUserProfilPhoto());
+			return ResponseEntity.ok(list);
 		} 
 		return ResponseEntity.notFound().build();	
 	}

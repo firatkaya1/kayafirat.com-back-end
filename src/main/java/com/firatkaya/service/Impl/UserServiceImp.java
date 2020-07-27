@@ -202,9 +202,10 @@ public class UserServiceImp implements UserService {
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		User user = userRepository.findByUserEmail(email);
-		if(user != null) {
-			return new org.springframework.security.core.userdetails.User(user.getUserEmail(),user.getUserPassword(),new ArrayList<>());
+		boolean isUserExists = userRepository.existsByUserEmail(email);
+		if(isUserExists) {
+			List<Object[]>  user =  userRepository.findUser(email);
+			return new org.springframework.security.core.userdetails.User(user.get(0)[0].toString(),user.get(0)[1].toString(),new ArrayList<>());
 		}
 		else {
 			 throw new UsernameNotFoundException(email);

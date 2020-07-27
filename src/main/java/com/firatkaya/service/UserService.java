@@ -46,4 +46,6 @@ public interface UserService extends UserDetailsService {
 	boolean updateUserPasswordSettings(String email, String pass);
 	
 	void updateUserImage(MultipartFile file,String userId);
+	
+	
 }
