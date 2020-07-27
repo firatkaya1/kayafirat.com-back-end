@@ -55,9 +55,6 @@ public class UserController {
 	//Non-Authenticate
 	@PostMapping(value = "/login")
 	public ResponseEntity<?> login(@RequestBody AuthenticationRequest authRequest) throws Exception {
-		System.out.println("login başarılı");
-		System.out.println("name:"+authRequest.getUsername());
-		System.out.println("name:"+authRequest.getPassword());
 		try {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
 		}
@@ -90,10 +87,12 @@ public class UserController {
 		
 		User user = userService.getUserbyUsername(request.get("username"));
 		if(user != null) {
-			System.out.println("response : "+user.getUserProfilPhoto());
 			return ResponseEntity.ok(user.getUserProfilPhoto());
-		
-		}
+		} 
+		User user2 = userService.getUser(request.get("username"));
+		if(user2 != null) {
+			return ResponseEntity.ok(user2.getUserProfilPhoto());
+		} 
 		return ResponseEntity.notFound().build();	
 	}
 	
@@ -216,7 +215,8 @@ public class UserController {
     //Authenticate
 	@PostMapping(value = "/updatepicture/{userId}")
 	public ResponseEntity<?> updatepicture(@RequestParam("file")  MultipartFile file,@PathVariable(value="userId") String userId) throws IOException {
-
+		System.out.println("UserId:"+userId);
+		System.out.println("Multipartfile:"+file.getName());
 		userService.updateUserImage(file,userId);
 		return ResponseEntity.ok(HttpStatus.OK);
 	}

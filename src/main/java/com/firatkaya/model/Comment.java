@@ -34,6 +34,9 @@ public class Comment  implements Serializable{
 	@Column(name = "user_name")
 	private String username;
 	
+	@Column(name = "user_profil_photo")
+	private String userProfilPhoto;
+	
 	@Column(name = "comment_Message")
 	private String commentMessage;
 	

@@ -12,18 +12,25 @@ import org.springframework.stereotype.Service;
 import com.firatkaya.model.Comment;
 import com.firatkaya.model.CommentExceptr;
 import com.firatkaya.model.Post;
+import com.firatkaya.model.User;
 import com.firatkaya.repository.CommentRepository;
 import com.firatkaya.repository.PostRepository;
 import com.firatkaya.service.CommentService;
+import com.firatkaya.service.UserService;
 
 @Service
 public class CommentServiceImp implements CommentService{
 
+	private static final String DEFAULT_PROFIL_PHOTO="assets/images/profile.svg";
+	
 	@Autowired
 	CommentRepository commentRepository;
 	
 	@Autowired
 	PostRepository postRepository;
+	
+	@Autowired
+	UserService userService;
 	
 	@Override
 	public List<Comment> getAllComments() {
@@ -44,8 +51,15 @@ public class CommentServiceImp implements CommentService{
 	@Override
 	public Comment saveComment(Comment comment,String postId) {
 		Post post = postRepository.findByPostId(postId);
+		User user = userService.getUser(comment.getUsername());
 		comment.setCommentId(UUID.randomUUID().toString());
 		comment.setPost(post);
+		if(comment.getUsername().equals("Anonymous")) {
+			comment.setUserProfilPhoto(DEFAULT_PROFIL_PHOTO);
+		} else {
+			comment.setUserProfilPhoto(user.getUserProfilPhoto());
+			comment.setUsername(user.getUserName());
+		}
 		postRepository.updateMaxComment(postId);
 		return commentRepository.save(comment);
 	}
