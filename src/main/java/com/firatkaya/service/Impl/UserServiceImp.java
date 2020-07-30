@@ -24,6 +24,7 @@ import com.firatkaya.model.User;
 import com.firatkaya.model.UserExceptr;
 import com.firatkaya.model.UserPermissions;
 import com.firatkaya.model.UserProfile;
+import com.firatkaya.repository.CommentRepository;
 import com.firatkaya.repository.UserRepository;
 import com.firatkaya.service.EmailService;
 import com.firatkaya.service.UserService;
@@ -38,6 +39,9 @@ public class UserServiceImp implements UserService {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private CommentRepository commentRepository;
 	
 	@Autowired
 	private EmailService emailService;
@@ -136,11 +140,11 @@ public class UserServiceImp implements UserService {
 	
 	@Transactional
 	@Override
-	public boolean updatePassword(String email,String password) {
+	public boolean updatePassword(String email,String password,String ipaddress,String useragent) {
 		
 			userRepository.updateUserPassword(email, password);
 			try {
-				emailService.sendSuccessResetPassword(email);
+				emailService.sendSuccessResetPassword(email,ipaddress,useragent);
 				return true;
 			} catch (MessagingException e) {
 				e.printStackTrace();
@@ -194,6 +198,7 @@ public class UserServiceImp implements UserService {
 			Path path = Paths.get("/home/kaya/Desktop/Angular-Projects/firatkaya/src/assets/upload/" + userId +"."+ file.getOriginalFilename().split("\\.")[1]);
 	        Files.write(path, bytes);
 	        userRepository.updateUserPhoto(userId, path.toString().substring(50, path.toString().length()));
+	        commentRepository.updateUserPhoto(userRepository.findByUserId(userId).getUserName(), path.toString().substring(50, path.toString().length()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

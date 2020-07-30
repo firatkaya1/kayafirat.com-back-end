@@ -33,7 +33,7 @@ public interface UserService extends UserDetailsService {
 	
 	String validateCaptcha(String key);
 
-	boolean updatePassword(String email,String password);
+	boolean updatePassword(String email,String password,String ipaddress,String useragent);
 	
 	boolean updateUserGithubAddress(String email,String githubaddress);
 	

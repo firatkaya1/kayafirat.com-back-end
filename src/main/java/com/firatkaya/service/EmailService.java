@@ -13,7 +13,7 @@ public interface EmailService {
 	
 	String createToken(String email,String id);
 	
-	void sendSuccessResetPassword(String email) throws MessagingException;
+	void sendSuccessResetPassword(String emailAddress,String ipAddress,String UserAgent) throws MessagingException;
 	
    void sendSuccessVerification(String emailAddress) throws MessagingException; 
 	

@@ -171,8 +171,10 @@ public class UserController {
 	@PostMapping("/reset")
 	public ResponseEntity<?> resetPassword(@RequestBody HashMap<String, String>  request) throws MessagingException {
 		User user = userService.getUser(request.get("email"));
+		String ipAddress = request.get("ipaddress");
+		String userAgent = request.get("useragent");
 		if(user !=null ) {
-			userService.updatePassword(user.getUserEmail(), request.get("password"));
+			userService.updatePassword(user.getUserEmail(), request.get("password"),ipAddress,userAgent);
 			return ResponseEntity.ok(HttpStatus.OK);	
 		}
 		return ResponseEntity.notFound().build();
@@ -218,8 +220,6 @@ public class UserController {
     //Authenticate
 	@PostMapping(value = "/updatepicture/{userId}")
 	public ResponseEntity<?> updatepicture(@RequestParam("file")  MultipartFile file,@PathVariable(value="userId") String userId) throws IOException {
-		System.out.println("UserId:"+userId);
-		System.out.println("Multipartfile:"+file.getName());
 		userService.updateUserImage(file,userId);
 		return ResponseEntity.ok(HttpStatus.OK);
 	}

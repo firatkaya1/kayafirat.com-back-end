@@ -42,4 +42,9 @@ public interface CommentRepository extends JpaRepository<Comment,String>  {
 			+ "user_id LIKE (CONCAT('%',:keyword,'%')) LIMIT 10",nativeQuery = true)		
 	<T> Collection<T> searchCommentIDandBody(@Param("keyword") String keyword,Class<T> type);
 
+	@Modifying 
+	@Query(value = "UPDATE comment SET user_profil_photo = :path  WHERE user_name = :username",nativeQuery = true)
+	void updateUserPhoto(@Param("username") String username,@Param("path") String path);
+
+	
 }

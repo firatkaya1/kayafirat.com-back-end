@@ -1,6 +1,7 @@
 package com.firatkaya.service.Impl;
 
 import java.security.Key;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.crypto.spec.SecretKeySpec;
@@ -32,18 +33,14 @@ public class EmailServiceImpl implements EmailService {
 	public void sendVerificationEmail(String emailAddress,String id) throws MessagingException {
 		String token = createToken(emailAddress,id);
 		String verificationAddress = "localhost:4200/confirm/"+token;
-		String messageText= "Dear " + emailAddress+"\n\n"
-	            +"please verifiy your account.\n\n "
-	            +"<html><body>  "
-	            +"<a href='"+verificationAddress+"'>"
-	            +"Click Link.<br>"
-	            +"</a></body></html>"
-	            + "Link : "+verificationAddress;
+	
 		
+		
+		String messageText= "<!DOCTYPE html><html lang=\"en\"> <head> <meta charset=\"UTF-8\"> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"> <title>Verify Account</title> <style> html { background-color: #F8F9FA; } .center { text-align: center; } .h1 a{ text-align: center; text-decoration: none; color: #0069D9; } .container { margin: auto; width: 40%; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; } .text-muted { color: #747C84; font-size: 12px; } .active { text-align: center; margin-bottom: 40px; } .active button { width: 200px; height: 50px; background-color:#4cad50; border:none; border-radius: 20px; color: #fff; outline: none; font-size: 18px; cursor: pointer;} .active a { color: #fff; font-size: 18px; text-decoration: none; } .active a:hover { cursor: pointer; background-color: #39823B; border:none; outline: none;} .active a button:active { background-color: #4ab14d; outline: none; border:none; box-shadow: 5px 5px 15px #4ab14d; } .text-18 { font-size: 16px; } .text-14 { font-size:14px } @media only screen and (max-width: 600px) { .container { width: 100%; }}</style> </head> <body> <div class=\"container\"> <div class=\"header center\"> <h1 class=\"h1\"> <a href=\"https://kayafirat.com\">kayafirat.com</a> </h1> </div> <div class=\"img center\"> <img src=\"https://kayatech.me/img/padlock.png\" width=\"150px\" alt=\"verify-account\"> </div> <div style=\"font-size: 18px;\"> <p>Sevgili <b>"+emailAddress+"</b>,</p> <p>Başarılı bir şekilde kayıt işlemin tamamlandı. Lütfen aşağıdaki linke tıklayarak email adresini onaylayabilirsin. </p> <p>Teşekkürler</p> <p class=\"text-14\">Not : Hesabı aktive etme süren 30 dakikadır. Bu link 30 dakika sonra ömrünü tamamlayacaktır.Yeni bir doğrulama maili almak istiyorsan Ayarlar kısmından yeni bir şifre talep edebilirsin.</p> </div> <div class=\"active\"> <a href=\"https://kayafirat.com\"><button>Hesabı Aktive Et</button></a> </div> <div class=\"error\"> Üsteki link çalışmıyorsa lütfen buna tıkla :"+ verificationAddress+" </div> <div class=\"unsubscribe\"> <p class=\"text-muted\"> Bu maili almak istemiyorsanız mail üyeliginizi sonlandırabilirsiniz. <a href=\"#\">Unsubscribe | Mail Üyeliginden çık</a> </p> </div> </div> </body></html>";
 		MimeMessage message = mailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message,true);
-		helper.setFrom("fratkaya@mail.com");
-		helper.setSubject("Confirm Account");
+		helper.setFrom("kayafirat.com<noreply@kayafirat.com>");
+		helper.setSubject("Hesap Onaylama");
 		helper.setTo(emailAddress);
 		helper.setText(messageText,true);
 	        try{
@@ -68,7 +65,7 @@ public class EmailServiceImpl implements EmailService {
 		
 		MimeMessage message = mailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message,true);
-		helper.setFrom("fratkaya@mail.com");
+		helper.setFrom("kayafirat.com<noreply@kayafirat.com>");
 		helper.setSubject("Reset Password");
 		helper.setTo(emailAddress);
 		helper.setText(messageText,true);
@@ -102,15 +99,15 @@ public class EmailServiceImpl implements EmailService {
 	}
 
 	@Override
-	public void sendSuccessResetPassword(String emailAddress) throws MessagingException {
-		String messageText= "Dear " + emailAddress+"\n\n"
-	            +"Congralts. Password updated. Thanks";
+	public void sendSuccessResetPassword(String emailAddress,String ipAddress,String UserAgent) throws MessagingException {
+		String messageText= "<!DOCTYPE html><html lang=\"en\"> <head> <meta charset=\"UTF-8\"> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"> <title>Password Changed</title> <style> html { background-color: #F8F9FA; } .center { text-align: center; } .h1 a{ text-align: center; text-decoration: none; color: #0069D9; } .container { margin: auto; width: 40%; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; } .text-muted { color: #747C84; font-size: 12px; } .active { text-align: center; margin-bottom: 40px; } .active button { width: 200px; height: 50px; background-color:#C93D32; border:none; border-radius: 20px; color: #fff; outline: none; font-size: 16px; cursor: pointer;} .active a { color: #fff; font-size: 18px; text-decoration: none; } .active a:hover { cursor: pointer; background-color:#C93D32; border:none; outline: none;} .active a button:active { background-color: #C93D32; outline: none; border:none; box-shadow: 5px 5px 15px #C93D32; } .text-18 { font-size: 16px; } .text-14 { font-size:14px } @media only screen and (max-width: 600px) { .container { width: 100%; }}</style> </head> <body> <div class=\"container\"> <div class=\"header center\"> <h1 class=\"h1\"> <a href=\"https://kayafirat.com\">kayafirat.com</a> </h1> </div> <div class=\"img center\"> <img src=\"https://kayatech.me/img/password.png\" width=\"150px\" alt=\"verify-account\"> </div> <div style=\"font-size: 16px;\"> <p>Sevgili <b>"+emailAddress+"</b>,</p> <p>Hesap şifren <span><b>"+getDate()+"</b></span> tarihinde değiştirildi. Eğer bu sen değilsen lütfen bizimle iletişime geç ve hesabını güvene al.</p> <p class=\"text-muted\">Ip Address: <span>"+ipAddress+"</span> </p> <p class=\"text-muted\">User-Agent: <span>"+UserAgent+"</span></p> </div> <div class=\"active\"> <a href=\"https://kayafirat.com\"><button>Bunu ben yapmadım.</button></a> </div> <div class=\"error\"> Üsteki link çalışmıyorsa lütfen buna tıkla : </div> <div class=\"unsubscribe\"> <p class=\"text-muted\"> Bu maili almak istemiyorsanız mail üyeliginizi sonlandırabilirsiniz. <a href=\"#\">Unsubscribe | Mail Üyeliginden çık</a> </p> </div> </div> </body></html>";
 		
 		MimeMessage message = mailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message,true);
-		helper.setFrom("fratkaya@mail.com");
-		helper.setSubject("Reset Password Success");
+		helper.setFrom("kayafirat.com<noreply@kayafirat.com>");
+		helper.setSubject("Şifre Değiştirildi");
 		helper.setTo(emailAddress);
+		
 		helper.setText(messageText,true);
 	        try{
 	            this.mailSender.send(message);
@@ -128,8 +125,8 @@ public class EmailServiceImpl implements EmailService {
 		
 		MimeMessage message = mailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message,true);
-		helper.setFrom("fratkaya@mail.com");
-		helper.setSubject("Verification Success");
+		helper.setFrom("kayafirat.com<noreply@kayafirat.com>");
+		helper.setSubject("Hesap Onaylandı");
 		helper.setTo(emailAddress);
 		helper.setText(messageText,true);
 	        try{
@@ -139,6 +136,11 @@ public class EmailServiceImpl implements EmailService {
 	            System.err.println(ex.getMessage());
 	        }
 		
+	}
+	public String getDate() {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd-yyyy hh:mm");
+		String date = simpleDateFormat.format(new Date());
+		return date;
 	}
 
 	

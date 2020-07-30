@@ -3,6 +3,7 @@ package com.firatkaya.model;
 import java.io.Serializable;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -11,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.firatkaya.converters.UsernameConverters;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
