@@ -11,7 +11,7 @@ public interface EmailService {
 	
 	void sendResetPasswordEmail(String emailAddress,String id) throws MessagingException;
 	
-	String createToken(String email,String id);
+	String createToken(String email,String id,String code);
 	
 	void sendSuccessResetPassword(String emailAddress,String ipAddress,String UserAgent) throws MessagingException;
 	

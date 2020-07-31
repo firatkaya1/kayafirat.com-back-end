@@ -84,7 +84,6 @@ public class UserController {
 	//Authenticate
 	@PostMapping(value="/username/photo")
 	public ResponseEntity<?> getUserPhotoByUsername(@RequestBody HashMap<String, String>  request){
-		System.out.println("Profil resmi istemi");
 		User user = userService.getUserbyUsername(request.get("username"));
 		if(user != null) {
 			return ResponseEntity.ok(user.getUserProfilPhoto());
@@ -173,7 +172,7 @@ public class UserController {
 		User user = userService.getUser(request.get("email"));
 		String ipAddress = request.get("ipaddress");
 		String userAgent = request.get("useragent");
-		if(user !=null ) {
+		if(user !=null && user.getUserId().equals(request.get("userid"))) {
 			userService.updatePassword(user.getUserEmail(), request.get("password"),ipAddress,userAgent);
 			return ResponseEntity.ok(HttpStatus.OK);	
 		}
