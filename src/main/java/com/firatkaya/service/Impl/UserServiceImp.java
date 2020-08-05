@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
@@ -45,6 +46,9 @@ public class UserServiceImp implements UserService {
 	
 	@Autowired
 	private EmailService emailService;
+	
+	@Autowired
+	private  BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	private final RestTemplate restTemplate;
 	
@@ -210,7 +214,9 @@ public class UserServiceImp implements UserService {
 		boolean isUserExists = userRepository.existsByUserEmail(email);
 		if(isUserExists) {
 			List<Object[]>  user =  userRepository.findUser(email);
-			return new org.springframework.security.core.userdetails.User(user.get(0)[0].toString(),user.get(0)[1].toString(),new ArrayList<>());
+			String userEmail = user.get(0)[0].toString();
+			String userPass = bCryptPasswordEncoder.encode(user.get(0)[1].toString());
+			return new org.springframework.security.core.userdetails.User(userEmail,userPass,new ArrayList<>());
 		}
 		else {
 			 throw new UsernameNotFoundException(email);
