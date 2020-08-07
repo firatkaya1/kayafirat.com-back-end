@@ -9,7 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -69,23 +68,6 @@ public class PostController {
 		return ResponseEntity.ok(postService.getByPostTag(postTag));
 	}
 	
-	@PostMapping
-	public ResponseEntity<?> addPost(@RequestBody Post post){
-		postService.savePost(post);
-		return ResponseEntity.ok(HttpStatus.OK);
-	}
-	
-	@DeleteMapping(value = "/{postId}")
-	public ResponseEntity<?> deleteByPostId(@PathVariable(value = "postId",required = true) String postId) {
-		
-		boolean result = postService.deletePost(postId);
-		
-		if(result)
-			return ResponseEntity.status(HttpStatus.OK).build(); 
-		
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); 
-	}
-	
 	@GetMapping(value = "lastposts/{postnumber}/{ordertype}")
 	public ResponseEntity<Collection<?>> lastpost(@PathVariable(value = "postnumber",required = true) int limit,
 													@PathVariable(value = "ordertype",required = true) String ordertype) {
@@ -109,10 +91,5 @@ public class PostController {
 		staticViewService.addStaticViews(staticview);
 		return ResponseEntity.ok(HttpStatus.OK);
 	}
-	
-	
-	
-	
-	
 	
 }

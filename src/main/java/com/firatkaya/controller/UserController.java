@@ -16,7 +16,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -116,17 +115,7 @@ public class UserController {
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); 
 	}
-	 //Authenticate
-	@DeleteMapping
-	public ResponseEntity<?> deleteByUsername(@RequestBody HashMap<String, String> request) {
-		
-		boolean result = userService.deleteUser(request.get("email"));
-		
-		if(result)
-			return ResponseEntity.status(HttpStatus.OK).build(); 
-		
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); 
-	}
+	
 	 //Non-Authenticate
 	@PostMapping("/verification")
 	public ResponseEntity<?> verificationUser(@RequestBody HashMap<String, String> request){
