@@ -9,6 +9,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.firatkaya.exceptions.CommentNotFoundException;
+import com.firatkaya.exceptions.PostNotFoundException;
 import com.firatkaya.model.Comment;
 import com.firatkaya.model.CommentExceptr;
 import com.firatkaya.model.Post;
@@ -33,18 +35,20 @@ public class CommentServiceImp implements CommentService{
 	UserService userService;
 	
 	@Override
-	public List<Comment> getAllComments() {
-		return commentRepository.getAll();
-	}
-	
-	@Override
 	public List<Comment> getAllComments(String postId) {
+		if(!postRepository.existsByPostId(postId))
+			throw new PostNotFoundException(postId);
+		
 		return commentRepository.findAll();
 	} 
 
 	@Override
 	public Comment getOneComment(String commentId) {
-		return commentRepository.findByCommentId(commentId);
+		Comment comment =commentRepository.findByCommentId(commentId);
+		if(comment == null) 
+			 throw new CommentNotFoundException(commentId);
+		
+		return comment;
 	}
 
 	@Transactional
@@ -66,12 +70,18 @@ public class CommentServiceImp implements CommentService{
 
 	@Override
 	public Comment updateComment(Comment comment) {
+		if(!commentRepository.existsById(comment.getCommentId()))
+			throw new CommentNotFoundException(comment.getCommentId());
+		
 		return commentRepository.save(comment);
 	}
 	
 	@Transactional
 	@Override
 	public boolean deleteComment(String commentId) {
+		if(!commentRepository.existsById(commentId))
+			throw new CommentNotFoundException(commentId);
+		
 		commentRepository.deleteByCommentsId(commentId);
 		return true;
 	}

@@ -70,8 +70,6 @@ public class UserController {
 	@GetMapping(value="/username/{username}")
 	public ResponseEntity<?> getUserByUsername(@PathVariable(value = "username",required = true) String username){
 		return ResponseEntity.ok(userService.getUserbyUsername(username));
-		
-		
 	}
 	
 	//Authenticate
@@ -99,8 +97,7 @@ public class UserController {
 	
 	@PutMapping(value="/update/userpermissions/{username}")
 	public ResponseEntity<?> updateUserPermissions(@RequestBody UserPermissions userPermissions,@PathVariable(value = "username",required = true) String username){
-		return ResponseEntity.ok(userService.updateUserPermissions(username,userPermissions));
-		
+		return ResponseEntity.ok(userService.updateUserPermissions(username,userPermissions));	
 	}
 	
 	 //Non-Authenticate
@@ -185,6 +182,5 @@ public class UserController {
 		userService.updateUserImage(file,userId);
 		return ResponseEntity.ok(HttpStatus.OK);
 	}
-	
-	
+		
 }

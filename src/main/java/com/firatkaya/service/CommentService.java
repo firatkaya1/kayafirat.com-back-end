@@ -9,8 +9,6 @@ import com.firatkaya.model.Comment;
 
 @Service
 public interface CommentService {
-
-	List<Comment> getAllComments();
 	
 	List<Comment> getAllComments(String postId);
 	
