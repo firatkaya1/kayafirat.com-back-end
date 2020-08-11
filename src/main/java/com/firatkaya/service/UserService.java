@@ -1,7 +1,7 @@
 package com.firatkaya.service;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.HashMap;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,6 @@ import com.firatkaya.model.UserPermissions;
 @Service
 public interface UserService extends UserDetailsService {
 
-	List<User> getAllUser();
 	
 	User getUser(String email);
 	
@@ -33,7 +32,7 @@ public interface UserService extends UserDetailsService {
 	
 	String validateCaptcha(String key);
 
-	boolean updatePassword(String email,String password,String ipaddress,String useragent);
+	boolean updatePassword(HashMap<String, String> request);
 	
 	boolean updateUserGithubAddress(String email,String githubaddress);
 	

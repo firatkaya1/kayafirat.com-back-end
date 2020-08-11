@@ -63,7 +63,7 @@ public interface UserRepository  extends JpaRepository<User,String>  {
 	
 	@Modifying 
 	@Query(value = "UPDATE user SET user_name = :username  WHERE user_email = :email",nativeQuery = true)
-	void updateUserUsernameOnUser(@Param("email") String email,@Param("username") String birthdate);
+	void updateUserUsernameOnUser(@Param("email") String email,@Param("username") String username);
 	
 	@Modifying 
 	@Query(value ="UPDATE comment SET user_name = :username  WHERE user_name = :username",nativeQuery = true)
@@ -71,7 +71,7 @@ public interface UserRepository  extends JpaRepository<User,String>  {
 	
 	@Modifying 
 	@Query(value = "UPDATE user_profile SET user_github = :username  WHERE user_email = :email",nativeQuery = true)
-	void updateGithubAddress(@Param("email") String email,@Param("username") String birthdate);
+	void updateGithubAddress(@Param("email") String email,@Param("username") String githubAddress);
 
 	@Modifying 
 	@Query(value = "UPDATE user_profile SET user_linkedin = :userlinkedin  WHERE user_email = :email",nativeQuery = true)

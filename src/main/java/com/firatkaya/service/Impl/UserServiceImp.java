@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,6 +22,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.firatkaya.exceptions.EmailException;
+import com.firatkaya.exceptions.UserAlreadyExistsException;
+import com.firatkaya.exceptions.UserNotFoundException;
 import com.firatkaya.model.User;
 import com.firatkaya.model.UserExceptr;
 import com.firatkaya.model.UserPermissions;
@@ -57,13 +61,14 @@ public class UserServiceImp implements UserService {
     }
 	
 	@Override
-	public List<User> getAllUser() {
-		return (List<User>) userRepository.findAll();
-	}
-
-	@Override
 	public User getUser(String email) {
-		return userRepository.findByUserEmail(email);
+		User user = userRepository.findByUserEmail(email);
+		
+		if(user == null) {
+			throw new UserNotFoundException(email);
+		}
+		
+		return user;
 	}
 
 	@Override
@@ -81,6 +86,8 @@ public class UserServiceImp implements UserService {
 			user.setUserPermissions(userPermissions);
 			user.setUserProfilPhoto(DEFAULT_PROFIL_PHOTO);
 			result = userRepository.save(user);
+		} else {
+			throw new UserAlreadyExistsException("User Already Exists");
 		}
 		return result;
 	}
@@ -91,7 +98,8 @@ public class UserServiceImp implements UserService {
 		User result = null;
 		if(userRepository.existsByUserEmail(user.getUserEmail())) 
 			result = userRepository.save(user);
-		
+		else 
+			throw new UserNotFoundException(user.getUserEmail());
 		return result;
 	}
 	
@@ -102,9 +110,10 @@ public class UserServiceImp implements UserService {
 		if(userRepository.existsByUserEmail(user.getUserEmail())) {
 			  userPermissions.setUserEmail(user.getUserEmail());
 		      userRepository.updateUserPermissions(userPermissions);
-		      return true;
+		} else {
+			throw new UserNotFoundException(username);
 		}
-		return false;
+	      return true;
 	}
 	
 	@Transactional
@@ -114,15 +123,20 @@ public class UserServiceImp implements UserService {
 		if(userRepository.existsByUserEmail(email)) {
 			 userRepository.deleteById(email);
 			 return true;
+		} else {
+			throw new UserNotFoundException(email);
 		}
 		
-		return false;
+		
 	}
 
 	@Override
 	public boolean verificationUser(String userId, String email) {
 		boolean	isUserExists;
 		isUserExists = userRepository.existsByUserEmailandUserId(email, userId) == 1 ? true : false;
+		if(!isUserExists) {
+			throw new UserNotFoundException(email);
+		}	
 		return isUserExists;
 	}
 
@@ -133,7 +147,12 @@ public class UserServiceImp implements UserService {
 
 	@Override
 	public User getUserbyUsername(String username) {
-		return userRepository.findByUserName(username);
+		User user = userRepository.findByUserName(username);
+		
+		if(user == null) {
+			throw new UserNotFoundException(username);
+		}
+		return user;
 	}
 
 	@Override
@@ -144,52 +163,87 @@ public class UserServiceImp implements UserService {
 	
 	@Transactional
 	@Override
-	public boolean updatePassword(String email,String password,String ipaddress,String useragent) {
-		
+	public boolean updatePassword(HashMap<String, String> request) {
+		String email =request.get("email");
+		String userId = request.get("userid");
+		String ipAddress = request.get("ipaddress");
+		String userAgent = request.get("useragent");
+		String password = request.get("password");
+		if(userRepository.existsByUserEmailandUserId(email, userId) == 1) {
 			userRepository.updateUserPassword(email, password);
 			try {
-				emailService.sendSuccessResetPassword(email,ipaddress,useragent);
-				return true;
+				emailService.sendSuccessResetPassword(email,ipAddress,userAgent);
+
 			} catch (MessagingException e) {
-				e.printStackTrace();
+				throw new EmailException(email);
 			}
-			return false;
+		} else {
+			throw new UserNotFoundException(email);
+		}
+		
+			return true;
 	}
 
 	
 	@Transactional
 	@Override
 	public boolean updateUserUsername(String email, String username) {
-		userRepository.updateUserUsernameOnUser(email, username);
-		userRepository.updateUserUsernameOnComment(username);
+		if(userRepository.existsByUserEmail(email)) {
+			userRepository.updateUserUsernameOnUser(email, username);
+			userRepository.updateUserUsernameOnComment(username);
+		} else {
+			throw new UserNotFoundException(email);
+		}
+
+		
 		return true;
 	}
 	
 	@Transactional
 	@Override
 	public boolean updateUserGithubAddress(String email, String githubaddress) {
-		userRepository.updateGithubAddress(email, githubaddress);
+		
+		if(userRepository.existsByUserEmail(email)) {
+			userRepository.updateGithubAddress(email, githubaddress);
+		} else {
+			throw new UserNotFoundException(email);
+		}
 		return true;
 	}
 	
 	@Transactional
 	@Override
 	public boolean updateUserLinkedinAddress(String email, String linkedinaddress) {
-		userRepository.updateLinkedinAddress(email, linkedinaddress);
+		if(userRepository.existsByUserEmail(email)) {
+			userRepository.updateLinkedinAddress(email, linkedinaddress);
+		} else {
+			throw new UserNotFoundException(email);
+		}
 		return true;
 	}
 	
 	@Transactional
 	@Override
 	public boolean updateUserBirthDate(String email, String date) {
-		userRepository.updateUserBirthDate(email, date);
+		
+		if(userRepository.existsByUserEmail(email)) 
+			userRepository.updateUserBirthDate(email, date);
+		else 
+			throw new UserNotFoundException(email);
+		
+		
 		return true;
 	}
 
 	@Transactional
 	@Override
 	public boolean updateUserPasswordSettings(String email, String pass) {
-		userRepository.updateUserPassword(email, pass);
+		if(userRepository.existsByUserEmail(email)) 
+			userRepository.updateUserPassword(email, pass);
+		else 
+			throw new UserNotFoundException(email);
+		
+		
 		return true;
 	}
 	
@@ -219,7 +273,7 @@ public class UserServiceImp implements UserService {
 			return new org.springframework.security.core.userdetails.User(userEmail,userPass,new ArrayList<>());
 		}
 		else {
-			 throw new UsernameNotFoundException(email);
+			 throw new UserNotFoundException(email);
 		}
 
 	}

@@ -69,15 +69,9 @@ public class UserController {
 	//Authenticate
 	@GetMapping(value="/username/{username}")
 	public ResponseEntity<?> getUserByUsername(@PathVariable(value = "username",required = true) String username){
+		return ResponseEntity.ok(userService.getUserbyUsername(username));
 		
-		User user = userService.getUserbyUsername(username);
-		List<User> myList = new ArrayList<>();
-		if(user != null) {
-			myList.add(user);
-				return ResponseEntity.ok(myList);
 		
-		}
-		return ResponseEntity.notFound().build();	
 	}
 	
 	//Authenticate
@@ -97,23 +91,16 @@ public class UserController {
 		return ResponseEntity.notFound().build();	
 	}
 	
-	 //Non-Authenticate
 	@PostMapping(value="/register")
 	public ResponseEntity<?> addUser(@RequestBody User user){
-		
-		if(userService.saveUser(user) != null) {
-			return ResponseEntity.ok().build();
-		}
-		return ResponseEntity.status(HttpStatus.CONFLICT).build(); 
+		userService.saveUser(user);
+		return ResponseEntity.ok(HttpStatus.OK);
 	}
-	 //Authenticate
+	
 	@PutMapping(value="/update/userpermissions/{username}")
 	public ResponseEntity<?> updateUserPermissions(@RequestBody UserPermissions userPermissions,@PathVariable(value = "username",required = true) String username){
+		return ResponseEntity.ok(userService.updateUserPermissions(username,userPermissions));
 		
-		if(userService.updateUserPermissions(username,userPermissions)) {
-			return ResponseEntity.ok().build();
-		}
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); 
 	}
 	
 	 //Non-Authenticate
@@ -138,35 +125,22 @@ public class UserController {
 	//Authenticate
 	@PostMapping("/sendemail")
 	public ResponseEntity<?> sendVerificationEmail(@RequestBody HashMap<String, String> request) throws MessagingException {
-		User user = userService.getUser(request.get("email"));
-		emailService.sendVerificationEmail(user.getUserEmail(),user.getUserId());
+		emailService.sendVerificationEmail(request);
 		return ResponseEntity.ok(HttpStatus.OK);
-		
 	}
+
 	//Non- Authenticate
 	@PostMapping("/sendResetEmail")
 	public ResponseEntity<?> sendResetEmail(@RequestBody HashMap<String, String>  request) throws MessagingException {
-		
-		User user = userService.getUser(request.get("email"));
-		if(user !=null ) {
-			emailService.sendResetPasswordEmail(user.getUserEmail(),user.getUserId());
-			return ResponseEntity.ok(HttpStatus.OK);
-		}
-		return ResponseEntity.notFound().build();
+		emailService.sendResetPasswordEmail(request);
+		return ResponseEntity.ok(HttpStatus.OK);
 	}
 	
 	//Non- Authenticate
 	@PostMapping("/reset")
 	public ResponseEntity<?> resetPassword(@RequestBody HashMap<String, String>  request) throws MessagingException {
-		User user = userService.getUser(request.get("email"));
-		String ipAddress = request.get("ipaddress");
-		String userAgent = request.get("useragent");
-		if(user !=null && user.getUserId().equals(request.get("userid"))) {
-			userService.updatePassword(user.getUserEmail(), request.get("password"),ipAddress,userAgent);
-			return ResponseEntity.ok(HttpStatus.OK);	
-		}
-		return ResponseEntity.notFound().build();
-		
+		userService.updatePassword(request);
+		return ResponseEntity.ok(HttpStatus.OK);	
 	}
 	
 	// Authenticate
