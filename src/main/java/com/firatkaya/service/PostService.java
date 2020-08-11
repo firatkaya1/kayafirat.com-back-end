@@ -12,17 +12,11 @@ import com.firatkaya.model.PostExceptrSearch;
 @Service
 public interface PostService {
 
-	Page<PostExceptr>   getAllPost(int pageNumber,int pageSize,String sortedBy,String orderBy);
+	Page<PostExceptr>  getAllPost(int pageNumber,int pageSize,String sortedBy,String orderBy);
 	
 	Post getPost(String postId);
 
 	Post getByPostTitle(String postTitle);
-	
-	Post savePost(Post post);
-	
-	Post updatePost(Post post);
-	
-	boolean deletePost(String postId);
 	
 	Collection<?> lastPost(int limit,String ordertype);
 	
