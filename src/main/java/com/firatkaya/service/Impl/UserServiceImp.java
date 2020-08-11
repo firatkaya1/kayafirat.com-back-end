@@ -87,7 +87,7 @@ public class UserServiceImp implements UserService {
 			user.setUserProfilPhoto(DEFAULT_PROFIL_PHOTO);
 			result = userRepository.save(user);
 		} else {
-			throw new UserAlreadyExistsException("User Already Exists");
+			throw new UserAlreadyExistsException(user.getUserEmail());
 		}
 		return result;
 	}

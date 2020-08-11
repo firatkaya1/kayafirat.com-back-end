@@ -12,10 +12,10 @@ public class APIError {
 			private int errorCode;
 			private String errorMessage;
 			private LocalDateTime timestamp;
+			private String path;
 			
-			
-			public Builder httpStatus(HttpStatus httpStatus) {
-				this.status = httpStatus;
+			public Builder httpStatus(HttpStatus status) {
+				this.status = status;
 				return this;
 			}
 			public Builder errorCode(int errorCode) {
@@ -30,6 +30,10 @@ public class APIError {
 		        this.timestamp = timestamp;
 				return this;
 			}
+			public Builder path(String path) {
+		        this.path = path.substring(path.indexOf("=") + 1,path.indexOf(";"));
+				return this;
+			}
 			public APIError build() {
 					return new APIError(this);
 			}
@@ -40,12 +44,14 @@ public class APIError {
 	private int errorCode;
 	private String errorMessage;
 	private LocalDateTime timestamp;
+	private String path;
 	
 	public APIError(Builder build) {
 		this.status = build.status;
 		this.errorCode = build.errorCode;
 		this.errorMessage = build.errorMessage;
 		this.timestamp = build.timestamp;
+		this.path = build.path;
 	}
 
 	public HttpStatus getStatus() {
@@ -54,6 +60,10 @@ public class APIError {
 
 	public int getErrorCode() {
 		return errorCode;
+	}
+	
+	public String getPath() {
+		return path;
 	}
 
 	public String getErrorMessage() {
