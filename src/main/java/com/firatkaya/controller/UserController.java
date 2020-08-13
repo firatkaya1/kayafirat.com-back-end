@@ -35,8 +35,7 @@ import com.firatkaya.service.EmailService;
 import com.firatkaya.service.UserService;
 
 
-@CrossOrigin(origins = "http://localhost:4200")
-@Validated
+@CrossOrigin(origins = "http://localhost:8080")
 @RestController
 @RequestMapping("api/v1/user")
 public class UserController {
@@ -74,23 +73,19 @@ public class UserController {
 		return ResponseEntity.ok(userService.getUserbyUsername(username));
 	}
 	
-	//Authenticate
+
 	@PostMapping(value="/username/photo")
-	public ResponseEntity<?> getUserPhotoByUsername(@Validated @RequestBody HashMap<String, String>  request){
-		User user = userService.getUserbyUsername(request.get("username"));
-		if(user != null) {
-			return ResponseEntity.ok(user.getUserProfilPhoto());
-		} 
-		User user2 = userService.getUser(request.get("username"));
-		if(user2 != null) {
-			List<String> list = new ArrayList<String>();
-			list.add(user2.getUserName());
-			list.add(user2.getUserProfilPhoto());
-			return ResponseEntity.ok(list);
-		} 
-		return ResponseEntity.notFound().build();	
-	}
+	public ResponseEntity<?> getUserPhotoByUsername(@RequestBody HashMap<String, String>  request){
+		
+		User user = userService.getUser(request.get("username"));
+		return ResponseEntity.ok(user.getUserProfilPhoto());
 	
+	}
+	@PostMapping(value="/email/photo")
+	public ResponseEntity<?> getUserPhotoByEmail(@RequestBody HashMap<String, String>  request){
+		return ResponseEntity.ok(userService.getUserbyUsername(request.get("username")));
+	
+	}
 	
 	@PostMapping(value="/register")
 	public ResponseEntity<?> addUser(@Validated @RequestBody  User user){

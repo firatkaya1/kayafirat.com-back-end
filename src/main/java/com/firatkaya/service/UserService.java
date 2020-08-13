@@ -2,6 +2,7 @@ package com.firatkaya.service;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
@@ -45,6 +46,5 @@ public interface UserService extends UserDetailsService {
 	boolean updateUserPasswordSettings(String email, String pass);
 	
 	void updateUserImage(MultipartFile file,String userId);
-	
 	
 }

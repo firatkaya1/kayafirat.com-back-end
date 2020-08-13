@@ -17,7 +17,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import com.firatkaya.entity.User;
-import com.firatkaya.exceptions.UserNotFoundException;
+import com.firatkaya.exceptions.UserEmailNotFoundException;
 import com.firatkaya.repository.UserRepository;
 import com.firatkaya.service.EmailService;
 
@@ -59,7 +59,7 @@ public class EmailServiceImpl implements EmailService {
 		            System.err.println(ex.getMessage());
 		        }
 		} else {
-			throw new UserNotFoundException(request.get("email"));
+			throw new UserEmailNotFoundException(request.get("email"));
 		}
 	}
 	
@@ -86,7 +86,7 @@ public class EmailServiceImpl implements EmailService {
 		        }
 			
 		} else {
-			throw new UserNotFoundException(request.get("email"));
+			throw new UserEmailNotFoundException(request.get("email"));
 		}
 		
 		

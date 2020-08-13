@@ -2,7 +2,7 @@ package com.firatkaya.exceptions;
 
 import java.time.LocalDateTime;
 
-public class UserNotFoundException extends RuntimeException {
+public class UserEmailNotFoundException extends RuntimeException {
 
 	/**
 	 * 
@@ -10,8 +10,8 @@ public class UserNotFoundException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
 	
-	public UserNotFoundException(String exception) {
-        super("User Not Found :"+exception);
+	public UserEmailNotFoundException(String exception) {
+        super("User Email Not Found :"+exception);
 
 	}
 

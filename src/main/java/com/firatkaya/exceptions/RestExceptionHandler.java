@@ -45,7 +45,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
 	 * 0 - UserEmailAlready Exists
 	 * 1 - UserName already exists
 	 * 2 - UserNotFound
-	 * 21-30 User Register Validation Errors
+	 * 21-30 User  Errors
 	 * 31-40 Post Errors
 	 * 41-50 Comment Errors
 	 * 51-60 Email Errors
@@ -250,8 +250,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
 	        return new ResponseEntity<>(apiError, apiError.getStatus());
 	}
 	
-	@ExceptionHandler(com.firatkaya.exceptions.UserNotFoundException.class)
-    protected ResponseEntity<Object> handleConstraintViolation(UserNotFoundException ex) {
+	@ExceptionHandler(com.firatkaya.exceptions.UserEmailNotFoundException.class)
+    protected ResponseEntity<Object> handleConstraintViolation(UserEmailNotFoundException ex) {
        APIError apiError = new APIError.Builder()
 				    		   .httpStatus(HttpStatus.NOT_FOUND)
 				    		   .errorCode(2)
@@ -319,7 +319,16 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
 				    		   .build();
 		return buildResponseEntity(apiError);
     }
-
+	
+	@ExceptionHandler(com.firatkaya.exceptions.UserNameNotFoundException.class)
+    protected ResponseEntity<Object> handleConstraintViolation(UserNameNotFoundException ex) {
+       APIError apiError = new APIError.Builder()
+				    		   .httpStatus(HttpStatus.NOT_FOUND)
+				    		   .errorCode(33)
+				    		   .message(ex.getMessage())
+				    		   .build();
+		return buildResponseEntity(apiError);
+    }
 	
 	
 }
