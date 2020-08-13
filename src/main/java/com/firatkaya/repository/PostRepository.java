@@ -10,9 +10,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.firatkaya.model.Post;
-import com.firatkaya.model.PostExceptr;
-import com.firatkaya.model.PostExceptrSearch;
+import com.firatkaya.entity.Post;
+import com.firatkaya.model.excep.PostExceptr;
+import com.firatkaya.model.excep.PostExceptrSearch;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post,String>{

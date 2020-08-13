@@ -1,4 +1,4 @@
-package com.firatkaya.model;
+package com.firatkaya.entity;
 
 import java.util.Date;
 
@@ -10,10 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,19 +28,19 @@ import lombok.NoArgsConstructor;
 public class User {
 	
 	@Id
+	@Email(message = "{validation.useremail.email}")
 	private String userEmail;
 	
 	@Column(name = "user_Id",nullable = false, unique=true)
 	private String userId;
 	
-	@NotEmpty(message = "{validation.userName.notEmpty}")
-	@Min(value = 5	, message = "{validation.userName.minLenght}")
-	@Max(value = 15,message = "{validation.userName.maxLenght}")
+	@NotEmpty(message = "{validation.username.notEmpty}")
+	@Size(min = 5,max = 15,message = "{validation.username.lenght}")
 	@Column(name = "user_name",nullable = false, unique=true)
     private String userName;
 	
 	@NotEmpty(message = "{validation.userpassword.notEmpty}")
-	@Min(value = 5, message = "{validation.userpassword.minLenght}")
+	@Size(min = 5,max = 45,message = "{validation.userpassword.lenght}")
 	@Column(name = "user_password",nullable = false)
 	private String userPassword;
 	

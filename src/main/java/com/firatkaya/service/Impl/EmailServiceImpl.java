@@ -16,8 +16,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import com.firatkaya.entity.User;
 import com.firatkaya.exceptions.UserNotFoundException;
-import com.firatkaya.model.User;
 import com.firatkaya.repository.UserRepository;
 import com.firatkaya.service.EmailService;
 

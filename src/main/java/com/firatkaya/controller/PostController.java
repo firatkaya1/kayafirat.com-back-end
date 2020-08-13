@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.firatkaya.model.Post;
-import com.firatkaya.model.PostExceptr;
-import com.firatkaya.model.PostExceptrSearch;
+import com.firatkaya.entity.Post;
 import com.firatkaya.model.StaticsViews;
+import com.firatkaya.model.excep.PostExceptr;
+import com.firatkaya.model.excep.PostExceptrSearch;
 import com.firatkaya.repository.PostRepository;
 import com.firatkaya.service.PostService;
 import com.firatkaya.service.StaticsViewService;

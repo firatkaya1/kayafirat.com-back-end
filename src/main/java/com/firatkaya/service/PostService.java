@@ -5,9 +5,9 @@ import java.util.Collection;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import com.firatkaya.model.Post;
-import com.firatkaya.model.PostExceptr;
-import com.firatkaya.model.PostExceptrSearch;
+import com.firatkaya.entity.Post;
+import com.firatkaya.model.excep.PostExceptr;
+import com.firatkaya.model.excep.PostExceptrSearch;
 
 @Service
 public interface PostService {

@@ -1,6 +1,8 @@
-package com.firatkaya.model;
+package com.firatkaya.model.excep;
 
 import org.springframework.data.rest.core.config.Projection;
+
+import com.firatkaya.entity.Post;
 
 @Projection(name = "excerpt", types = Post.class)
 public interface PostExceptr {

@@ -22,14 +22,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.firatkaya.entity.User;
+import com.firatkaya.entity.UserPermissions;
+import com.firatkaya.entity.UserProfile;
 import com.firatkaya.exceptions.EmailException;
 import com.firatkaya.exceptions.UserEmailAlreadyExistsException;
 import com.firatkaya.exceptions.UserNameAlreadyExistsException;
 import com.firatkaya.exceptions.UserNotFoundException;
-import com.firatkaya.model.User;
-import com.firatkaya.model.UserExceptr;
-import com.firatkaya.model.UserPermissions;
-import com.firatkaya.model.UserProfile;
+import com.firatkaya.model.excep.UserExceptr;
 import com.firatkaya.repository.CommentRepository;
 import com.firatkaya.repository.UserRepository;
 import com.firatkaya.service.EmailService;

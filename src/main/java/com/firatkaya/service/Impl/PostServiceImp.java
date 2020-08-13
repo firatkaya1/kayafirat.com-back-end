@@ -9,11 +9,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.firatkaya.entity.Post;
 import com.firatkaya.exceptions.PostNotFoundException;
 import com.firatkaya.exceptions.UnknownOrderedRequestException;
-import com.firatkaya.model.Post;
-import com.firatkaya.model.PostExceptr;
-import com.firatkaya.model.PostExceptrSearch;
+import com.firatkaya.model.excep.PostExceptr;
+import com.firatkaya.model.excep.PostExceptrSearch;
 import com.firatkaya.repository.CommentRepository;
 import com.firatkaya.repository.PostRepository;
 import com.firatkaya.service.PostService;

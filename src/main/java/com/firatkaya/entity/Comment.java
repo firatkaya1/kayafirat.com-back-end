@@ -1,4 +1,4 @@
-package com.firatkaya.model;
+package com.firatkaya.entity;
 
 import java.io.Serializable;
 

@@ -14,7 +14,7 @@ public class ResourceConfig {
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasename("classpath:messages");
-        messageSource.setCacheSeconds(3600);
+        messageSource.setCacheSeconds(1);
         return messageSource;
     }
 	

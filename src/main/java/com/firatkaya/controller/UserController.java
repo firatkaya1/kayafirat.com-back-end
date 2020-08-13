@@ -27,15 +27,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.firatkaya.entity.User;
+import com.firatkaya.entity.UserPermissions;
 import com.firatkaya.model.AuthenticationRequest;
-import com.firatkaya.model.User;
-import com.firatkaya.model.UserPermissions;
 import com.firatkaya.security.JwtUtil;
 import com.firatkaya.service.EmailService;
 import com.firatkaya.service.UserService;
 
 
 @CrossOrigin(origins = "http://localhost:4200")
+@Validated
 @RestController
 @RequestMapping("api/v1/user")
 public class UserController {

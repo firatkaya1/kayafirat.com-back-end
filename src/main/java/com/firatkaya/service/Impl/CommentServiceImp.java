@@ -9,12 +9,12 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.firatkaya.entity.Comment;
+import com.firatkaya.entity.Post;
+import com.firatkaya.entity.User;
 import com.firatkaya.exceptions.CommentNotFoundException;
 import com.firatkaya.exceptions.PostNotFoundException;
-import com.firatkaya.model.Comment;
-import com.firatkaya.model.CommentExceptr;
-import com.firatkaya.model.Post;
-import com.firatkaya.model.User;
+import com.firatkaya.model.excep.CommentExceptr;
 import com.firatkaya.repository.CommentRepository;
 import com.firatkaya.repository.PostRepository;
 import com.firatkaya.service.CommentService;

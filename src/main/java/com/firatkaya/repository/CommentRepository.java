@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.firatkaya.model.Comment;
+import com.firatkaya.entity.Comment;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comment,String>  {

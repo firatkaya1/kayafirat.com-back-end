@@ -1,4 +1,4 @@
-package com.firatkaya.model;
+package com.firatkaya.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

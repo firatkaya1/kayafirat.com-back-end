@@ -9,8 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.firatkaya.model.User;
-import com.firatkaya.model.UserPermissions;
+import com.firatkaya.entity.User;
+import com.firatkaya.entity.UserPermissions;
 
 @Repository
 public interface UserRepository  extends JpaRepository<User,String>  {

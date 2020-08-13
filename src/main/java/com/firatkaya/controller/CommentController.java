@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.firatkaya.model.Comment;
+import com.firatkaya.entity.Comment;
 import com.firatkaya.service.CommentService;
 
 @CrossOrigin("http://localhost:4200")

@@ -1,4 +1,4 @@
-package com.firatkaya.model;
+package com.firatkaya.entity;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -12,9 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -29,9 +28,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "post")
 public class Post  implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -39,20 +35,17 @@ public class Post  implements Serializable {
 	private String postId;
 	
 	@NotEmpty(message = "{validation.postTag.notEmpty}")
-	@Min(value = 2, message = "{validation.postTag.minLenght}")
-	@Max(value = 10,message = "{validation.postTag.maxLenght}")
+	@Size(min = 2, max = 10, message = "{validation.postTag.length}")
 	@Column(name = "post_Tag",nullable = false)
 	private String postTag;
 
 	@NotEmpty(message = "{validation.postTitle.notEmpty}")
-	@Min(value = 3, message = "{validation.postTitle.minLenght}")
-	@Max(value = 40,message = "{validation.postTitle.maxLenght}")
+	@Size(min = 3, max = 40, message = "{validation.postTitle.length}")
 	@Column(name = "post_Title",nullable = false)
 	private String postTitle;
 	
 	@NotEmpty(message = "{validation.postHeader.notEmpty}")
-	@Min(value = 5, message = "{validation.postHeader.minLenght}")
-	@Max(value = 45,message = "{validation.postHeader.maxLenght}")
+	@Size(min = 5, max = 45, message = "{validation.postTitle.length}")
 	@Column(name = "post_Header",nullable = false)
 	private String postHeader;
 	

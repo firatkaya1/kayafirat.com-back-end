@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.firatkaya.model.Comment;
+import com.firatkaya.entity.Comment;
 
 @Service
 public interface CommentService {
