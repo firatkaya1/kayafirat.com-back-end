@@ -1,6 +1,7 @@
-package com.firatkaya.config;
+package com.firatkaya.exceptions;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.validation.BindException;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -27,12 +29,6 @@ import org.springframework.web.multipart.support.MissingServletRequestPartExcept
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.firatkaya.exceptions.CommentNotFoundException;
-import com.firatkaya.exceptions.EmailException;
-import com.firatkaya.exceptions.PostNotFoundException;
-import com.firatkaya.exceptions.UnknownOrderedRequestException;
-import com.firatkaya.exceptions.UserAlreadyExistsException;
-import com.firatkaya.exceptions.UserNotFoundException;
 import com.firatkaya.model.APIError;
 
 /**
@@ -77,7 +73,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
 								.httpStatus(status)
 								.errorCode(67)
 								.message("HTTP method can't supportted")
-								.timeStamp(LocalDateTime.now())
 								.path(request.toString()).build();
 		return buildResponseEntity(apiError);
 	}
@@ -89,7 +84,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
 								.httpStatus(status)
 								.errorCode(68)
 								.message("HTTP Media Type can't acceptable")
-								.timeStamp(LocalDateTime.now())
 								.path(request.toString()).build();
 		return buildResponseEntity(apiError);
 	}
@@ -101,7 +95,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
 								.httpStatus(status)
 								.errorCode(69)
 								.message("Missing path variable")
-								.timeStamp(LocalDateTime.now())
 								.path(request.toString()).build();
 		return buildResponseEntity(apiError);
 	}
@@ -113,7 +106,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
 								.httpStatus(status)
 								.errorCode(70)
 								.message("Servlet Request Binding")
-								.timeStamp(LocalDateTime.now())
 								.path(request.toString()).build();
 		return buildResponseEntity(apiError);
 	}
@@ -125,7 +117,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
 								.httpStatus(status)
 								.errorCode(71)
 								.message("Conversion Not Supportted")
-								.timeStamp(LocalDateTime.now())
 								.path(request.toString()).build();
 		return buildResponseEntity(apiError);
 	}
@@ -137,7 +128,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
 								.httpStatus(status)
 								.errorCode(72)
 								.message("Type Error,Please be sure which type we using in these fields")
-								.timeStamp(LocalDateTime.now())
 								.path(request.toString()).build();
 		return buildResponseEntity(apiError);
 	}
@@ -149,7 +139,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
 								.httpStatus(status)
 								.errorCode(73)
 								.message("Missing file or parameter, please check your body and header")
-								.timeStamp(LocalDateTime.now())
 								.path(request.toString()).build();
 		return buildResponseEntity(apiError);
 	}
@@ -161,7 +150,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
 								.httpStatus(status)
 								.errorCode(74)
 								.message("Bind Exception")
-								.timeStamp(LocalDateTime.now())
 								.path(request.toString()).build();
 		return buildResponseEntity(apiError);
 	}
@@ -173,7 +161,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
 								.httpStatus(status)
 								.errorCode(75)
 								.message("Async Request time out.")
-								.timeStamp(LocalDateTime.now())
 								.path(webRequest.toString()).build();
 		return buildResponseEntity(apiError);
 	}
@@ -232,11 +219,18 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
+		
+		List<String> customErr = new ArrayList<String>();
+		
+		for (ObjectError objectError :  ex.getBindingResult().getAllErrors()) 
+			customErr.add(objectError.getDefaultMessage());
+		
 		APIError apiError = new APIError.Builder()
 								.httpStatus(status)
 								.errorCode(21)
 								.message("Validation Error")
-								.path(request.toString()).build();
+								.path(request.toString())
+								.errorDetails(customErr).build();
 		return buildResponseEntity(apiError);
 	}
 
@@ -261,7 +255,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
 				    		   .httpStatus(HttpStatus.NOT_FOUND)
 				    		   .errorCode(2)
 				    		   .message(ex.getMessage())
-				    		   .timeStamp(ex.getTime())
 				    		   .build();
 		return buildResponseEntity(apiError);
     }
@@ -272,7 +265,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
 				    		   .httpStatus(HttpStatus.CONFLICT)
 				    		   .errorCode(1)
 				    		   .message(ex.getMessage())
-				    		   .timeStamp(ex.getTime())
 				    		   .build();
 		return buildResponseEntity(apiError);
     }
@@ -283,7 +275,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
 				    		   .httpStatus(HttpStatus.NOT_FOUND)
 				    		   .errorCode(31)
 				    		   .message(ex.getMessage())
-				    		   .timeStamp(ex.getTime())
 				    		   .build();
 		return buildResponseEntity(apiError);
     }
@@ -294,7 +285,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
 				    		   .httpStatus(HttpStatus.NOT_FOUND)
 				    		   .errorCode(41)
 				    		   .message(ex.getMessage())
-				    		   .timeStamp(ex.getTime())
 				    		   .build();
 		return buildResponseEntity(apiError);
     }
@@ -305,7 +295,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
 				    		   .httpStatus(HttpStatus.NOT_FOUND)
 				    		   .errorCode(51)
 				    		   .message(ex.getMessage())
-				    		   .timeStamp(ex.getTime())
 				    		   .build();
 		return buildResponseEntity(apiError);
     }
@@ -316,7 +305,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
 				    		   .httpStatus(HttpStatus.NOT_FOUND)
 				    		   .errorCode(32)
 				    		   .message(ex.getMessage())
-				    		   .timeStamp(ex.getTime())
 				    		   .build();
 		return buildResponseEntity(apiError);
     }

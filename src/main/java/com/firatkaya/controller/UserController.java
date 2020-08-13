@@ -15,6 +15,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -68,13 +69,13 @@ public class UserController {
 	
 	//Authenticate
 	@GetMapping(value="/username/{username}")
-	public ResponseEntity<?> getUserByUsername(@PathVariable(value = "username",required = true) String username){
+	public ResponseEntity<?> getUserByUsername(@PathVariable  (value = "username",required = true) String username){
 		return ResponseEntity.ok(userService.getUserbyUsername(username));
 	}
 	
 	//Authenticate
 	@PostMapping(value="/username/photo")
-	public ResponseEntity<?> getUserPhotoByUsername(@RequestBody HashMap<String, String>  request){
+	public ResponseEntity<?> getUserPhotoByUsername(@Validated @RequestBody HashMap<String, String>  request){
 		User user = userService.getUserbyUsername(request.get("username"));
 		if(user != null) {
 			return ResponseEntity.ok(user.getUserProfilPhoto());
@@ -89,8 +90,9 @@ public class UserController {
 		return ResponseEntity.notFound().build();	
 	}
 	
+	
 	@PostMapping(value="/register")
-	public ResponseEntity<?> addUser(@RequestBody User user){
+	public ResponseEntity<?> addUser(@Validated @RequestBody  User user){
 		userService.saveUser(user);
 		return ResponseEntity.ok(HttpStatus.OK);
 	}
