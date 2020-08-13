@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import com.firatkaya.exceptions.CommentNotFoundException;
 import com.firatkaya.exceptions.PostNotFoundException;
-import com.firatkaya.exceptions.UserNotFoundException;
 import com.firatkaya.model.Comment;
 import com.firatkaya.model.CommentExceptr;
 import com.firatkaya.model.Post;

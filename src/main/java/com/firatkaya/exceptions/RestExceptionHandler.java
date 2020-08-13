@@ -42,7 +42,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
 	
 	/*
 	 * Error Codes 
-	 * 1 - UserAlready Exists
+	 * 0 - UserEmailAlready Exists
+	 * 1 - UserName already exists
 	 * 2 - UserNotFound
 	 * 21-30 User Register Validation Errors
 	 * 31-40 Post Errors
@@ -259,8 +260,18 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
 		return buildResponseEntity(apiError);
     }
 	
-	@ExceptionHandler(com.firatkaya.exceptions.UserAlreadyExistsException.class)
-    protected ResponseEntity<Object> handleConstraintViolation(UserAlreadyExistsException ex) {
+	@ExceptionHandler(com.firatkaya.exceptions.UserEmailAlreadyExistsException.class)
+    protected ResponseEntity<Object> handleConstraintViolation(UserEmailAlreadyExistsException ex) {
+       APIError apiError = new APIError.Builder()
+				    		   .httpStatus(HttpStatus.CONFLICT)
+				    		   .errorCode(0)
+				    		   .message(ex.getMessage())
+				    		   .build();
+		return buildResponseEntity(apiError);
+    }
+	
+	@ExceptionHandler(com.firatkaya.exceptions.UserNameAlreadyExistsException.class)
+    protected ResponseEntity<Object> handleConstraintViolation(UserNameAlreadyExistsException ex) {
        APIError apiError = new APIError.Builder()
 				    		   .httpStatus(HttpStatus.CONFLICT)
 				    		   .errorCode(1)

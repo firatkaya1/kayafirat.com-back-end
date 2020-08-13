@@ -23,7 +23,8 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.firatkaya.exceptions.EmailException;
-import com.firatkaya.exceptions.UserAlreadyExistsException;
+import com.firatkaya.exceptions.UserEmailAlreadyExistsException;
+import com.firatkaya.exceptions.UserNameAlreadyExistsException;
 import com.firatkaya.exceptions.UserNotFoundException;
 import com.firatkaya.model.User;
 import com.firatkaya.model.UserExceptr;
@@ -74,22 +75,26 @@ public class UserServiceImp implements UserService {
 	@Override
 	public User saveUser(User user) {
 
-		User result = null;
 		
-		if(!userRepository.existsByUserEmail(user.getUserEmail())) {
-			UserProfile userProfile = new UserProfile();
-			UserPermissions userPermissions = new UserPermissions();
-			userProfile.setUserEmail(user.getUserEmail());
-			userPermissions.setUserEmail(user.getUserEmail()); 
-			user.setUserId(UUID.randomUUID().toString());
-			user.setUserProfile(userProfile);
-			user.setUserPermissions(userPermissions);
-			user.setUserProfilPhoto(DEFAULT_PROFIL_PHOTO);
-			result = userRepository.save(user);
-		} else {
-			throw new UserAlreadyExistsException(user.getUserEmail());
+		if(userRepository.existsByUserEmail(user.getUserEmail())) {
+			throw new UserEmailAlreadyExistsException(user.getUserEmail());
+			
+		} else if(userRepository.existsByUserName(user.getUserName())) {
+			throw new UserNameAlreadyExistsException(user.getUserName());
 		}
-		return result;
+		
+		UserProfile userProfile = new UserProfile();
+		UserPermissions userPermissions = new UserPermissions();
+		userProfile.setUserEmail(user.getUserEmail());
+		userPermissions.setUserEmail(user.getUserEmail()); 
+		user.setUserId(UUID.randomUUID().toString());
+		user.setUserProfile(userProfile);
+		user.setUserPermissions(userPermissions);
+		user.setUserProfilPhoto(DEFAULT_PROFIL_PHOTO);
+		
+		return  userRepository.save(user);
+		
+		 
 	}
 
 	@Transactional

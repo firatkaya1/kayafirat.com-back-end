@@ -2,12 +2,12 @@ package com.firatkaya.exceptions;
 
 import java.time.LocalDateTime;
 
-public class UserAlreadyExistsException extends RuntimeException{
+public class UserEmailAlreadyExistsException extends RuntimeException{
 
 	private static final long serialVersionUID = 1L;
 
-	public UserAlreadyExistsException(String errorMessage) {
-		super("User Already Exists :"+errorMessage);
+	public UserEmailAlreadyExistsException(String errorMessage) {
+		super("User Email Already Exists :"+errorMessage);
     }
 
 	@Override
