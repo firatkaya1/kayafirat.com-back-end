@@ -16,19 +16,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserProfile {
 
-	@Id
-	@Column(name = "userEmail")
-	private String userEmail;
-	
-	@Column(name = "about_me")
-	private String userAboutme;
-	
-	@Column(name = "user_github")
-	private String userGithub;
-	
-	@Column(name = "user_linkedin")
-	private String userLinkedin;
+    @Id
+    @Column(name = "userEmail")
+    private String userEmail;
 
-	
-	
+    @Column(name = "about_me")
+    private String userAboutme;
+
+    @Column(name = "user_github")
+    private String userGithub;
+
+    @Column(name = "user_linkedin")
+    private String userLinkedin;
+
+
 }

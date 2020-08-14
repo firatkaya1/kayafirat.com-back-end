@@ -32,7 +32,6 @@ public class EmailServiceImpl implements EmailService {
 	private static final String VERIFY_CODE = "AX34RFSA903";
 	private static final String PASSWORD_CODE = "F562S1WFASXE";
 
-	@Autowired
 	private JavaMailSender mailSender;
 	
 	@Autowired

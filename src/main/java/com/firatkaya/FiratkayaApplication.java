@@ -9,10 +9,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class FiratkayaApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(FiratkayaApplication.class, args);
-	}
-	
-	
+    public static void main(String[] args) {
+        SpringApplication.run(FiratkayaApplication.class, args);
+    }
+
 
 }

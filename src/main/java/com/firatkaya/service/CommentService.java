@@ -9,19 +9,19 @@ import com.firatkaya.entity.Comment;
 
 @Service
 public interface CommentService {
-	
-	List<Comment> getAllComments(String postId);
-	
-	Comment getOneComment(String commentId);
-	
-	Comment saveComment(Comment comment,String postId);
-	
-	Comment updateComment(Comment comment);
-	
-	
-	boolean deleteComment(String commentId);
-	
-	Collection<?> searchComment(String keyword);
+
+    List<Comment> getAllComments(String postId);
+
+    Comment getOneComment(String commentId);
+
+    Comment saveComment(Comment comment, String postId);
+
+    Comment updateComment(Comment comment);
+
+
+    boolean deleteComment(String commentId);
+
+    Collection<?> searchComment(String keyword);
 
 
 }

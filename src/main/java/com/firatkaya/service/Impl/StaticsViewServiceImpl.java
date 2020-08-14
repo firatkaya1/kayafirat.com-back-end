@@ -14,24 +14,23 @@ import com.firatkaya.service.StaticsViewService;
 @Service
 public class StaticsViewServiceImpl implements StaticsViewService {
 
-	@Autowired
-	private StaticsViewRepository staticViewRepo;
-	
-	@Autowired
-	private PostRepository postRepo;
-	
-	@Transactional
-	@Override
-	public void addStaticViews(StaticsViews staticviews) {
-		int checkAlls=staticViewRepo.exitstByAllValues(staticviews.getIpAddress(),staticviews.getPostId(),staticviews.getTemporaryCode());
-		if(checkAlls == 0) {
-			staticViewRepo.save(staticviews);
-			postRepo.updatePageView(staticviews.getPostId());
-		} 
-		
-		
-		
-	}
+    @Autowired
+    private StaticsViewRepository staticViewRepo;
+
+    @Autowired
+    private PostRepository postRepo;
+
+    @Transactional
+    @Override
+    public void addStaticViews(StaticsViews statistic) {
+        int checkAll = staticViewRepo.exitstByAllValues(statistic.getIpAddress(), statistic.getPostId(), statistic.getTemporaryCode());
+        if (checkAll == 0) {
+            staticViewRepo.save(statistic);
+            postRepo.updatePageView(statistic.getPostId());
+        }
+
+
+    }
 
 
 }

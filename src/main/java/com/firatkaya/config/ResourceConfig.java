@@ -10,19 +10,19 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 @Configuration
 public class ResourceConfig {
 
-	@Bean
+    @Bean
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasename("classpath:messages");
         messageSource.setCacheSeconds(1);
         return messageSource;
     }
-	
-	@Bean
-	@Primary
-	public LocalValidatorFactoryBean validatorBean(MessageSource messageSource) {
-	    final LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
-	    bean.setValidationMessageSource(messageSource);
-	    return bean;
-	}
+
+    @Bean
+    @Primary
+    public LocalValidatorFactoryBean validatorBean(MessageSource messageSource) {
+        final LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
+        bean.setValidationMessageSource(messageSource);
+        return bean;
+    }
 }

@@ -8,13 +8,13 @@ import com.firatkaya.repository.StaticsViewRepository;
 
 @Component
 public class Schedules {
-	
-	@Autowired
-	StaticsViewRepository swRepo;
-	
-	// Every 10 minutes run this method
-	@Scheduled(fixedRate = 600000)
-	public void reportCurrentTime() {
-		swRepo.updateAllRows();
-	}
+
+    @Autowired
+    StaticsViewRepository swRepo;
+
+    // Every 10 minutes run this method
+    @Scheduled(fixedRate = 600000)
+    public void reportCurrentTime() {
+        swRepo.updateAllRows();
+    }
 }

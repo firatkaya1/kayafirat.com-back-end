@@ -7,10 +7,8 @@ import com.firatkaya.model.StaticsViews;
 @Service
 public interface StaticsViewService {
 
-	
-	void addStaticViews(StaticsViews staticviews);
-	
-	
-	
-	
+
+    void addStaticViews(StaticsViews statistic);
+
+
 }

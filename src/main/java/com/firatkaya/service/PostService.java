@@ -12,21 +12,16 @@ import com.firatkaya.model.excep.PostExceptrSearch;
 @Service
 public interface PostService {
 
-	Page<PostExceptr>  getAllPost(int pageNumber,int pageSize,String sortedBy,String orderBy);
-	
-	Post getPost(String postId);
+    Page<PostExceptr> getAllPost(int pageNumber, int pageSize, String sortedBy, String orderBy);
 
-	Post getByPostTitle(String postTitle);
-	
-	Collection<?> lastPost(int limit,String ordertype);
-	
-	Page<PostExceptrSearch> searchPost(String keyword,int pageNumber,int pageSize,String sortedBy,String orderBy);
-	
-	Collection<?> getByPostTag(String postTag);
-	
-	/*
-	boolean checkImage(MultipartFile file) throws IOException;
-	
-	boolean checkScanId(String scanId); 
-	*/
+    Post getPost(String postId);
+
+    Post getByPostTitle(String postTitle);
+
+    Collection<?> lastPost(int limit, String ordertype);
+
+    Page<PostExceptrSearch> searchPost(String keyword, int pageNumber, int pageSize, String sortedBy, String orderBy);
+
+    Collection<?> getByPostTag(String postTag);
+
 }
