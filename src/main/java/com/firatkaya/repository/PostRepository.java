@@ -18,8 +18,12 @@ import com.firatkaya.model.excep.PostExceptrSearch;
 public interface PostRepository extends JpaRepository<Post, String> {
 
     @Modifying
+    @Query(value = "UPDATE post SET post_max_comment = (post_max_comment - 1) WHERE post_id = :postId", nativeQuery = true)
+    void decreaseTotalComment(@Param("postId") String postId);
+
+    @Modifying
     @Query(value = "UPDATE post SET post_max_comment = post_max_comment + 1 WHERE post_id = :postId", nativeQuery = true)
-    void updateMaxComment(@Param("postId") String postId);
+    void increaseTotalComment(@Param("postId") String postId);
 
     @Query(value = "SELECT post_id,post_tag,post_title,post_header,post_time,post_max_view,post_max_comment FROM firatkayablog.post", nativeQuery = true)
     Page<PostExceptr> findAllProjectedBy(Pageable page);

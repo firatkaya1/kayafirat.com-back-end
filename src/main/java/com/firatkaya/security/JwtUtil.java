@@ -46,7 +46,7 @@ public class JwtUtil {
 
     private String createToken(Map<String, Object> claims, String subject) {
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 60000 * 30))
+                .setExpiration(new Date(System.currentTimeMillis() + 60000 * 30 * 30))
                 .setAudience("kayafirat.com")
 
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();

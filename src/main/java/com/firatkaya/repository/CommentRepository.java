@@ -2,6 +2,7 @@ package com.firatkaya.repository;
 
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -42,5 +43,7 @@ public interface CommentRepository extends JpaRepository<Comment, String> {
     @Query(value = "UPDATE comment SET user_profil_photo = :path  WHERE user_name = :username", nativeQuery = true)
     void updateUserPhoto(@Param("username") String username, @Param("path") String path);
 
-
+    @Modifying
+    @Query(value = "UPDATE comment SET comment_message = :commentMessage, comment_updated_time = (SELECT CURRENT_TIMESTAMP())  ,is_updated = 1 WHERE comment_id = :id", nativeQuery = true)
+    void updateUserComment(@Param("commentMessage") String commentMessage, @Param("id") String id);
 }

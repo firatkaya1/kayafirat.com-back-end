@@ -75,6 +75,8 @@ public class UserServiceImp implements UserService {
     @Override
     public User saveUser(User user) {
 
+        System.out.println("user.email"+user.getUserEmail());
+        System.out.println("user.name"+user.getUserName()   );
 
         if (userRepository.existsByUserEmail(user.getUserEmail())) {
             throw new UserEmailAlreadyExistsException(user.getUserEmail());

@@ -47,6 +47,15 @@ public class Comment implements Serializable {
     @Column(name = "comment_Time", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private String commentTime;
 
+    @Column(name = "comment_Updated_Time", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private String commentUpdateTime;
+
+    @Column(name = "is_updated", columnDefinition = "BOOLEAN DEFAULT false")
+    private boolean isUpdated;
+
+    @Column(name = "is_hide", columnDefinition = "BOOLEAN DEFAULT false")
+    private boolean isHide;
+
     @JsonIgnoreProperties("comment")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "post_Id")

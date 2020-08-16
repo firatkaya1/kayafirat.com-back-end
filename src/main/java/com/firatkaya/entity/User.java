@@ -47,9 +47,8 @@ public class User {
     @Column(name = "user_register_date", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Date userRegisterDate;
 
-    @Past(message = "{validation.userBirthDate.past}")
     @Column(name = "user_birthday_date", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private Date userBirthdayDate;
+    private String userBirthdayDate;
 
     @NotEmpty(message = "{validation.profilephoto.notEmpty}")
     @Column(name = "user_profile_photo", nullable = false)

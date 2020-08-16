@@ -122,6 +122,7 @@ public class UserController {
      */
     @PostMapping(value = "/register")
     public ResponseEntity<?> addUser(@Validated @RequestBody User user) {
+        System.out.println("user :"+user.toString());
         userService.saveUser(user);
         return ResponseEntity.ok(HttpStatus.OK);
     }
