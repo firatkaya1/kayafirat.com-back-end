@@ -13,8 +13,13 @@ import java.util.UUID;
 import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 
+import com.firatkaya.model.AuthenticationRequest;
+import com.firatkaya.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -39,7 +44,7 @@ import com.firatkaya.service.UserService;
 @Service
 public class UserServiceImp implements UserService {
 
-    private static final String DEFAULT_PROFIL_PHOTO = "assets/images/profile.svg";
+    private static final String DEFAULT_PROFILE_PHOTO = "assets/images/profile.svg";
     private static final String SECRET_KEY = "6LfC_bIZAAAAAC18vxthubhOnwLOF119RaS-GEC1";
     private static final String VERIFY_CAPTCHA_URL_V2 = "https://www.google.com/recaptcha/api/siteverify?";
 
@@ -54,6 +59,12 @@ public class UserServiceImp implements UserService {
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    AuthenticationManager authenticationManager;
+
+    @Autowired
+    JwtUtil jwtUtil;
 
     private final RestTemplate restTemplate;
 
@@ -75,9 +86,9 @@ public class UserServiceImp implements UserService {
     @Override
     public User saveUser(User user) {
 
-        System.out.println("user.email"+user.getUserEmail());
-        System.out.println("user.name"+user.getUserName()   );
-
+        if(user.getUserEmail() == null) {
+            throw new UserEmailNotFoundException("sd");
+        }
         if (userRepository.existsByUserEmail(user.getUserEmail())) {
             throw new UserEmailAlreadyExistsException(user.getUserEmail());
 
@@ -92,7 +103,7 @@ public class UserServiceImp implements UserService {
         user.setUserId(UUID.randomUUID().toString());
         user.setUserProfile(userProfile);
         user.setUserPermissions(userPermissions);
-        user.setUserProfilePhoto(DEFAULT_PROFIL_PHOTO);
+        user.setUserProfilePhoto(DEFAULT_PROFILE_PHOTO);
 
         return userRepository.save(user);
 
@@ -267,6 +278,18 @@ public class UserServiceImp implements UserService {
             e.printStackTrace();
         }
 
+    }
+
+    public String authenticateUser(AuthenticationRequest authRequest) throws Exception {
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
+        } catch (BadCredentialsException e) {
+            throw new Exception("Incorrect username or password. ", e);
+        }
+        final UserDetails userDetails = loadUserByUsername(authRequest.getUsername());
+        final String jwt = jwtUtil.generateToken(userDetails);
+
+        return jwt;
     }
 
     @Override

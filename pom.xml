@@ -12,7 +12,7 @@
 	<artifactId>firatkaya</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>firatkaya</name>
-	<description>firatakaya.com blogspot</description>
+	<description>fıratkaya.com blogspot</description>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -43,11 +43,6 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
@@ -76,12 +71,6 @@
 		    <version>2.5.0.RELEASE</version>
 		</dependency>
 		<dependency>
-		    <groupId>io.jsonwebtoken</groupId>
-		    <artifactId>jjwt</artifactId>
-		    <version>0.9.1</version>
-		</dependency>
-		
-		<dependency>
 		    <groupId>org.springframework.data</groupId>
 		    <artifactId>spring-data-rest-core</artifactId>
 		    <version>3.3.0.RELEASE</version><!--$NO-MVN-MAN-VER$-->
@@ -106,7 +95,10 @@
 	        <groupId>org.springframework.boot</groupId>
 	        <artifactId>spring-boot-starter-validation</artifactId>
     	</dependency>
-		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-client</artifactId>
+		</dependency>
 				
 	</dependencies>
 

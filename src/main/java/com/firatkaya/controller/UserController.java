@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.mail.MessagingException;
 
+import com.firatkaya.service.OauthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,10 +53,8 @@ public class UserController {
     EmailService emailService;
 
     @Autowired
-    AuthenticationManager authenticationManager;
+    OauthService oauthService;
 
-    @Autowired
-    JwtUtil jwtUtil;
 
     /**
      * Return Json Web Token if user already exists else return
@@ -69,15 +68,14 @@ public class UserController {
      */
     @PostMapping(value = "/login")
     public ResponseEntity<?> login(@RequestBody AuthenticationRequest authRequest) throws Exception {
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
-        } catch (BadCredentialsException e) {
-            throw new Exception("Incorrect username or password. ", e);
-        }
-        final UserDetails userDetails = userService.loadUserByUsername(authRequest.getUsername());
-        final String jwt = jwtUtil.generateToken(userDetails);
 
-        return ResponseEntity.ok(jwt);
+
+        return ResponseEntity.ok(userService.authenticateUser(authRequest));
+    }
+
+    @PostMapping(value = "/auth/github")
+    public ResponseEntity<?> authGithub(@RequestBody HashMap<String,String> request) throws Exception {
+        return ResponseEntity.ok(oauthService.oAuthGithubUserAuthenticate(request.get("code")));
     }
 
     /**
