@@ -30,7 +30,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.firatkaya.entity.User;
 import com.firatkaya.entity.UserPermissions;
 import com.firatkaya.model.AuthenticationRequest;
-import com.firatkaya.security.JwtUtil;
 import com.firatkaya.service.EmailService;
 import com.firatkaya.service.UserService;
 import com.firatkaya.exceptions.UserEmailNotFoundException;
@@ -75,7 +74,14 @@ public class UserController {
 
     @PostMapping(value = "/auth/github")
     public ResponseEntity<?> authGithub(@RequestBody HashMap<String,String> request) throws Exception {
-        return ResponseEntity.ok(oauthService.oAuthGithubUserAuthenticate(request.get("code")));
+        String jwt = oauthService.oAuthGithubUserAuthenticate(request.get("code"));
+        System.out.println("jwt : "+jwt);
+        return ResponseEntity.ok(jwt);
+    }
+
+    @PostMapping(value = "/auth/linkedin")
+    public ResponseEntity<?> authLinkedin(@RequestBody HashMap<String,String> request) throws Exception {
+        return ResponseEntity.ok(oauthService.oAuthLinkedinUserAuthenticate(request.get("code")));
     }
 
     /**

@@ -33,12 +33,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().
                 authorizeRequests()
-                .antMatchers("/auth/github").permitAll()
+                .antMatchers("/test").permitAll()
+                .antMatchers("/api/v1/user/auth/github").permitAll()
+                .antMatchers("/api/v1/user/auth/linkedin").permitAll()
                 .antMatchers("/api/v1/user/username/photo").permitAll()
                 .antMatchers("/api/v1/post/**").permitAll()
                 .antMatchers("/api/v1/user/sendemail").permitAll()
                 .antMatchers("/api/v1/comment/**").permitAll()
-                .antMatchers("/api/v1/user/login", "/api/v1/user/register", "/api/v1/user/**", "/api/v1/user/verification", "/api/v1/user/sendResetEmail", "/api/v1/user/reset/**", "/api/v1/user/validaterecaptcha", "/api/v1/user/updatepicture").permitAll()
+                .antMatchers("/api/v1/user/login", "/api/v1/user/register", "/api/v1/user/verification", "/api/v1/user/sendResetEmail", "/api/v1/user/reset/**", "/api/v1/user/validaterecaptcha", "/api/v1/user/updatepicture").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
