@@ -10,11 +10,8 @@ import javax.mail.MessagingException;
 import com.firatkaya.service.OauthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,7 +37,7 @@ import com.firatkaya.exceptions.UserNameNotFoundException;
  * @version 1.0.0
  */
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200",allowCredentials = "false")
 @RestController
 @RequestMapping("api/v1/user")
 public class UserController {
@@ -68,8 +65,7 @@ public class UserController {
     @PostMapping(value = "/login")
     public ResponseEntity<?> login(@RequestBody AuthenticationRequest authRequest) throws Exception {
 
-
-        return ResponseEntity.ok(userService.authenticateUser(authRequest));
+        return ResponseEntity.ok().body(userService.authenticateUser(authRequest));
     }
 
     @PostMapping(value = "/auth/github")

@@ -32,7 +32,8 @@ public class EmailServiceImpl implements EmailService {
 	private static final String VERIFY_CODE = "AX34RFSA903";
 	private static final String PASSWORD_CODE = "F562S1WFASXE";
 
-		private JavaMailSender mailSender;
+	@Autowired
+	private JavaMailSender mailSender;
 	
 	@Autowired
 	private UserRepository userRepository;
@@ -64,13 +65,12 @@ public class EmailServiceImpl implements EmailService {
 	
 	@Override
 	public void sendResetPasswordEmail(HashMap<String, String>  request) throws MessagingException {
-		
 		if(userRepository.existsByUserEmail(request.get("email"))) {
 			User user = userRepository.findByUserEmail(request.get("email"));
 			String token = createToken(user.getUserEmail(),user.getUserId(),PASSWORD_CODE);
 			String verificationAddress = "https://blog.kayafirat.com/forgotpassword/reset/"+token;
 			String messageText= "<!DOCTYPE html><html lang=\"en\"> <head> <meta charset=\"UTF-8\"> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"> <title>Verify Account</title> <style> html { background-color: #F8F9FA; } .center { text-align: center; } .h1 a{ text-align: center; text-decoration: none; color: #0069D9; } .container { margin: auto; width: 40%; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; } .text-muted { color: #747C84; font-size: 12px; } .active { text-align: center; margin-bottom: 40px; } .active button { width: 200px; height: 50px; background-color:#4cad50; border:none; border-radius: 20px; color: #fff; outline: none; font-size: 18px; cursor: pointer;} .active a { color: #fff; font-size: 18px; text-decoration: none; } .active a:hover { cursor: pointer; background-color: #39823B; border:none; outline: none;} .active a button:active { background-color: #4ab14d; outline: none; border:none; box-shadow: 5px 5px 15px #4ab14d; } .text-18 { font-size: 16px; } .text-14 { font-size:14px } @media only screen and (max-width: 600px) { .container { width: 100%; }}</style> </head> <body> <div class=\"container\"> <div class=\"header center\"> <h1 class=\"h1\"> <a href=\"https://kayafirat.com\">kayafirat.com</a> </h1> </div> <div class=\"img center\"> <img src=\"https://kayatech.me/img/synchronize.png\" width=\"150px\" alt=\"verify-account\"> </div> <div style=\"font-size: 18px;\"> <p>Sevgili <b>"+user.getUserEmail()+"</b>,</p> <p>Bizlerden istediğin gibi şifreni sıfırlama bağlantısını getirdik. Aşağıdaki <b>Şifremi Sıfırla </b> bağlantısına tıklayarak açılacak yeni sayfadan kendine yeni bir sayfa oluşturabilirsin.</p> <p>Teşekkürler</p> <p class=\"text-14\">Not : Şifre sıfırlama süren 30 dakikadır. Bu link 30 dakika sonra ömrünü tamamlayacaktır.Yeni bir sıfırlama maili almak istiyorsan şifremi unuttun seçeneğime tıklayarak yeni bir link talep edebilirsin.</p> </div> <div class=\"active\"> <a href="+verificationAddress+""+"><button>Şifremi Sıfırla</button></a> </div> <div class=\"error\"> Üsteki link çalışmıyorsa lütfen buna tıkla :"+verificationAddress+" </div> <div class=\"unsubscribe\"> <p class=\"text-muted\"> Bu maili almak istemiyorsanız mail üyeliginizi sonlandırabilirsiniz. <a href=\"#\">Unsubscribe | Mail Üyeliginden çık</a> </p> </div> </div> </body></html>";
-			
+
 			MimeMessage message = mailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(message,true);
 			helper.setFrom("kayafirat.com<noreply@kayafirat.com>");
