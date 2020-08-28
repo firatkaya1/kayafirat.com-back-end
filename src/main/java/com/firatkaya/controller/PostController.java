@@ -31,13 +31,11 @@ import com.firatkaya.service.StaticsViewService;
 public class PostController {
 
     private final PostService postService;
-    private final PostRepository postRepo;
     private final StaticsViewService staticViewService;
 
     @Autowired
-    public PostController(PostService postService,PostRepository postRepository,StaticsViewService staticsViewService){
+    public PostController(PostService postService,StaticsViewService staticsViewService){
         this.postService = postService;
-        this.postRepo = postRepository;
         this.staticViewService = staticsViewService;
     }
 
