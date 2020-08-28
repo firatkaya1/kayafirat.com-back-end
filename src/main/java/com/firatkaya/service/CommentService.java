@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.firatkaya.entity.Comment;
 
-@Service
 public interface CommentService {
 
     List<Comment> getAllComments(String postId);

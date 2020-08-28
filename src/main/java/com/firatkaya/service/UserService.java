@@ -5,13 +5,11 @@ import java.util.HashMap;
 
 import com.firatkaya.model.AuthenticationRequest;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.firatkaya.entity.User;
 import com.firatkaya.entity.UserPermissions;
 
-@Service
 public interface UserService extends UserDetailsService {
 
 

@@ -1,9 +1,5 @@
 package com.firatkaya.service;
 
-import com.firatkaya.entity.User;
-import org.springframework.stereotype.Service;
-
-@Service
 public interface OauthService {
 
 

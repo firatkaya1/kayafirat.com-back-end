@@ -4,9 +4,7 @@ import java.util.HashMap;
 
 import javax.mail.MessagingException;
 
-import org.springframework.stereotype.Service;
 
-@Service
 public interface EmailService {
 
     void sendVerificationEmail(HashMap<String, String> request) throws MessagingException;
