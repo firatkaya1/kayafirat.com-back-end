@@ -17,22 +17,25 @@ import com.firatkaya.service.CommentService;
 @RequestMapping("api/v1/comment")
 public class CommentController {
 
-	
+	final CommentService commentService;
+
 	@Autowired
-	CommentService commentService;
+	public CommentController(CommentService commentService) {
+		this.commentService = commentService;
+	}
 
 	@GetMapping(value = "/{postId}")
-	public ResponseEntity<Comment> getSingleComment(@PathVariable(value = "postId",required = true) String postId){
+	public ResponseEntity<Comment> getSingleComment(@PathVariable(value = "postId") String postId){
 		return ResponseEntity.ok(commentService.getOneComment(postId));
 	}
 
 	@GetMapping(value = "all/{postId}")
-	public ResponseEntity<List<Comment>> getPostComments(@PathVariable(value = "postId",required = true) String postId){
+	public ResponseEntity<List<Comment>> getPostComments(@PathVariable(value = "postId") String postId){
 		return ResponseEntity.ok(commentService.getAllComments(postId));
 	}
 	
 	@PostMapping(value = "/{postId}")
-	public ResponseEntity<?> addComment(@RequestBody Comment comment,@PathVariable(value = "postId",required = true) String postId){
+	public ResponseEntity<?> addComment(@RequestBody Comment comment,@PathVariable(value = "postId") String postId){
 		commentService.saveComment(comment,postId);
 		return ResponseEntity.ok(HttpStatus.OK);
 	}

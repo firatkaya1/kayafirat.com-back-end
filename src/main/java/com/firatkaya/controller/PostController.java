@@ -30,14 +30,16 @@ import com.firatkaya.service.StaticsViewService;
 @RequestMapping("api/v1/post")
 public class PostController {
 
-    @Autowired
-    PostService postService;
+    final PostService postService;
+    final PostRepository postRepo;
+    final StaticsViewService staticViewService;
 
     @Autowired
-    PostRepository postRepo;
-
-    @Autowired
-    StaticsViewService staticViewService;
+    public PostController(PostService postService,PostRepository postRepository,StaticsViewService staticsViewService){
+        this.postService = postService;
+        this.postRepo = postRepository;
+        this.staticViewService = staticsViewService;
+    }
 
     @GetMapping(value = "/{pagenumber}/{pageSize}/sorted/{sortedBy}/orderby/{orderBy}")
     public ResponseEntity<Page<PostExceptr>> getAllPosts(
@@ -51,7 +53,7 @@ public class PostController {
     }
 
     @GetMapping(value = "postId/{postId}")
-    public ResponseEntity<Post> getPost(@PathVariable(value = "postId", required = true) String postId) {
+    public ResponseEntity<Post> getPost(@PathVariable(value = "postId") String postId) {
         return ResponseEntity.ok(postService.getPost(postId));
     }
 

@@ -42,14 +42,16 @@ import com.firatkaya.exceptions.UserNameNotFoundException;
 @RequestMapping("api/v1/user")
 public class UserController {
 
-    @Autowired
-    UserService userService;
+    final UserService userService;
+    final EmailService emailService;
+    final OauthService oauthService;
 
     @Autowired
-    EmailService emailService;
-
-    @Autowired
-    OauthService oauthService;
+    public UserController(UserService userService,EmailService emailService, OauthService oauthService) {
+        this.userService = userService;
+        this.emailService = emailService;
+        this.oauthService = oauthService;
+    }
 
 
     /**
