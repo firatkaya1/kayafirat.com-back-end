@@ -17,7 +17,7 @@ import com.firatkaya.service.CommentService;
 @RequestMapping("api/v1/comment")
 public class CommentController {
 
-	final CommentService commentService;
+	private final CommentService commentService;
 
 	@Autowired
 	public CommentController(CommentService commentService) {

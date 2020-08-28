@@ -21,12 +21,12 @@ import com.firatkaya.service.PostService;
 @Service
 public class PostServiceImp implements PostService {
 
-    @Autowired
-    PostRepository postRepository;
+    private final PostRepository postRepository;
 
     @Autowired
-    CommentRepository commentRepository;
-
+    public PostServiceImp(PostRepository postRepository ){
+        this.postRepository = postRepository;
+    }
 
     @Override
     public Page<PostExceptr> getAllPost(int pageNumber, int pageSize, String sortedBy, String orderBy) {

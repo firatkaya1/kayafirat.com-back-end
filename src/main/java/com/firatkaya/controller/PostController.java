@@ -30,9 +30,9 @@ import com.firatkaya.service.StaticsViewService;
 @RequestMapping("api/v1/post")
 public class PostController {
 
-    final PostService postService;
-    final PostRepository postRepo;
-    final StaticsViewService staticViewService;
+    private final PostService postService;
+    private final PostRepository postRepo;
+    private final StaticsViewService staticViewService;
 
     @Autowired
     public PostController(PostService postService,PostRepository postRepository,StaticsViewService staticsViewService){

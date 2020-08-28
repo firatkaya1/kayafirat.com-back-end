@@ -32,11 +32,14 @@ public class EmailServiceImpl implements EmailService {
 	private static final String VERIFY_CODE = "AX34RFSA903";
 	private static final String PASSWORD_CODE = "F562S1WFASXE";
 
+	private final JavaMailSender mailSender;
+	private final UserRepository userRepository;
+
 	@Autowired
-	private JavaMailSender mailSender;
-	
-	@Autowired
-	private UserRepository userRepository;
+	public EmailServiceImpl(JavaMailSender mailSender,UserRepository userRepository){
+		this.mailSender = mailSender;
+		this.userRepository = userRepository;
+	}
 	
 	@Override
 	public void sendVerificationEmail(HashMap<String, String>  request) throws MessagingException {

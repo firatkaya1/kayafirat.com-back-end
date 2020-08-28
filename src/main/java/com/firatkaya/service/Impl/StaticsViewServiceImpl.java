@@ -14,11 +14,14 @@ import com.firatkaya.service.StaticsViewService;
 @Service
 public class StaticsViewServiceImpl implements StaticsViewService {
 
-    @Autowired
-    private StaticsViewRepository staticViewRepo;
+    private final StaticsViewRepository staticViewRepo;
+    private final PostRepository postRepo;
 
     @Autowired
-    private PostRepository postRepo;
+    public StaticsViewServiceImpl(StaticsViewRepository staticViewRepo,PostRepository postRepository){
+        this.staticViewRepo = staticViewRepo;
+        this.postRepo = postRepository;
+    }
 
     @Transactional
     @Override

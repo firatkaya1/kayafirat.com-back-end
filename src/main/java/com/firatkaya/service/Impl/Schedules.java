@@ -9,8 +9,12 @@ import com.firatkaya.repository.StaticsViewRepository;
 @Component
 public class Schedules {
 
+    private final StaticsViewRepository swRepo;
+
     @Autowired
-    StaticsViewRepository swRepo;
+    public Schedules(StaticsViewRepository staticsViewRepository) {
+        this.swRepo = staticsViewRepository;
+    }
 
     // Every 10 minutes run this method
     @Scheduled(fixedRate = 600000)

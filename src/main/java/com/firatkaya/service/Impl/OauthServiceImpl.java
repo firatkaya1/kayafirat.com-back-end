@@ -5,8 +5,6 @@ import com.firatkaya.model.AuthenticationRequest;
 import com.firatkaya.repository.UserRepository;
 import com.firatkaya.service.OauthService;
 import com.firatkaya.service.UserService;
-import com.google.gson.JsonObject;
-import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -31,14 +29,15 @@ public class OauthServiceImpl implements OauthService {
 
     private final RestTemplate restTemplate;
 
-    @Autowired
-    UserRepository userRepository;
+
+    private final UserRepository userRepository;
+    private final UserService userService;
 
     @Autowired
-    UserService userService;
-
-    public OauthServiceImpl(RestTemplateBuilder restTemplateBuilder) {
+    public OauthServiceImpl(RestTemplateBuilder restTemplateBuilder,UserRepository userRepository, UserService userService) {
         this.restTemplate = restTemplateBuilder.build();
+        this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     public String oAuthGithubUserAuthenticate(String code) throws Exception {
@@ -63,8 +62,8 @@ public class OauthServiceImpl implements OauthService {
 
     private String oAuthLinkedinAccessToken(String code){
         String url = LINKEDIN_OAUTH_V2_ROOT_URI+"code="+code+"&client_id="+LINKEDIN_CLIENT_ID+"&client_secret="+LINKEDIN_CLIENT_SECRET+"&redirect_uri="+LINKEDIN_REDIRECT_URI+"&grant_type=authorization_code";
-        String token = restTemplate.postForEntity(url,null,Map.class).getBody().get("access_token").toString();
-        return token;
+        return restTemplate.postForEntity(url,null,Map.class).getBody().get("access_token").toString();
+
     }
 
     private Map getLinkedinUserEmail(String accessToken) {
@@ -120,8 +119,7 @@ public class OauthServiceImpl implements OauthService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("User-Agent","blog.kayafirat.com");
         headers.setBearerAuth (accessToken);
-        HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
-        return entity;
+        return new HttpEntity<>("parameters", headers);
     }
 
 

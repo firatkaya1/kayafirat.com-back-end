@@ -22,15 +22,16 @@ import com.firatkaya.service.UserService;
 public class CommentServiceImp implements CommentService {
 
     private static final String DEFAULT_PROFILE_PHOTO = "assets/images/profile.svg";
+    private final CommentRepository commentRepository;
+    private final PostRepository postRepository;
+    private final UserService userService;
 
     @Autowired
-    CommentRepository commentRepository;
-
-    @Autowired
-    PostRepository postRepository;
-
-    @Autowired
-    UserService userService;
+    public CommentServiceImp(CommentRepository commentRepository,PostRepository postRepository,UserService userService) {
+        this.commentRepository = commentRepository;
+        this.postRepository = postRepository;
+        this.userService = userService;
+    }
 
     @Override
     public List<Comment> getAllComments(String postId) {

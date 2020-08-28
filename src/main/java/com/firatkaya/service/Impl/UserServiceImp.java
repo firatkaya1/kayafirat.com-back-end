@@ -48,28 +48,32 @@ public class UserServiceImp implements UserService {
     private static final String SECRET_KEY = "6LfC_bIZAAAAAC18vxthubhOnwLOF119RaS-GEC1";
     private static final String VERIFY_CAPTCHA_URL_V2 = "https://www.google.com/recaptcha/api/siteverify?";
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private CommentRepository commentRepository;
 
-    @Autowired
-    private EmailService emailService;
+    private final CommentRepository commentRepository;
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final EmailService emailService;
 
-    @Autowired
+
+    private  BCryptPasswordEncoder bCryptPasswordEncoder;
+
     AuthenticationManager authenticationManager;
 
-    @Autowired
-    JwtUtil jwtUtil;
+    private  JwtUtil jwtUtil;
 
     private final RestTemplate restTemplate;
 
-    public UserServiceImp(RestTemplateBuilder restTemplateBuilder) {
+    @Autowired
+    public UserServiceImp(RestTemplateBuilder restTemplateBuilder,
+                          UserRepository userRepository,
+                          CommentRepository commentRepository,
+                          EmailService emailService) {
+
         this.restTemplate = restTemplateBuilder.build();
+        this.userRepository = userRepository;
+        this.commentRepository = commentRepository;
+        this.emailService = emailService;
     }
 
     @Override
@@ -113,7 +117,7 @@ public class UserServiceImp implements UserService {
     @Transactional
     @Override
     public User updateUser(User user) {
-        User result = null;
+        User result;
         if (userRepository.existsByUserEmail(user.getUserEmail()))
             result = userRepository.save(user);
         else
@@ -151,11 +155,11 @@ public class UserServiceImp implements UserService {
     @Override
     public boolean verificationUser(String userId, String email) {
         boolean isUserExists;
-        isUserExists = userRepository.existsByUserEmailandUserId(email, userId) == 1 ? true : false;
+        isUserExists = userRepository.existsByUserEmailandUserId(email, userId) == 1;
         if (!isUserExists) {
             throw new UserEmailNotFoundException(email);
         }
-        return isUserExists;
+        return true;
     }
 
     @Override
@@ -272,8 +276,8 @@ public class UserServiceImp implements UserService {
             bytes = file.getBytes();
             Path path = Paths.get("/home/kaya/Desktop/Angular-Projects/firatkaya/src/assets/upload/" + userId + "." + file.getOriginalFilename().split("\\.")[1]);
             Files.write(path, bytes);
-            userRepository.updateUserPhoto(userId, path.toString().substring(50, path.toString().length()));
-            commentRepository.updateUserPhoto(userRepository.findByUserId(userId).getUserName(), path.toString().substring(50, path.toString().length()));
+            userRepository.updateUserPhoto(userId, path.toString().substring(50));
+            commentRepository.updateUserPhoto(userRepository.findByUserId(userId).getUserName(), path.toString().substring(50));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -287,9 +291,8 @@ public class UserServiceImp implements UserService {
             throw new Exception("Incorrect username or password. ", e);
         }
         final UserDetails userDetails = loadUserByUsername(authRequest.getUsername());
-        final String jwt = jwtUtil.generateToken(userDetails);
+        return jwtUtil.generateToken(userDetails);
 
-        return jwt;
     }
 
     @Override
