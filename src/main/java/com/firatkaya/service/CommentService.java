@@ -12,8 +12,6 @@ public interface CommentService {
 
     List<Comment> getAllComments(String postId);
 
-    Comment getOneComment(String commentId);
-
     Comment saveComment(Comment comment, String postId);
 
     boolean updateComment(HashMap<String,String> request);

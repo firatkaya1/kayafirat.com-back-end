@@ -20,13 +20,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "post")
-public class Post implements Serializable {
+public class Post extends JdkSerializationRedisSerializer implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

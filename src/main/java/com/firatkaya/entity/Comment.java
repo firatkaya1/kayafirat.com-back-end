@@ -17,6 +17,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 
 @Entity
 @Getter
@@ -24,7 +25,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "comment")
-public class Comment implements Serializable {
+public class Comment extends JdkSerializationRedisSerializer implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

@@ -19,16 +19,12 @@ import com.firatkaya.service.UserService;
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
-
-    private final UserService userService;
-
-    private final JwtUtil jwtUtil;
+    @Autowired
+    private  UserService userService;
 
     @Autowired
-    public JwtRequestFilter(UserService userService, JwtUtil jwtUtil){
-        this.userService = userService;
-        this.jwtUtil = jwtUtil;
-    }
+    private  JwtUtil jwtUtil;
+
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

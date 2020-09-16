@@ -8,6 +8,9 @@ import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
+
+import java.io.Serializable;
 
 
 @Entity
@@ -15,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserPermissions {
+public class UserPermissions extends JdkSerializationRedisSerializer implements Serializable {
 
     @Id
     @Column(name = "userEmail")

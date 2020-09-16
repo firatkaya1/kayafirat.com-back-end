@@ -20,7 +20,6 @@ import com.firatkaya.entity.Post;
 import com.firatkaya.model.StaticsViews;
 import com.firatkaya.model.excep.PostExceptr;
 import com.firatkaya.model.excep.PostExceptrSearch;
-import com.firatkaya.repository.PostRepository;
 import com.firatkaya.service.PostService;
 import com.firatkaya.service.StaticsViewService;
 

@@ -17,6 +17,9 @@ import com.firatkaya.model.AuthenticationRequest;
 import com.firatkaya.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -49,18 +52,17 @@ public class UserServiceImp implements UserService {
     private static final String VERIFY_CAPTCHA_URL_V2 = "https://www.google.com/recaptcha/api/siteverify?";
 
     private final UserRepository userRepository;
-
-
     private final CommentRepository commentRepository;
-
     private final EmailService emailService;
 
-
+    @Autowired
     private  BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Autowired
     AuthenticationManager authenticationManager;
 
-    private  JwtUtil jwtUtil;
+    @Autowired
+    JwtUtil jwtUtil;
 
     private final RestTemplate restTemplate;
 
@@ -68,7 +70,7 @@ public class UserServiceImp implements UserService {
     public UserServiceImp(RestTemplateBuilder restTemplateBuilder,
                           UserRepository userRepository,
                           CommentRepository commentRepository,
-                          EmailService emailService) {
+                          EmailService emailService ) {
 
         this.restTemplate = restTemplateBuilder.build();
         this.userRepository = userRepository;
@@ -77,6 +79,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    @Cacheable(cacheNames = "User", key = "#email")
     public User getUser(String email) {
         User user = userRepository.findByUserEmail(email);
 
@@ -89,7 +92,6 @@ public class UserServiceImp implements UserService {
 
     @Override
     public User saveUser(User user) {
-
         if(user.getUserEmail() == null) {
             throw new UserEmailNotFoundException("sd");
         }
@@ -116,6 +118,7 @@ public class UserServiceImp implements UserService {
 
     @Transactional
     @Override
+    @Caching(evict = {@CacheEvict(value = "User", key = "#user.userEmail"), @CacheEvict(value = "User", key = "#user.userName")})
     public User updateUser(User user) {
         User result;
         if (userRepository.existsByUserEmail(user.getUserEmail()))
@@ -127,6 +130,7 @@ public class UserServiceImp implements UserService {
 
     @Transactional
     @Override
+    @CacheEvict(value = "User", key = "#username")
     public boolean updateUserPermissions(String username, UserPermissions userPermissions) {
         User user = userRepository.findByUserName(username);
         if (userRepository.existsByUserEmail(user.getUserEmail())) {
@@ -140,6 +144,7 @@ public class UserServiceImp implements UserService {
 
     @Transactional
     @Override
+    @CacheEvict(value = "User", key = "#email")
     public boolean deleteUser(String email) {
 
         if (userRepository.existsByUserEmail(email)) {
@@ -148,8 +153,6 @@ public class UserServiceImp implements UserService {
         } else {
             throw new UserEmailNotFoundException(email);
         }
-
-
     }
 
     @Override
@@ -168,7 +171,8 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public User getUserbyUsername(String username) {
+    @Cacheable(cacheNames = "User", key = "#username")
+    public User getUserByUsername(String username) {
         User user = userRepository.findByUserName(username);
 
         if (user == null) {
@@ -185,6 +189,7 @@ public class UserServiceImp implements UserService {
 
     @Transactional
     @Override
+    @CacheEvict(value = "User", key = "#request.get('email')")
     public boolean updatePassword(HashMap<String, String> request) {
         String email = request.get("email");
         String userId = request.get("userid");
@@ -208,6 +213,7 @@ public class UserServiceImp implements UserService {
 
     @Transactional
     @Override
+    @Caching(evict = {@CacheEvict(value = "User", key = "#email"), @CacheEvict(value = "User", key = "#username")})
     public boolean updateUserUsername(String email, String username) {
         if (userRepository.existsByUserEmail(email)) {
             userRepository.updateUserUsernameOnUser(email, username);
@@ -216,12 +222,12 @@ public class UserServiceImp implements UserService {
             throw new UserEmailNotFoundException(email);
         }
 
-
         return true;
     }
 
     @Transactional
     @Override
+    @CacheEvict(value = "User", allEntries = true)
     public boolean updateUserGithubAddress(String email, String githubaddress) {
 
         if (userRepository.existsByUserEmail(email)) {
@@ -234,6 +240,7 @@ public class UserServiceImp implements UserService {
 
     @Transactional
     @Override
+    @CacheEvict(value = "User",allEntries = true)
     public boolean updateUserLinkedinAddress(String email, String linkedinaddress) {
         if (userRepository.existsByUserEmail(email)) {
             userRepository.updateLinkedinAddress(email, linkedinaddress);
@@ -245,6 +252,7 @@ public class UserServiceImp implements UserService {
 
     @Transactional
     @Override
+    @CacheEvict(value = "User", allEntries = true)
     public boolean updateUserBirthDate(String email, String date) {
 
         if (userRepository.existsByUserEmail(email))
@@ -258,6 +266,7 @@ public class UserServiceImp implements UserService {
 
     @Transactional
     @Override
+    @CacheEvict(value = "User", allEntries = true)
     public boolean updateUserPasswordSettings(String email, String pass) {
         if (userRepository.existsByUserEmail(email))
             userRepository.updateUserPassword(email, pass);
@@ -270,6 +279,7 @@ public class UserServiceImp implements UserService {
 
     @Transactional
     @Override
+    @CacheEvict(value = "User", allEntries = true)
     public void updateUserImage(MultipartFile file, String userId) {
         byte[] bytes;
         try {
@@ -296,6 +306,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    @Cacheable(cacheNames = "UserToken", key = "'loadByUsername'+ #email")
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         boolean isUserExists = userRepository.existsByUserEmail(email);
         if (isUserExists) {

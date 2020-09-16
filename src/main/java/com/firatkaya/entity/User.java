@@ -1,5 +1,6 @@
 package com.firatkaya.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -18,6 +19,7 @@ import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 
 
 @Entity
@@ -25,7 +27,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class User extends JdkSerializationRedisSerializer implements Serializable {
 
     @Id
     @Email(message = "{validation.useremail.email}")

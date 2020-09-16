@@ -88,7 +88,7 @@ public class UserController {
      */
     @GetMapping(value = "/username/{username}")
     public ResponseEntity<?> getUserByUsername(@PathVariable(value = "username") String username) {
-        return ResponseEntity.ok(userService.getUserbyUsername(username));
+        return ResponseEntity.ok(userService.getUserByUsername(username));
     }
 
     /**
@@ -113,7 +113,7 @@ public class UserController {
      */
     @PostMapping(value = "/username/photo")
     public ResponseEntity<?> getUserPhotoByUsername(@RequestBody HashMap<String, String> request) {
-        return ResponseEntity.ok(userService.getUserbyUsername(request.get("username")).getUserProfilePhoto());
+        return ResponseEntity.ok(userService.getUserByUsername(request.get("username")).getUserProfilePhoto());
 
     }
 

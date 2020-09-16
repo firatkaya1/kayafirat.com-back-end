@@ -17,6 +17,7 @@ import com.firatkaya.service.CommentService;
 @RequestMapping("api/v1/comment")
 public class CommentController {
 
+
 	private final CommentService commentService;
 
 	@Autowired
@@ -24,10 +25,6 @@ public class CommentController {
 		this.commentService = commentService;
 	}
 
-	@GetMapping(value = "/{postId}")
-	public ResponseEntity<Comment> getSingleComment(@PathVariable(value = "postId") String postId){
-		return ResponseEntity.ok(commentService.getOneComment(postId));
-	}
 
 	@GetMapping(value = "all/{postId}")
 	public ResponseEntity<List<Comment>> getPostComments(@PathVariable(value = "postId") String postId){

@@ -5,6 +5,8 @@ import java.util.*;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.firatkaya.entity.Comment;
@@ -34,6 +36,7 @@ public class CommentServiceImp implements CommentService {
     }
 
     @Override
+    @Cacheable(cacheNames = "allComments", key = "#postId")
     public List<Comment> getAllComments(String postId) {
         if (!postRepository.existsByPostId(postId))
             throw new PostNotFoundException(postId);
@@ -41,17 +44,9 @@ public class CommentServiceImp implements CommentService {
         return commentRepository.findAll();
     }
 
-    @Override
-    public Comment getOneComment(String commentId) {
-        Comment comment = commentRepository.findByCommentId(commentId);
-        if (comment == null)
-            throw new CommentNotFoundException(commentId);
-
-        return comment;
-    }
-
     @Transactional
     @Override
+    @CacheEvict(value = "PostTitle", allEntries=true)
     public Comment saveComment(Comment comment, String postId) {
         Post post = postRepository.findByPostId(postId);
 
@@ -71,17 +66,17 @@ public class CommentServiceImp implements CommentService {
 
     @Transactional
     @Override
+    @CacheEvict(value = "PostTitle", allEntries=true)
     public boolean updateComment(HashMap<String,String> request) {
         if (!commentRepository.existsById(request.get("commentId")))
             throw new CommentNotFoundException(request.get("commentId"));
-
-
         commentRepository.updateUserComment(request.get("commentMessage"),request.get("commentId"));
         return true;
     }
 
     @Transactional
     @Override
+    @CacheEvict(value = "PostTitle", allEntries=true)
     public boolean deleteComment(String commentId,String postId) {
         if (!commentRepository.existsById(commentId))
             throw new CommentNotFoundException(commentId);
