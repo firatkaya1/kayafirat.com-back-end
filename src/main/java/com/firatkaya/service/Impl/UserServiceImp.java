@@ -14,7 +14,7 @@ import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 
 import com.firatkaya.model.AuthenticationRequest;
-import com.firatkaya.security.JwtUtil;
+import com.firatkaya.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cache.annotation.CacheEvict;
@@ -63,6 +63,7 @@ public class UserServiceImp implements UserService {
 
     @Autowired
     JwtUtil jwtUtil;
+
 
     private final RestTemplate restTemplate;
 
@@ -302,6 +303,7 @@ public class UserServiceImp implements UserService {
         }
         final UserDetails userDetails = loadUserByUsername(authRequest.getUsername());
         return jwtUtil.generateToken(userDetails);
+
 
     }
 

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import com.firatkaya.entity.Comment;
 import com.firatkaya.service.CommentService;
 
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin
 @RestController
 @RequestMapping("api/v1/comment")
 public class CommentController {

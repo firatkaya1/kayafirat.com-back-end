@@ -5,12 +5,19 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.mail.Header;
 import javax.mail.MessagingException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 import com.firatkaya.service.OauthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +43,7 @@ import com.firatkaya.exceptions.UserNameNotFoundException;
  * @version 1.0.0
  */
 
-@CrossOrigin(origins = "http://localhost:4200",allowCredentials = "false")
+@CrossOrigin
 @RestController
 @RequestMapping("api/v1/user")
 public class UserController {
@@ -64,9 +71,16 @@ public class UserController {
      * @throws Exception   if user not found in database, it will thrown BadCredentialsExceptions
      */
     @PostMapping(value = "/login")
-    public ResponseEntity<?> login(@RequestBody AuthenticationRequest authRequest) throws Exception {
-
-        return ResponseEntity.ok().body(userService.authenticateUser(authRequest));
+    public ResponseEntity<?> login(@RequestBody AuthenticationRequest authRequest, HttpServletResponse res) throws Exception {
+        String token = userService.authenticateUser(authRequest);
+        Cookie cookie = new Cookie("authenticate", token);
+        cookie.setMaxAge(86400);
+        cookie.setPath("/");
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
+        res.setHeader("Access-Control-Allow-Credentials", "true");
+        res.addCookie(cookie);
+        return ResponseEntity.ok().body(token);
     }
 
     @PostMapping(value = "/auth/github")
@@ -250,5 +264,6 @@ public class UserController {
         userService.updateUserImage(file, userId);
         return ResponseEntity.ok(HttpStatus.OK);
     }
+
 
 }

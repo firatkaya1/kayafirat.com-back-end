@@ -1,6 +1,7 @@
 package com.firatkaya.service.Impl;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -26,6 +27,11 @@ public class PostServiceImp implements PostService {
     @Autowired
     public PostServiceImp(PostRepository postRepository ){
         this.postRepository = postRepository;
+    }
+
+    @Override
+    public List<PostExceptr> getAllPost() {
+        return postRepository.findAllProjectBy();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.firatkaya.security;
+package com.firatkaya.util;
 
 
 import java.util.Date;

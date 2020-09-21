@@ -36,6 +36,11 @@ public class CommentServiceImp implements CommentService {
     }
 
     @Override
+    public List<CommentExceptr> getAllComments() {
+        return commentRepository.findAllProject();
+    }
+
+    @Override
     @Cacheable(cacheNames = "allComments", key = "#postId")
     public List<Comment> getAllComments(String postId) {
         if (!postRepository.existsByPostId(postId))

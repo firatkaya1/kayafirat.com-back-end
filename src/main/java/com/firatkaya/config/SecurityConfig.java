@@ -1,8 +1,10 @@
 package com.firatkaya.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.session.DefaultCookieSerializerCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -15,10 +17,22 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.firatkaya.security.JwtRequestFilter;
 import com.firatkaya.service.UserService;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import java.time.Duration;
+import java.util.Arrays;
+
+import static java.util.concurrent.TimeUnit.HOURS;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true,securedEnabled = true )
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
@@ -34,8 +48,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable().
-                authorizeRequests()
+        http.cors().and()
+                .csrf()
+                .csrfTokenRepository(cookieCsrfTokenRepository()).and()
+                .authorizeRequests()
+                .antMatchers("/api/v1/admin/**").permitAll()
                 .antMatchers("/api/v1/user/auth/github").permitAll()
                 .antMatchers("/api/v1/user/auth/linkedin").permitAll()
                 .antMatchers("/api/v1/user/username/photo").permitAll()
@@ -45,16 +62,39 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/v1/user/login", "/api/v1/user/register", "/api/v1/user/verification", "/api/v1/user/sendResetEmail", "/api/v1/user/reset/**", "/api/v1/user/validaterecaptcha", "/api/v1/user/updatepicture").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .logout().logoutUrl("/api/v1/admin/logout").deleteCookies("authenticate").invalidateHttpSession(true);
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
 
     }
 
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService).passwordEncoder(encoder());
     }
+
+    private CookieCsrfTokenRepository cookieCsrfTokenRepository() {
+        final CookieCsrfTokenRepository cookieCsrfTokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
+        cookieCsrfTokenRepository.setCookiePath("/");
+        return cookieCsrfTokenRepository;
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("https://localhost:4200"));
+        configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
 
     @Override
     @Bean

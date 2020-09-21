@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import com.firatkaya.model.excep.CommentExceptr;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -18,6 +19,8 @@ import com.firatkaya.entity.Comment;
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, String> {
 
+    @Query(value = "SELECT comment_id,comment_message,comment_time,is_hide,user_name FROM comment ", nativeQuery = true)
+    List<CommentExceptr> findAllProject();
 
     @Query(value = "SELECT * FROM comment c WHERE c.comment_id = :commentId", nativeQuery = true)
     Comment findByCommentId(@Param("commentId") String commentId);

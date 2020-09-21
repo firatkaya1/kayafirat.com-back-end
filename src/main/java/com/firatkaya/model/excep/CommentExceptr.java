@@ -12,5 +12,9 @@ public interface CommentExceptr {
 	String getUser_name();
 	
 	String getComment_Message();
-	
+
+	String getComment_Time();
+
+	String getIs_Hide();
+
 }

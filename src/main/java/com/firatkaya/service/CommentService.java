@@ -4,11 +4,14 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+import com.firatkaya.model.excep.CommentExceptr;
 import org.springframework.stereotype.Service;
 
 import com.firatkaya.entity.Comment;
 
 public interface CommentService {
+
+    List<CommentExceptr> getAllComments();
 
     List<Comment> getAllComments(String postId);
 

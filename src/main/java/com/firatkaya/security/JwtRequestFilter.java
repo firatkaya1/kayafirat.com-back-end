@@ -1,12 +1,16 @@
 package com.firatkaya.security;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Optional;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.firatkaya.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,17 +27,23 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     private  UserService userService;
 
     @Autowired
-    private  JwtUtil jwtUtil;
+    private JwtUtil jwtUtil;
 
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        final Cookie c = Arrays.stream(request.getCookies()).filter(cookie -> cookie.getName().equals("authenticate")).findFirst().orElse(null);
 
-        final String authorizationHeader = request.getHeader("Authorization");
+         String authorizationHeader=null;
+        if(c != null) {
+            authorizationHeader = c.getValue();
+        }
+
+
         String username = null;
         String jwt = null;
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer")) {
-            jwt = authorizationHeader.substring(7);
+        if (authorizationHeader != null) {
+            jwt = authorizationHeader;
             username = jwtUtil.extractUsername(jwt);
         }
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
