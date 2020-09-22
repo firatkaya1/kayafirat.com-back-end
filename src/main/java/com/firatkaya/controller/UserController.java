@@ -5,19 +5,15 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.mail.Header;
 import javax.mail.MessagingException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import com.firatkaya.service.OauthService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -78,8 +74,22 @@ public class UserController {
         cookie.setPath("/");
         cookie.setSecure(true);
         cookie.setHttpOnly(true);
-        res.setHeader("Access-Control-Allow-Credentials", "true");
+        User user = userService.getUser(authRequest.getUsername());
+        Cookie usernameCookie = new Cookie("username",user.getUserName());
+        usernameCookie.setMaxAge(86400);
+        usernameCookie.setPath("/");
+        usernameCookie.setSecure(false);
+        usernameCookie.setHttpOnly(false);
+        Cookie userPhotoCookie = new Cookie("userPhoto",user.getUserProfilePhoto());
+        userPhotoCookie.setMaxAge(86400);
+        userPhotoCookie.setPath("/");
+        userPhotoCookie.setSecure(false);
+        userPhotoCookie.setHttpOnly(false);
+        res.addCookie(usernameCookie);
+        res.addCookie(userPhotoCookie);
         res.addCookie(cookie);
+        res.setHeader("Access-Control-Allow-Credentials", "true");
+
         return ResponseEntity.ok().body(token);
     }
 
@@ -111,12 +121,10 @@ public class UserController {
      * @throws UserEmailNotFoundException
      */
     @PostMapping(value = "/email/photo")
-    public ResponseEntity<?> getUserPhotoByEmail(@RequestBody HashMap<String, String> request) {
-        User user = userService.getUser(request.get("email"));
-        List<String> myList = new ArrayList<String>();
-        myList.add(user.getUserName());
-        myList.add(user.getUserProfilePhoto());
-        return ResponseEntity.ok(myList);
+    public ResponseEntity<?> getUserPhotoByEmail(@RequestBody HashMap<String, String> request,HttpServletResponse res) {
+
+        return ResponseEntity.ok(HttpStatus.OK);
+
 
     }
 
@@ -262,6 +270,29 @@ public class UserController {
     @PostMapping(value = "/updatepicture/{userId}")
     public ResponseEntity<?> updatepicture(@RequestParam("file") MultipartFile file, @PathVariable(value = "userId") String userId) {
         userService.updateUserImage(file, userId);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/logout")
+    public ResponseEntity<?> logout(HttpServletResponse res) {
+        Cookie cookie = new Cookie("authenticate","");
+        cookie.setPath("/");
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(0);
+        Cookie usernameCookie = new Cookie("username","");
+        usernameCookie.setMaxAge(0);
+        usernameCookie.setPath("/");
+        usernameCookie.setSecure(false);
+        usernameCookie.setHttpOnly(false);
+        Cookie userPhotoCookie = new Cookie("userPhoto","");
+        userPhotoCookie.setMaxAge(0);
+        userPhotoCookie.setPath("/");
+        userPhotoCookie.setSecure(false);
+        userPhotoCookie.setHttpOnly(false);
+        res.addCookie(usernameCookie);
+        res.addCookie(userPhotoCookie);
+        res.addCookie(cookie);
+
         return ResponseEntity.ok(HttpStatus.OK);
     }
 

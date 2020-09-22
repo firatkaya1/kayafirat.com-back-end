@@ -85,7 +85,6 @@ public class PostServiceImp implements PostService {
     }
 
     @Override
-    @Cacheable(cacheNames = "PostTag", key = "#postTag")
     public Collection<?> getByPostTag(String postTag) {
         return postRepository.findByAllPostTag(postTag, PostExceptr.class);
     }
