@@ -50,16 +50,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and()
                 .csrf()
+                .ignoringAntMatchers("/api/v1/post")
                 .csrfTokenRepository(cookieCsrfTokenRepository()).and()
                 .authorizeRequests()
                 .antMatchers("/api/v1/admin/**").permitAll()
                 .antMatchers("/api/v1/user/auth/github").permitAll()
                 .antMatchers("/api/v1/user/auth/linkedin").permitAll()
-                .antMatchers("/api/v1/user/username/photo").permitAll()
                 .antMatchers("/api/v1/post/**").permitAll()
                 .antMatchers("/api/v1/user/sendemail").permitAll()
                 .antMatchers("/api/v1/comment/**").permitAll()
-                .antMatchers("/api/v1/user/login", "/api/v1/user/register", "/api/v1/user/verification", "/api/v1/user/sendResetEmail", "/api/v1/user/reset/**", "/api/v1/user/validaterecaptcha", "/api/v1/user/updatepicture").permitAll()
+                .antMatchers("/api/v1/post").permitAll()
+                .antMatchers("/api/v1/user/login", "/api/v1/user/register", "/api/v1/user/verification", "/api/v1/user/sendResetEmail", "/api/v1/user/reset/**", "/api/v1/user/validaterecaptcha").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -85,7 +86,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("https://localhost:4200"));
+        configuration.setAllowedOrigins(Arrays.asList("https://blog.kayafirat.com:4200"));
         configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);

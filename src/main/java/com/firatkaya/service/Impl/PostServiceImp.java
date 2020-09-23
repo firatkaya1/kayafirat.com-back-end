@@ -2,7 +2,9 @@ package com.firatkaya.service.Impl;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
+import com.firatkaya.entity.PostSeo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -54,6 +56,25 @@ public class PostServiceImp implements PostService {
             throw new PostNotFoundException(postId);
 
         return postRepository.findByPostIdOrderByPostTimeAsc(postId);
+    }
+
+    @Override
+    public Post savePost(Post _post) {
+        Post post = new Post();
+        PostSeo postSeo = new PostSeo();
+        post.setPostId(UUID.randomUUID().toString());
+        post.setPostSeo(postSeo);
+        return postRepository.save(post);
+    }
+
+    @Override
+    public Post deletePost(String postId) {
+        return null;
+    }
+
+    @Override
+    public Post updatePost(Post post) {
+        return null;
     }
 
     @Override

@@ -83,4 +83,10 @@ public class PostController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    @PostMapping
+    public ResponseEntity<?> savePost(@RequestBody Post post) {
+        postService.savePost(post);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
 }

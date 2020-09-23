@@ -17,6 +17,13 @@ public interface PostService {
 
     Post getPost(String postId);
 
+    Post savePost(Post post);
+
+    Post deletePost(String postId);
+
+    Post updatePost(Post post);
+
+
     Post getByPostTitle(String postTitle);
 
     Collection<?> lastPost(int limit, String ordertype);
