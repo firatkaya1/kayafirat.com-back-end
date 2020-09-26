@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
@@ -329,5 +330,13 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(apiError);
     }
 
-
+    @ExceptionHandler(AccessDeniedException.class)
+    protected ResponseEntity<Object> handleConstraintViolation(AccessDeniedException ex) {
+        APIError apiError = new APIError.Builder()
+                .httpStatus(HttpStatus.FORBIDDEN)
+                .errorCode(99)
+                .message(ex.getMessage())
+                .build();
+        return buildResponseEntity(apiError);
+    }
 }

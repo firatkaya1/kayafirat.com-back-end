@@ -68,8 +68,8 @@ public class PostServiceImp implements PostService {
     }
 
     @Override
-    public Post deletePost(String postId) {
-        return null;
+    public void deletePost(String postId) {
+        postRepository.deleteById(postId);
     }
 
     @Override

@@ -50,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and()
                 .csrf()
-                .ignoringAntMatchers("/api/v1/post")
+                .ignoringAntMatchers("/api/v1/user/validaterecaptcha")
                 .csrfTokenRepository(cookieCsrfTokenRepository()).and()
                 .authorizeRequests()
                 .antMatchers("/api/v1/admin/**").permitAll()
@@ -80,13 +80,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private CookieCsrfTokenRepository cookieCsrfTokenRepository() {
         final CookieCsrfTokenRepository cookieCsrfTokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
         cookieCsrfTokenRepository.setCookiePath("/");
+       // cookieCsrfTokenRepository.setCookieDomain("kayafirat.com");
+        cookieCsrfTokenRepository.setCookieHttpOnly(false);
+
         return cookieCsrfTokenRepository;
     }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("https://blog.kayafirat.com:4200"));
+        configuration.setAllowedOrigins(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);

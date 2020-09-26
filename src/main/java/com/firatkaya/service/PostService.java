@@ -19,7 +19,7 @@ public interface PostService {
 
     Post savePost(Post post);
 
-    Post deletePost(String postId);
+     void deletePost(String postId);
 
     Post updatePost(Post post);
 

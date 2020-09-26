@@ -10,10 +10,12 @@
 	</parent>
 	<groupId>com.firatkaya</groupId>
 	<artifactId>firatkaya</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>firatkaya</name>
 	<description>fıratkaya.com blogspot</description>
-
+	<!--
+	<packaging>war</packaging>
+	-->
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
@@ -23,7 +25,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>com.zaxxer</groupId>
 			<artifactId>HikariCP</artifactId>
@@ -46,6 +47,14 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+			<!--
+			 <exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+				</exclusion>
+			</exclusions>
+			 -->
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -117,7 +126,8 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-oauth2-client</artifactId>
 		</dependency>
-				
+
+
 	</dependencies>
 
 	<build>

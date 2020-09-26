@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-@CrossOrigin
 @RestController
 @RequestMapping("api/v1/admin")
 public class AdminController {
@@ -45,6 +44,13 @@ public class AdminController {
     @PostMapping(value = "/test")
     public ResponseEntity<?> test()   {
         return ResponseEntity.ok().body("test başarılı");
+    }
+
+
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<?> deletePost(@PathVariable("postId") String postId)   {
+        postService.deletePost(postId);
+        return ResponseEntity.ok().body(postId);
     }
 
 }

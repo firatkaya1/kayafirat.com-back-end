@@ -17,7 +17,6 @@ import com.firatkaya.model.excep.PostExceptrSearch;
 import com.firatkaya.service.PostService;
 import com.firatkaya.service.StaticsViewService;
 
-@CrossOrigin
 @RestController
 @RequestMapping("/api/v1/post")
 public class PostController {

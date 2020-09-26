@@ -1,9 +1,7 @@
 package com.firatkaya.controller;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.Cookie;
@@ -13,7 +11,6 @@ import com.firatkaya.service.OauthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,7 +36,6 @@ import com.firatkaya.exceptions.UserNameNotFoundException;
  * @version 1.0.0
  */
 
-@CrossOrigin
 @RestController
 @RequestMapping("api/v1/user")
 public class UserController {
@@ -68,21 +64,25 @@ public class UserController {
      */
     @PostMapping(value = "/login")
     public ResponseEntity<?> login(@RequestBody AuthenticationRequest authRequest, HttpServletResponse res) throws Exception {
+        System.out.println("username :"+authRequest.getUsername() +" password :"+authRequest.getPassword());
         String token = userService.authenticateUser(authRequest);
         Cookie cookie = new Cookie("authenticate", token);
         cookie.setMaxAge(86400);
+       // cookie.setDomain("kayafirat.com");
         cookie.setPath("/");
         cookie.setSecure(true);
         cookie.setHttpOnly(true);
         User user = userService.getUser(authRequest.getUsername());
         Cookie usernameCookie = new Cookie("username",user.getUserName());
         usernameCookie.setMaxAge(86400);
+        //  usernameCookie.setDomain("kayafirat.com");
         usernameCookie.setPath("/");
         usernameCookie.setSecure(false);
         usernameCookie.setHttpOnly(false);
         Cookie userPhotoCookie = new Cookie("userPhoto",user.getUserProfilePhoto());
         userPhotoCookie.setMaxAge(86400);
         userPhotoCookie.setPath("/");
+        //   userPhotoCookie.setDomain("kayafirat.com");
         userPhotoCookie.setSecure(false);
         userPhotoCookie.setHttpOnly(false);
         res.addCookie(usernameCookie);
