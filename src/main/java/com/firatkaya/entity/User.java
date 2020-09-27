@@ -18,6 +18,7 @@ import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 
 
@@ -25,6 +26,7 @@ import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer
 @Table(name = "user")
 @Data
 @AllArgsConstructor
+@ToString
 @NoArgsConstructor
 public class User extends JdkSerializationRedisSerializer implements Serializable {
 

@@ -82,13 +82,7 @@ public class UserServiceImp implements UserService {
     @Override
     @Cacheable(cacheNames = "User", key = "#email")
     public User getUser(String email) {
-        User user = userRepository.findByUserEmail(email);
-
-        if (user == null) {
-            throw new UserEmailNotFoundException(email);
-        }
-
-        return user;
+        return userRepository.findByUserEmail(email);
     }
 
     @Override
@@ -174,12 +168,7 @@ public class UserServiceImp implements UserService {
     @Override
     @Cacheable(cacheNames = "User", key = "#username")
     public User getUserByUsername(String username) {
-        User user = userRepository.findByUserName(username);
-
-        if (user == null) {
-            throw new UsernameNotFoundException(username);
-        }
-        return user;
+        return userRepository.findByUserName(username);
     }
 
     @Override

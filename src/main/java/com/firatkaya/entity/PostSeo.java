@@ -3,6 +3,7 @@ package com.firatkaya.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import javax.persistence.Id;
 import javax.persistence.Column;
@@ -14,6 +15,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Table(name = "postseo")
 public class PostSeo extends JdkSerializationRedisSerializer implements Serializable {
 

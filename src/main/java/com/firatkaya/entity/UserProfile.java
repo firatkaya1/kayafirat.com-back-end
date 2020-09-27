@@ -8,6 +8,7 @@ import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 
 import java.io.Serializable;
@@ -15,7 +16,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "userProfile")
 @Data
-@AllArgsConstructor
+@ToString
 @NoArgsConstructor
 public class UserProfile extends JdkSerializationRedisSerializer implements Serializable  {
 

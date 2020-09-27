@@ -13,10 +13,7 @@ import javax.validation.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 
 @Entity
@@ -24,6 +21,7 @@ import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Table(name = "comment")
 public class Comment extends JdkSerializationRedisSerializer implements Serializable {
 
