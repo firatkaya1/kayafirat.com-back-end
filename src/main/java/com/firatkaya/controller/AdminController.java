@@ -39,7 +39,7 @@ public class AdminController {
 
     @GetMapping(value ="/users/{email}")
     public ResponseEntity<?> getComments(@PathVariable("email") String email){
-        return ResponseEntity.ok(userService.getUser(email));
+        return ResponseEntity.ok(userService.getUserByEmail(email));
     }
 
     @PostMapping(value = "/test")

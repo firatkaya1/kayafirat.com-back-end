@@ -1,4 +1,4 @@
-package com.firatkaya.exceptions;
+package com.firatkaya.exceptions.customExceptions;
 
 import java.time.LocalDateTime;
 

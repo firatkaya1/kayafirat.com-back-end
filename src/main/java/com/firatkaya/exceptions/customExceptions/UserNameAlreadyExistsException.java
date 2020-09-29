@@ -1,16 +1,13 @@
-package com.firatkaya.exceptions;
+package com.firatkaya.exceptions.customExceptions;
 
 import java.time.LocalDateTime;
 
-public class UserEmailNotFoundException extends RuntimeException {
+public class UserNameAlreadyExistsException extends RuntimeException {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 1L;
 
-    public UserEmailNotFoundException(String emailAddress) {
-        super("User Email Not Found :" + emailAddress);
+    public UserNameAlreadyExistsException(String errorMessage) {
+        super("User Name Already Exists :" + errorMessage);
     }
 
     @Override
@@ -26,6 +23,5 @@ public class UserEmailNotFoundException extends RuntimeException {
     public LocalDateTime getTime() {
         return LocalDateTime.now();
     }
-
 
 }

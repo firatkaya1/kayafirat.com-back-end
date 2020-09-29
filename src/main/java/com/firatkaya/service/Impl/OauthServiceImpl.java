@@ -5,9 +5,11 @@ import com.firatkaya.model.AuthenticationRequest;
 import com.firatkaya.repository.UserRepository;
 import com.firatkaya.service.OauthService;
 import com.firatkaya.service.UserService;
+import lombok.RequiredArgsConstructor;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.core.env.Environment;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -15,30 +17,20 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class OauthServiceImpl implements OauthService {
 
-    private final static String LINKEDIN_OAUTH_V2_ROOT_URI = "https://www.linkedin.com/oauth/v2/accessToken?";
-    private final static String LINKEDIN_CLIENT_ID = "77s8v0hceim00y";
-    private final static String LINKEDIN_CLIENT_SECRET = "lP1M1OQagNbM6DHL";
-    private final static String LINKEDIN_REDIRECT_URI = "http://blog.kayafirat.com/login/auth/linkedin";
-
-    private final static String GITHUB_USER_ROOT_URI = "https://api.github.com/user";
-    private final static String GITHUB_OAUTH_ROOT_URI = "https://github.com/login/oauth/";
-    private final static String GITHUB_CLIENT_ID = "1766cc6e638422eeaa65";
-    private final static String GITHUB_CLIENT_SECRET = "7cc726ac8eed0d4384bb1e937ce5a8b44059684a";
+    private final static String GITHUB_USER_ROOT_URI = "";
+    private final static String GITHUB_OAUTH_ROOT_URI = "";
+    private final static String GITHUB_CLIENT_ID = "";
+    private final static String GITHUB_CLIENT_SECRET = "";
 
     private final RestTemplate restTemplate;
-
-
     private final UserRepository userRepository;
     private final UserService userService;
+    private final Environment env;
 
-    @Autowired
-    public OauthServiceImpl(RestTemplateBuilder restTemplateBuilder,UserRepository userRepository, UserService userService) {
-        this.restTemplate = restTemplateBuilder.build();
-        this.userRepository = userRepository;
-        this.userService = userService;
-    }
+
 
     public String oAuthGithubUserAuthenticate(String code) throws Exception {
 
@@ -61,7 +53,7 @@ public class OauthServiceImpl implements OauthService {
     }
 
     private String oAuthLinkedinAccessToken(String code){
-        String url = LINKEDIN_OAUTH_V2_ROOT_URI+"code="+code+"&client_id="+LINKEDIN_CLIENT_ID+"&client_secret="+LINKEDIN_CLIENT_SECRET+"&redirect_uri="+LINKEDIN_REDIRECT_URI+"&grant_type=authorization_code";
+        String url = env.getProperty("oauth2.linkedin.root-uri")+"code="+code+"&client_id="+env.getProperty("oauth2.linkedin.client-id")+"&client_secret="+env.getProperty("oauth2.linkedin.client-secret")+"&redirect_uri="+env.getProperty("oauth2.linkedin.redirect-uri")+"&grant_type=authorization_code";
         return restTemplate.postForEntity(url,null,Map.class).getBody().get("access_token").toString();
 
     }
@@ -78,12 +70,12 @@ public class OauthServiceImpl implements OauthService {
     }
 
     private String oAuthGithubUserAccessToken(String code) {
-        String url = GITHUB_OAUTH_ROOT_URI+"/access_token?client_id="+GITHUB_CLIENT_ID+"&client_secret="+GITHUB_CLIENT_SECRET+"&code="+code;
+        String url = env.getProperty("oauth2.github.user-root-uri")+"/access_token?client_id="+GITHUB_CLIENT_ID+"&client_secret="+GITHUB_CLIENT_SECRET+"&code="+code;
         return restTemplate.postForEntity(url,null,String.class).getBody().substring(13,53);
     }
 
     private Map getGithubUser(String accessToken) {
-        return restTemplate.exchange(GITHUB_USER_ROOT_URI, HttpMethod.GET,prepareHTTPEntity(accessToken), Map.class).getBody();
+        return restTemplate.exchange(env.getProperty("oauth2.github.user-root-uri"), HttpMethod.GET,prepareHTTPEntity(accessToken), Map.class).getBody();
     }
 
     private String createRandomPassword() {

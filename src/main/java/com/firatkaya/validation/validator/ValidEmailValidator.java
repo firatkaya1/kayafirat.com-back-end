@@ -1,6 +1,6 @@
 package com.firatkaya.validation.validator;
 
-import com.firatkaya.exceptions.UserNameNotFoundException;
+import com.firatkaya.exceptions.customExceptions.UserNameNotFoundException;
 import com.firatkaya.repository.UserRepository;
 import com.firatkaya.validation.constraint.ExistsEmail;
 import org.springframework.beans.factory.annotation.Autowired;

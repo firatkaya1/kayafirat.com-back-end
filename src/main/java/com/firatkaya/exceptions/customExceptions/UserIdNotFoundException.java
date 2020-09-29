@@ -1,16 +1,18 @@
-package com.firatkaya.exceptions;
+package com.firatkaya.exceptions.customExceptions;
 
 import java.time.LocalDateTime;
 
-public class UserNameNotFoundException extends RuntimeException {
-
+public class UserIdNotFoundException extends RuntimeException {
     /**
      *
      */
     private static final long serialVersionUID = 1L;
 
 
-    public UserNameNotFoundException(String username) { super("User Name Not Found :" + username); }
+    public UserIdNotFoundException(String exception) {
+        super("There is not id in this record :"+exception);
+
+    }
 
     @Override
     public String getLocalizedMessage() {
@@ -25,6 +27,5 @@ public class UserNameNotFoundException extends RuntimeException {
     public LocalDateTime getTime() {
         return LocalDateTime.now();
     }
-
 
 }

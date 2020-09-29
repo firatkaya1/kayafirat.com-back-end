@@ -4,16 +4,18 @@ import java.util.*;
 
 import javax.transaction.Transactional;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import com.firatkaya.entity.Comment;
 import com.firatkaya.entity.Post;
 import com.firatkaya.entity.User;
-import com.firatkaya.exceptions.CommentNotFoundException;
-import com.firatkaya.exceptions.PostNotFoundException;
+import com.firatkaya.exceptions.customExceptions.CommentNotFoundException;
+import com.firatkaya.exceptions.customExceptions.PostNotFoundException;
 import com.firatkaya.model.excep.CommentExceptr;
 import com.firatkaya.repository.CommentRepository;
 import com.firatkaya.repository.PostRepository;
@@ -21,19 +23,13 @@ import com.firatkaya.service.CommentService;
 import com.firatkaya.service.UserService;
 
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class CommentServiceImp implements CommentService {
 
-    private static final String DEFAULT_PROFILE_PHOTO = "assets/images/profile.svg";
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
     private final UserService userService;
-
-    @Autowired
-    public CommentServiceImp(CommentRepository commentRepository,PostRepository postRepository,UserService userService) {
-        this.commentRepository = commentRepository;
-        this.postRepository = postRepository;
-        this.userService = userService;
-    }
+    private final Environment env;
 
     @Override
     public List<CommentExceptr> getAllComments() {
@@ -58,9 +54,9 @@ public class CommentServiceImp implements CommentService {
         comment.setCommentId(UUID.randomUUID().toString());
         comment.setPost(post);
         if (comment.getUsername().equals("Anonymous")) {
-            comment.setUserProfilePhoto(DEFAULT_PROFILE_PHOTO);
+            comment.setUserProfilePhoto(env.getProperty("user.default.profile-photo"));
         } else {
-            User user = userService.getUser(comment.getUsername());
+            User user = userService.getUserByEmail(comment.getUsername());
             comment.setUserProfilePhoto(user.getUserProfilePhoto());
             comment.setUsername(user.getUserName());
         }

@@ -3721,3 +3721,169 @@ jdk.internal.loader.ClassLoaders$AppClassLoader@3d4eac69
 2020-09-29 22:40:39.692 DEBUG 6308 --- [http-nio-8080-exec-10] com.firatkaya.logging.EventLogging       : class com.firatkaya.service.Impl.PostServiceImp classındaki lastPost() methodun cevabı döndürüldü 	Args:[{"post_Id":"a0e70a81-c629-4ec3-9e9c-3e21fe2badb4","post_Tag":"test","post_Title":"Rest","post_Header":"Kendi platformunu oluşturma serisi","post_Time":"2020-07-01 00:51:36.0","post_Max_View":"70","post_Max_Comment":"9"},{"post_Id":"ebd2d37d-e8de-4d6d-82e0-f1f8e9014aaf","post_Tag":"java","post_Title":"Java Dersleri 11","post_Header":"Kendi platformunu oluşturma serisi","post_Time":"2020-07-01 00:51:35.0","post_Max_View":"71","post_Max_Comment":"13"},{"post_Id":"fa6730b4-6e4a-4f01-b039-cb2397d7d300","post_Tag":"java","post_Title":"Java Dersleri 9","post_Header":"Kendi platformunu oluşturma serisi","post_Time":"2020-07-01 00:51:34.0","post_Max_View":"22","post_Max_Comment":"0"},{"post_Id":"64366b08-414e-477d-89b2-243855948270","post_Tag":"java","post_Title":"Java Dersleri 10","post_Header":"Kendi platformunu oluşturma serisi","post_Time":"2020-07-01 00:51:34.0","post_Max_View":"24","post_Max_Comment":"2"},{"post_Id":"40d3ef53-95ad-42df-993b-85551a960daa","post_Tag":"java","post_Title":"Java Dersleri 8","post_Header":"Kendi platformunu oluşturma serisi","post_Time":"2020-07-01 00:51:33.0","post_Max_View":"5","post_Max_Comment":"1"},{"post_Id":"dc84c76e-257f-439e-b20b-0f3c624af328","post_Tag":"java","post_Title":"Java Dersleri 7","post_Header":"Kendi platformunu oluşturma serisi","post_Time":"2020-07-01 00:51:23.0","post_Max_View":"9","post_Max_Comment":"0"},{"post_Id":"68e2d05e-2472-4801-b9fa-ac02d8c5d224","post_Tag":"java","post_Title":"Java Dersleri 5","post_Header":"Kendi platformunu oluşturma serisi","post_Time":"2020-07-01 00:51:22.0","post_Max_View":"0","post_Max_Comment":"1"},{"post_Id":"cfa57f65-35e4-4a58-8197-49eace7b8e01","post_Tag":"java","post_Title":"Java Dersleri 4","post_Header":"Kendi platformunu oluşturma serisi","post_Time":"2020-07-01 00:51:12.0","post_Max_View":"3","post_Max_Comment":"0"},{"post_Id":"41e0bcd2-7485-412f-ab53-e519xe59e9f6","post_Tag":"java","post_Title":"Java Dersleri 3A","post_Header":"Kendi platformunu oluşturma serisi","post_Time":"2020-07-01 00:01:59.0","post_Max_View":"3","post_Max_Comment":"1"},{"post_Id":"41e0bcd2-7485-412f-ab53-e519ae59e9f6","post_Tag":"rest","post_Title":"Java Dersleri 3","post_Header":"Kendi platformunu oluşturma serisi","post_Time":"2020-07-01 00:01:55.0","post_Max_View":"6","post_Max_Comment":"1"}]
 2020-09-29 22:41:16.688  INFO 6308 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : SpringBootJPAHikariCP - Shutdown initiated...
 2020-09-29 22:41:16.692  INFO 6308 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : SpringBootJPAHikariCP - Shutdown completed.
+2020-09-29 23:05:07.738  INFO 9006 --- [main] com.firatkaya.FiratkayaApplication       : Starting FiratkayaApplication on kaya with PID 9006 (/home/kaya/IdeaProjects/kayafirat.com-back-end/target/classes started by kaya in /home/kaya/IdeaProjects/kayafirat.com-back-end)
+2020-09-29 23:05:07.742  INFO 9006 --- [main] com.firatkaya.FiratkayaApplication       : No active profile set, falling back to default profiles: default
+2020-09-29 23:05:09.390  INFO 9006 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-09-29 23:05:09.391  INFO 9006 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.35]
+2020-09-29 23:05:09.456  INFO 9006 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-09-29 23:05:09.607 ERROR 9006 --- [main] o.s.b.web.embedded.tomcat.TomcatStarter  : Error starting Tomcat context. Exception: org.springframework.beans.factory.UnsatisfiedDependencyException. Message: Error creating bean with name 'jwtRequestFilter': Unsatisfied dependency expressed through field 'userService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'userServiceImp': Injection of autowired dependencies failed; nested exception is java.lang.IllegalArgumentException: Could not resolve placeholder '' in value "${}"
+2020-09-29 23:05:09.619  INFO 9006 --- [main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2020-09-29 23:05:09.640 ERROR 9006 --- [main] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.context.ApplicationContextException: Unable to start web server; nested exception is org.springframework.boot.web.server.WebServerException: Unable to start embedded Tomcat
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:161) ~[spring-boot-2.3.0.RELEASE.jar:2.3.0.RELEASE]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:544) ~[spring-context-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:143) ~[spring-boot-2.3.0.RELEASE.jar:2.3.0.RELEASE]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:758) ~[spring-boot-2.3.0.RELEASE.jar:2.3.0.RELEASE]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:750) ~[spring-boot-2.3.0.RELEASE.jar:2.3.0.RELEASE]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397) ~[spring-boot-2.3.0.RELEASE.jar:2.3.0.RELEASE]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315) ~[spring-boot-2.3.0.RELEASE.jar:2.3.0.RELEASE]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1237) ~[spring-boot-2.3.0.RELEASE.jar:2.3.0.RELEASE]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226) ~[spring-boot-2.3.0.RELEASE.jar:2.3.0.RELEASE]
+	at com.firatkaya.FiratkayaApplication.main(FiratkayaApplication.java:21) ~[classes/:na]
+Caused by: org.springframework.boot.web.server.WebServerException: Unable to start embedded Tomcat
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:142) ~[spring-boot-2.3.0.RELEASE.jar:2.3.0.RELEASE]
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.<init>(TomcatWebServer.java:104) ~[spring-boot-2.3.0.RELEASE.jar:2.3.0.RELEASE]
+	at org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory.getTomcatWebServer(TomcatServletWebServerFactory.java:437) ~[spring-boot-2.3.0.RELEASE.jar:2.3.0.RELEASE]
+	at org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory.getWebServer(TomcatServletWebServerFactory.java:191) ~[spring-boot-2.3.0.RELEASE.jar:2.3.0.RELEASE]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.createWebServer(ServletWebServerApplicationContext.java:176) ~[spring-boot-2.3.0.RELEASE.jar:2.3.0.RELEASE]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:158) ~[spring-boot-2.3.0.RELEASE.jar:2.3.0.RELEASE]
+	... 9 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'jwtRequestFilter': Unsatisfied dependency expressed through field 'userService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'userServiceImp': Injection of autowired dependencies failed; nested exception is java.lang.IllegalArgumentException: Could not resolve placeholder '' in value "${}"
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:643) ~[spring-beans-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:130) ~[spring-beans-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:399) ~[spring-beans-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1422) ~[spring-beans-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:594) ~[spring-beans-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517) ~[spring-beans-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:323) ~[spring-beans-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:226) ~[spring-beans-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:321) ~[spring-beans-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:207) ~[spring-beans-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.getOrderedBeansOfType(ServletContextInitializerBeans.java:211) ~[spring-boot-2.3.0.RELEASE.jar:2.3.0.RELEASE]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAsRegistrationBean(ServletContextInitializerBeans.java:174) ~[spring-boot-2.3.0.RELEASE.jar:2.3.0.RELEASE]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAsRegistrationBean(ServletContextInitializerBeans.java:169) ~[spring-boot-2.3.0.RELEASE.jar:2.3.0.RELEASE]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAdaptableBeans(ServletContextInitializerBeans.java:154) ~[spring-boot-2.3.0.RELEASE.jar:2.3.0.RELEASE]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.<init>(ServletContextInitializerBeans.java:86) ~[spring-boot-2.3.0.RELEASE.jar:2.3.0.RELEASE]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.getServletContextInitializerBeans(ServletWebServerApplicationContext.java:253) ~[spring-boot-2.3.0.RELEASE.jar:2.3.0.RELEASE]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.selfInitialize(ServletWebServerApplicationContext.java:227) ~[spring-boot-2.3.0.RELEASE.jar:2.3.0.RELEASE]
+	at org.springframework.boot.web.embedded.tomcat.TomcatStarter.onStartup(TomcatStarter.java:53) ~[spring-boot-2.3.0.RELEASE.jar:2.3.0.RELEASE]
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:5136) ~[tomcat-embed-core-9.0.35.jar:9.0.35]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183) ~[tomcat-embed-core-9.0.35.jar:9.0.35]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1384) ~[tomcat-embed-core-9.0.35.jar:9.0.35]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1374) ~[tomcat-embed-core-9.0.35.jar:9.0.35]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264) ~[na:na]
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75) ~[tomcat-embed-core-9.0.35.jar:9.0.35]
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:140) ~[na:na]
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:909) ~[tomcat-embed-core-9.0.35.jar:9.0.35]
+	at org.apache.catalina.core.StandardHost.startInternal(StandardHost.java:841) ~[tomcat-embed-core-9.0.35.jar:9.0.35]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183) ~[tomcat-embed-core-9.0.35.jar:9.0.35]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1384) ~[tomcat-embed-core-9.0.35.jar:9.0.35]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1374) ~[tomcat-embed-core-9.0.35.jar:9.0.35]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264) ~[na:na]
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75) ~[tomcat-embed-core-9.0.35.jar:9.0.35]
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:140) ~[na:na]
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:909) ~[tomcat-embed-core-9.0.35.jar:9.0.35]
+	at org.apache.catalina.core.StandardEngine.startInternal(StandardEngine.java:262) ~[tomcat-embed-core-9.0.35.jar:9.0.35]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183) ~[tomcat-embed-core-9.0.35.jar:9.0.35]
+	at org.apache.catalina.core.StandardService.startInternal(StandardService.java:421) ~[tomcat-embed-core-9.0.35.jar:9.0.35]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183) ~[tomcat-embed-core-9.0.35.jar:9.0.35]
+	at org.apache.catalina.core.StandardServer.startInternal(StandardServer.java:930) ~[tomcat-embed-core-9.0.35.jar:9.0.35]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183) ~[tomcat-embed-core-9.0.35.jar:9.0.35]
+	at org.apache.catalina.startup.Tomcat.start(Tomcat.java:468) ~[tomcat-embed-core-9.0.35.jar:9.0.35]
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:123) ~[spring-boot-2.3.0.RELEASE.jar:2.3.0.RELEASE]
+	... 14 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'userServiceImp': Injection of autowired dependencies failed; nested exception is java.lang.IllegalArgumentException: Could not resolve placeholder '' in value "${}"
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:405) ~[spring-beans-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1422) ~[spring-beans-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:594) ~[spring-beans-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517) ~[spring-beans-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:323) ~[spring-beans-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:226) ~[spring-beans-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:321) ~[spring-beans-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) ~[spring-beans-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:276) ~[spring-beans-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1306) ~[spring-beans-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1226) ~[spring-beans-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:640) ~[spring-beans-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	... 55 common frames omitted
+Caused by: java.lang.IllegalArgumentException: Could not resolve placeholder '' in value "${}"
+	at org.springframework.util.PropertyPlaceholderHelper.parseStringValue(PropertyPlaceholderHelper.java:178) ~[spring-core-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.util.PropertyPlaceholderHelper.replacePlaceholders(PropertyPlaceholderHelper.java:124) ~[spring-core-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.core.env.AbstractPropertyResolver.doResolvePlaceholders(AbstractPropertyResolver.java:236) ~[spring-core-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.core.env.AbstractPropertyResolver.resolveRequiredPlaceholders(AbstractPropertyResolver.java:210) ~[spring-core-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer.lambda$processProperties$0(PropertySourcesPlaceholderConfigurer.java:175) ~[spring-context-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.resolveEmbeddedValue(AbstractBeanFactory.java:912) ~[spring-beans-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1247) ~[spring-beans-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1226) ~[spring-beans-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:640) ~[spring-beans-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:130) ~[spring-beans-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:399) ~[spring-beans-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	... 66 common frames omitted
+
+2020-09-29 23:05:27.455  INFO 9338 --- [main] com.firatkaya.FiratkayaApplication       : Starting FiratkayaApplication on kaya with PID 9338 (/home/kaya/IdeaProjects/kayafirat.com-back-end/target/classes started by kaya in /home/kaya/IdeaProjects/kayafirat.com-back-end)
+2020-09-29 23:05:27.458  INFO 9338 --- [main] com.firatkaya.FiratkayaApplication       : No active profile set, falling back to default profiles: default
+2020-09-29 23:05:29.041  INFO 9338 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-09-29 23:05:29.041  INFO 9338 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.35]
+2020-09-29 23:05:29.131  INFO 9338 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-09-29 23:05:29.474 DEBUG 9338 --- [main] com.zaxxer.hikari.HikariConfig           : Driver class com.mysql.cj.jdbc.Driver found in Thread context class loader TomcatEmbeddedWebappClassLoader
+  context: ROOT
+  delegate: true
+----------> Parent Classloader:
+jdk.internal.loader.ClassLoaders$AppClassLoader@3d4eac69
+
+2020-09-29 23:05:29.493 DEBUG 9338 --- [main] com.zaxxer.hikari.HikariConfig           : SpringBootJPAHikariCP - configuration:
+2020-09-29 23:05:29.495 DEBUG 9338 --- [main] com.zaxxer.hikari.HikariConfig           : allowPoolSuspension.............false
+2020-09-29 23:05:29.496 DEBUG 9338 --- [main] com.zaxxer.hikari.HikariConfig           : autoCommit......................true
+2020-09-29 23:05:29.496 DEBUG 9338 --- [main] com.zaxxer.hikari.HikariConfig           : catalog.........................none
+2020-09-29 23:05:29.496 DEBUG 9338 --- [main] com.zaxxer.hikari.HikariConfig           : connectionInitSql...............none
+2020-09-29 23:05:29.496 DEBUG 9338 --- [main] com.zaxxer.hikari.HikariConfig           : connectionTestQuery.............none
+2020-09-29 23:05:29.496 DEBUG 9338 --- [main] com.zaxxer.hikari.HikariConfig           : connectionTimeout...............30000
+2020-09-29 23:05:29.496 DEBUG 9338 --- [main] com.zaxxer.hikari.HikariConfig           : dataSource......................none
+2020-09-29 23:05:29.497 DEBUG 9338 --- [main] com.zaxxer.hikari.HikariConfig           : dataSourceClassName.............none
+2020-09-29 23:05:29.497 DEBUG 9338 --- [main] com.zaxxer.hikari.HikariConfig           : dataSourceJNDI..................none
+2020-09-29 23:05:29.497 DEBUG 9338 --- [main] com.zaxxer.hikari.HikariConfig           : dataSourceProperties............{maintainTimeStats=false, password=<masked>, rewriteBatchedStatements=true, prepStmtCacheSqlLimit=2048, elideSetAutoCommits=true, cacheResultSetMetadata=true, cachePrepStmts=true, prepStmtCacheSize=250, useServerPrepStmts=true, useLocalSessionState=true, cacheServerConfiguration=true}
+2020-09-29 23:05:29.497 DEBUG 9338 --- [main] com.zaxxer.hikari.HikariConfig           : driverClassName................."com.mysql.cj.jdbc.Driver"
+2020-09-29 23:05:29.498 DEBUG 9338 --- [main] com.zaxxer.hikari.HikariConfig           : exceptionOverrideClassName......none
+2020-09-29 23:05:29.498 DEBUG 9338 --- [main] com.zaxxer.hikari.HikariConfig           : healthCheckProperties...........{}
+2020-09-29 23:05:29.498 DEBUG 9338 --- [main] com.zaxxer.hikari.HikariConfig           : healthCheckRegistry.............none
+2020-09-29 23:05:29.498 DEBUG 9338 --- [main] com.zaxxer.hikari.HikariConfig           : idleTimeout.....................30000
+2020-09-29 23:05:29.498 DEBUG 9338 --- [main] com.zaxxer.hikari.HikariConfig           : initializationFailTimeout.......1
+2020-09-29 23:05:29.498 DEBUG 9338 --- [main] com.zaxxer.hikari.HikariConfig           : isolateInternalQueries..........false
+2020-09-29 23:05:29.499 DEBUG 9338 --- [main] com.zaxxer.hikari.HikariConfig           : jdbcUrl.........................jdbc:mysql://144.91.104.115:3306/firatkayablog?serverTimezone=UTC
+2020-09-29 23:05:29.499 DEBUG 9338 --- [main] com.zaxxer.hikari.HikariConfig           : leakDetectionThreshold..........0
+2020-09-29 23:05:29.499 DEBUG 9338 --- [main] com.zaxxer.hikari.HikariConfig           : maxLifetime.....................2000000
+2020-09-29 23:05:29.499 DEBUG 9338 --- [main] com.zaxxer.hikari.HikariConfig           : maximumPoolSize.................20
+2020-09-29 23:05:29.499 DEBUG 9338 --- [main] com.zaxxer.hikari.HikariConfig           : metricRegistry..................none
+2020-09-29 23:05:29.499 DEBUG 9338 --- [main] com.zaxxer.hikari.HikariConfig           : metricsTrackerFactory...........none
+2020-09-29 23:05:29.500 DEBUG 9338 --- [main] com.zaxxer.hikari.HikariConfig           : minimumIdle.....................5
+2020-09-29 23:05:29.500 DEBUG 9338 --- [main] com.zaxxer.hikari.HikariConfig           : password........................<masked>
+2020-09-29 23:05:29.500 DEBUG 9338 --- [main] com.zaxxer.hikari.HikariConfig           : poolName........................"SpringBootJPAHikariCP"
+2020-09-29 23:05:29.500 DEBUG 9338 --- [main] com.zaxxer.hikari.HikariConfig           : readOnly........................false
+2020-09-29 23:05:29.500 DEBUG 9338 --- [main] com.zaxxer.hikari.HikariConfig           : registerMbeans..................false
+2020-09-29 23:05:29.501 DEBUG 9338 --- [main] com.zaxxer.hikari.HikariConfig           : scheduledExecutor...............none
+2020-09-29 23:05:29.501 DEBUG 9338 --- [main] com.zaxxer.hikari.HikariConfig           : schema..........................none
+2020-09-29 23:05:29.501 DEBUG 9338 --- [main] com.zaxxer.hikari.HikariConfig           : threadFactory...................internal
+2020-09-29 23:05:29.501 DEBUG 9338 --- [main] com.zaxxer.hikari.HikariConfig           : transactionIsolation............default
+2020-09-29 23:05:29.501 DEBUG 9338 --- [main] com.zaxxer.hikari.HikariConfig           : username........................"personelEcommerce"
+2020-09-29 23:05:29.501 DEBUG 9338 --- [main] com.zaxxer.hikari.HikariConfig           : validationTimeout...............5000
+2020-09-29 23:05:29.503  INFO 9338 --- [main] com.zaxxer.hikari.HikariDataSource       : SpringBootJPAHikariCP - Starting...
+2020-09-29 23:05:30.643  INFO 9338 --- [main] com.zaxxer.hikari.HikariDataSource       : SpringBootJPAHikariCP - Start completed.
+2020-09-29 23:05:30.751  INFO 9338 --- [task-1] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2020-09-29 23:05:30.808  INFO 9338 --- [task-1] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.15.Final
+2020-09-29 23:05:30.919  INFO 9338 --- [task-1] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020-09-29 23:05:31.008  INFO 9338 --- [task-1] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2020-09-29 23:05:32.411 DEBUG 9338 --- [task-1] org.hibernate.SQL                        : alter table comment add constraint FKs1slvnkuemjsq2kj4h3vhx7i1 foreign key (post_id) references post (post_id)
+2020-09-29 23:05:32.612 DEBUG 9338 --- [task-1] org.hibernate.SQL                        : alter table post add constraint FK75u1j48vwgw83f1p310hut2iy foreign key (post_seo_fk) references postseo (post_id)
+2020-09-29 23:05:32.807 DEBUG 9338 --- [task-1] org.hibernate.SQL                        : alter table user add constraint FKaav6twkc687lujieojldgsvvp foreign key (user_permissions_fk) references user_permissions (user_email)
+2020-09-29 23:05:32.934 DEBUG 9338 --- [task-1] org.hibernate.SQL                        : alter table user add constraint FKoimde6iybhfgvn1xfe4xxdtvk foreign key (user_profile_fk) references user_profile (user_email)
+2020-09-29 23:05:33.083  INFO 9338 --- [task-1] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-09-29 23:05:33.905  INFO 9338 --- [main] com.firatkaya.FiratkayaApplication       : Started FiratkayaApplication in 6.921 seconds (JVM running for 7.472)
+2020-09-29 23:05:33.919 DEBUG 9338 --- [scheduling-1] com.firatkaya.logging.EventLogging       : class com.firatkaya.service.Impl.Schedules classındaki reportCurrentTime() methoda  istek yapıldı. 	Args:[]
+2020-09-29 23:05:34.071 DEBUG 9338 --- [scheduling-1] org.hibernate.SQL                        : DELETE FROM staticsview WHERE view_date < (NOW() - INTERVAL 15 MINUTE)
+2020-09-29 23:05:34.348 DEBUG 9338 --- [scheduling-1] com.firatkaya.logging.EventLogging       : class com.firatkaya.service.Impl.Schedules classındaki reportCurrentTime() methodun cevabı döndürüldü 	Args:null
+2020-09-29 23:05:44.010  INFO 9338 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-09-29 23:05:49.491 DEBUG 9338 --- [http-nio-8080-exec-4] com.firatkaya.logging.EventLogging       : class com.firatkaya.service.Impl.UserServiceImp classındaki validateCaptcha() methoda  istek yapıldı. 	Args:["03AGdBq24hBQbfHwxuU8MYBJ9M0AQDVYWAdge2JLTXfBPLdKlrE1PDLQlleqa_7VrLKc2nkkvIxk5ZZpY0xODO57Qk0PuYHfSjjnsFTR9aYiBKteYsoabFRjlwJdkJXCEb2viM_nLhYBMRLAdfxsytMHBsN5tC4kdAXddhBSzYOHuzFIzBlXVWuZGu7R7lbGMmky5jdjzBekcHdV5vmcdXaJ1-qy2CMeKtpPqSS3BqBKI3jW36e5dLwX1176Hse0xKjs_AsgcCc8ezYsMV1HY0pAE3WKiiKiu3yUZOtYMjgeOQX5pYlfkmwXbYLTP9bCYTbIMlcABEBXzfnJL6X2jLO9WLTDnT5IVAchIEKE8gAGaR8qKOq_vN1qArirHIswmcGdf3uggq85G00b75A25HsjEgpe5UkI6LZhelYZSX88X1VXVmg6DJDG0"]
+2020-09-29 23:05:49.753 DEBUG 9338 --- [http-nio-8080-exec-4] com.firatkaya.logging.EventLogging       : class com.firatkaya.service.Impl.UserServiceImp classındaki validateCaptcha() methodun cevabı döndürüldü 	Args:"{\n  \"success\": true,\n  \"challenge_ts\": \"2020-09-29T20:05:45Z\",\n  \"hostname\": \"localhost\"\n}"
+2020-09-29 23:05:54.051  INFO 9338 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : SpringBootJPAHikariCP - Shutdown initiated...
+2020-09-29 23:05:54.056  INFO 9338 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : SpringBootJPAHikariCP - Shutdown completed.

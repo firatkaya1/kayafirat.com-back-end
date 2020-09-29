@@ -13,7 +13,7 @@ import com.firatkaya.entity.UserPermissions;
 public interface UserService extends UserDetailsService {
 
 
-    User getUser(String email);
+    User getUserByEmail(String email);
 
     User getUserByUsername(String username);
 
@@ -25,23 +25,23 @@ public interface UserService extends UserDetailsService {
 
     boolean updateUserPermissions(String username, UserPermissions userPermissions);
 
-    boolean verificationUser(String userId, String userEmail);
+    boolean updateUserVerification(String userId, String userEmail);
 
     Collection<?> searchUser(String keyword);
 
     String validateCaptcha(String key);
 
-    boolean updatePassword(HashMap<String, String> request);
+    void updatePassword(HashMap<String, String> request);
 
-    boolean updateUserGithubAddress(String email, String githubaddress);
+    void updateUserGithubAddress(String email, String githubaddress);
 
-    boolean updateUserLinkedinAddress(String email, String linkedinaddress);
+    void updateUserLinkedinAddress(String email, String linkedinaddress);
 
-    boolean updateUserUsername(String email, String username);
+    void updateUserUsername(String email, String username);
 
-    boolean updateUserBirthDate(String email, String date);
+    void updateUserBirthDate(String email, String date);
 
-    boolean updateUserPasswordSettings(String email, String pass);
+    void updateUserPasswordSettings(String email, String pass);
 
     void updateUserImage(MultipartFile file, String userId);
 

@@ -14,8 +14,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.firatkaya.entity.Post;
-import com.firatkaya.exceptions.PostNotFoundException;
-import com.firatkaya.exceptions.UnknownOrderedRequestException;
+import com.firatkaya.exceptions.customExceptions.PostNotFoundException;
+import com.firatkaya.exceptions.customExceptions.UnknownOrderedRequestException;
 import com.firatkaya.model.excep.PostExceptr;
 import com.firatkaya.model.excep.PostExceptrSearch;
 import com.firatkaya.repository.PostRepository;

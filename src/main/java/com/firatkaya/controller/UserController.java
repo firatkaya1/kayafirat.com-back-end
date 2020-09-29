@@ -54,7 +54,7 @@ public class UserController {
         cookie.setPath("/");
         cookie.setSecure(true);
         cookie.setHttpOnly(true);
-        User user = userService.getUser(authRequest.getUsername());
+        User user = userService.getUserByEmail(authRequest.getUsername());
         Cookie usernameCookie = new Cookie("username",user.getUserName());
         usernameCookie.setMaxAge(86400);
         //  usernameCookie.setDomain("kayafirat.com");
@@ -119,8 +119,8 @@ public class UserController {
     @PostMapping("/verification")
     public ResponseEntity<?> verificationUser( @RequestBody  HashMap<String, String>  request) {
 
-        if (userService.verificationUser(request.get("id"), request.get("email"))) {
-            User user = userService.getUser(request.get("email"));
+        if (userService.updateUserVerification(request.get("id"), request.get("email"))) {
+            User user = userService.getUserByEmail(request.get("email"));
             user.setVerification(true);
             userService.updateUser(user);
             try {
@@ -165,19 +165,19 @@ public class UserController {
     @PutMapping(value = "/update")
     public ResponseEntity<?> updateUserUsername(@RequestBody HashMap<String, String> request) {
         String key = request.get("key");
-        String useremail = request.get("email");
+        String usermail = request.get("email");
         switch (key) {
             case "username":
-                userService.updateUserUsername(useremail, request.get("username"));
+                userService.updateUserUsername(usermail, request.get("username"));
                 break;
             case "githubaddress":
-                userService.updateUserGithubAddress(useremail, request.get("githubaddress"));
+                userService.updateUserGithubAddress(usermail, request.get("githubaddress"));
                 break;
             case "linkedinaddress":
-                userService.updateUserLinkedinAddress(useremail, request.get("linkedinaddress"));
+                userService.updateUserLinkedinAddress(usermail, request.get("linkedinaddress"));
                 break;
             case "birthdate":
-                userService.updateUserBirthDate(useremail, request.get("birthdate"));
+                userService.updateUserBirthDate(usermail, request.get("birthdate"));
                 break;
             default:
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

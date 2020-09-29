@@ -18,12 +18,13 @@ import com.firatkaya.util.JwtUtil;
 import com.firatkaya.validation.constraint.ExistsEmail;
 import com.firatkaya.validation.constraint.ExistsId;
 import com.firatkaya.validation.constraint.ExistsUsername;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
+import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -37,10 +38,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.firatkaya.entity.User;
 import com.firatkaya.entity.UserPermissions;
 import com.firatkaya.entity.UserProfile;
-import com.firatkaya.exceptions.EmailException;
-import com.firatkaya.exceptions.UserEmailAlreadyExistsException;
-import com.firatkaya.exceptions.UserNameAlreadyExistsException;
-import com.firatkaya.exceptions.UserEmailNotFoundException;
+import com.firatkaya.exceptions.customExceptions.EmailException;
+import com.firatkaya.exceptions.customExceptions.UserEmailAlreadyExistsException;
+import com.firatkaya.exceptions.customExceptions.UserNameAlreadyExistsException;
+import com.firatkaya.exceptions.customExceptions.UserEmailNotFoundException;
 import com.firatkaya.model.excep.UserExceptr;
 import com.firatkaya.repository.CommentRepository;
 import com.firatkaya.repository.UserRepository;
@@ -51,13 +52,12 @@ import com.firatkaya.service.UserService;
 @Service
 public class UserServiceImp implements UserService {
 
-    private static final String DEFAULT_PROFILE_PHOTO = "assets/images/profile.svg";
-    private static final String SECRET_KEY = "6LfC_bIZAAAAAC18vxthubhOnwLOF119RaS-GEC1";
-    private static final String VERIFY_CAPTCHA_URL_V2 = "https://www.google.com/recaptcha/api/siteverify?";
-
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
     private final EmailService emailService;
+
+    @Autowired
+    private Environment env;
 
     @Autowired
     private  BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -67,7 +67,6 @@ public class UserServiceImp implements UserService {
 
     @Autowired
     JwtUtil jwtUtil;
-
 
     private final RestTemplate restTemplate;
 
@@ -85,8 +84,14 @@ public class UserServiceImp implements UserService {
 
     @Override
     @Cacheable(cacheNames = "User", key = "#email")
-    public User getUser(String email) {
+    public User getUserByEmail(String email) {
         return userRepository.findByUserEmail(email);
+    }
+
+    @Override
+    @Cacheable(cacheNames = "User", key = "#username")
+    public User getUserByUsername(@ExistsEmail String username) {
+        return userRepository.findByUserName(username);
     }
 
     @Override
@@ -108,11 +113,19 @@ public class UserServiceImp implements UserService {
         user.setUserId(UUID.randomUUID().toString());
         user.setUserProfile(userProfile);
         user.setUserPermissions(userPermissions);
-        user.setUserProfilePhoto(DEFAULT_PROFILE_PHOTO);
+        user.setUserProfilePhoto(env.getProperty("user.default.profile-photo"));
 
         return userRepository.save(user);
 
 
+    }
+
+    @Transactional
+    @Override
+    @CacheEvict(value = "User", key = "#email")
+    public boolean deleteUser(@ExistsEmail String email) {
+        userRepository.deleteById(email);
+        return true;
     }
 
     @Transactional
@@ -134,38 +147,8 @@ public class UserServiceImp implements UserService {
 
     @Transactional
     @Override
-    @CacheEvict(value = "User", key = "#email")
-    public boolean deleteUser(@ExistsEmail String email) {
-        userRepository.deleteById(email);
-        return true;
-    }
-
-    @Override
-    public boolean verificationUser(@ExistsId String userId, @ExistsEmail String email) {
-        return true;
-    }
-
-    @Override
-    public Collection<?> searchUser(String keyword) {
-        return userRepository.searchByUsernameAndUseremail(keyword, UserExceptr.class);
-    }
-
-    @Override
-    @Cacheable(cacheNames = "User", key = "#username")
-    public User getUserByUsername(@ExistsEmail String username) {
-        return userRepository.findByUserName(username);
-    }
-
-    @Override
-    public String validateCaptcha(String key) {
-        String url = VERIFY_CAPTCHA_URL_V2 + "secret=" + SECRET_KEY + "&response=" + key;
-        return restTemplate.getForObject(url, String.class);
-    }
-
-    @Transactional
-    @Override
     @CacheEvict(value = "User", key = "#request.get('email')")
-    public boolean updatePassword(HashMap<String, String> request) {
+    public void updatePassword(HashMap<String, String> request) {
         String email = request.get("email");
         String userId = request.get("userid");
         String ipAddress = request.get("ipaddress");
@@ -183,54 +166,48 @@ public class UserServiceImp implements UserService {
             throw new UserEmailNotFoundException(email);
         }
 
-        return true;
     }
 
     @Transactional
     @Override
     @Caching(evict = {@CacheEvict(value = "User", key = "#email"), @CacheEvict(value = "User", key = "#username")})
-    public boolean updateUserUsername(@ExistsEmail  String email, @ExistsUsername String username) {
+    public void updateUserUsername(@ExistsEmail String email, @ExistsUsername String username) {
         userRepository.updateUserUsernameOnUser(email, username);
         userRepository.updateUserUsernameOnComment(username);
-        return true;
     }
 
     @Transactional
     @Override
     @CacheEvict(value = "User", allEntries = true)
-    public boolean updateUserGithubAddress(@ExistsEmail String email, String gitaddress) {
-        userRepository.updateGithubAddress(email, gitaddress);
-        return true;
+    public void updateUserGithubAddress(@ExistsEmail String email, String github) {
+        userRepository.updateGithubAddress(email, github);
     }
 
     @Transactional
     @Override
     @CacheEvict(value = "User",allEntries = true)
-    public boolean updateUserLinkedinAddress(@ExistsEmail String email, String linkedinaddress) {
-        userRepository.updateLinkedinAddress(email, linkedinaddress);
-        return true;
+    public void updateUserLinkedinAddress(@ExistsEmail String email, String linkedin) {
+        userRepository.updateLinkedinAddress(email, linkedin);
     }
 
     @Transactional
     @Override
     @CacheEvict(value = "User", allEntries = true)
-    public boolean updateUserBirthDate(@ExistsEmail String email, String date) {
+    public void updateUserBirthDate(@ExistsEmail String email, String date) {
         userRepository.updateUserBirthDate(email, date);
-        return true;
     }
 
     @Transactional
     @Override
     @CacheEvict(value = "User", allEntries = true)
-    public boolean updateUserPasswordSettings(@ExistsEmail String email, String pass) {
+    public void updateUserPasswordSettings(@ExistsEmail String email, String pass) {
         userRepository.updateUserPassword(email, pass);
-        return true;
     }
 
     @Transactional
     @Override
     @CacheEvict(value = "User", allEntries = true)
-    public void updateUserImage(MultipartFile file, String userId) {
+    public void updateUserImage(MultipartFile file,@ExistsId String userId) {
         byte[] bytes;
         try {
             bytes = file.getBytes();
@@ -243,6 +220,11 @@ public class UserServiceImp implements UserService {
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public boolean updateUserVerification(@ExistsId String userId, @ExistsEmail String email) {
+        return true;
     }
 
     public String authenticateUser(AuthenticationRequest authRequest) throws Exception {
@@ -268,4 +250,14 @@ public class UserServiceImp implements UserService {
 
     }
 
+    @Override
+    public Collection<?> searchUser(String keyword) {
+        return userRepository.searchByUsernameAndUseremail(keyword, UserExceptr.class);
+    }
+
+    @Override
+    public String validateCaptcha(String key) {
+        String url = env.getProperty("google.recaptcha.verify-link") + "secret=" + env.getProperty("google.recaptcha.secret-key") + "&response=" + key;
+        return restTemplate.getForObject(url, String.class);
+    }
 }

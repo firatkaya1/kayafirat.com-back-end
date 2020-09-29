@@ -1,17 +1,19 @@
-package com.firatkaya.exceptions;
+package com.firatkaya.exceptions.customExceptions;
 
 import java.time.LocalDateTime;
 
-public class CommentNotFoundException extends RuntimeException {
+public class EmailException extends RuntimeException {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public CommentNotFoundException(String errorMessage) {
-		super("There is no comment in this id:"+errorMessage);
-    }
+	
+	public EmailException(String exception) {
+        super("Email could not send to  :"+exception+" address.");
+
+	}
 
 	@Override
 	public String getLocalizedMessage() {
@@ -26,5 +28,6 @@ public class CommentNotFoundException extends RuntimeException {
 	public LocalDateTime getTime() {
 		return LocalDateTime.now();
 	}
+	
 	
 }

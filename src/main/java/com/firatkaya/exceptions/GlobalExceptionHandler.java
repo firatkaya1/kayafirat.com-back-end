@@ -3,6 +3,7 @@ package com.firatkaya.exceptions;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.firatkaya.exceptions.customExceptions.*;
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.core.Ordered;
@@ -32,14 +33,12 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.firatkaya.model.APIError;
 
-import javax.validation.ConstraintViolationException;
-
 /**
  * @author kaya
  */
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
-public class RestExceptionHandler extends ResponseEntityExceptionHandler {
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 
     /*
@@ -252,7 +251,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(apiError, apiError.getStatus());
     }
 
-    @ExceptionHandler(com.firatkaya.exceptions.UserEmailNotFoundException.class)
+    @ExceptionHandler(UserEmailNotFoundException.class)
     protected ResponseEntity<Object> handleConstraintViolation(UserEmailNotFoundException ex) {
         APIError apiError = new APIError.Builder()
                 .httpStatus(HttpStatus.NOT_FOUND)
@@ -262,7 +261,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(apiError);
     }
 
-    @ExceptionHandler(com.firatkaya.exceptions.UserEmailAlreadyExistsException.class)
+    @ExceptionHandler(UserEmailAlreadyExistsException.class)
     protected ResponseEntity<Object> handleConstraintViolation(UserEmailAlreadyExistsException ex) {
         APIError apiError = new APIError.Builder()
                 .httpStatus(HttpStatus.CONFLICT)
@@ -272,7 +271,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(apiError);
     }
 
-    @ExceptionHandler(com.firatkaya.exceptions.UserNameAlreadyExistsException.class)
+    @ExceptionHandler(UserNameAlreadyExistsException.class)
     protected ResponseEntity<Object> handleConstraintViolation(UserNameAlreadyExistsException ex) {
         APIError apiError = new APIError.Builder()
                 .httpStatus(HttpStatus.CONFLICT)
@@ -282,7 +281,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(apiError);
     }
 
-    @ExceptionHandler(com.firatkaya.exceptions.PostNotFoundException.class)
+    @ExceptionHandler(PostNotFoundException.class)
     protected ResponseEntity<Object> handleConstraintViolation(PostNotFoundException ex) {
         APIError apiError = new APIError.Builder()
                 .httpStatus(HttpStatus.NOT_FOUND)
@@ -292,7 +291,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(apiError);
     }
 
-    @ExceptionHandler(com.firatkaya.exceptions.CommentNotFoundException.class)
+    @ExceptionHandler(CommentNotFoundException.class)
     protected ResponseEntity<Object> handleConstraintViolation(CommentNotFoundException ex) {
         APIError apiError = new APIError.Builder()
                 .httpStatus(HttpStatus.NOT_FOUND)
@@ -302,7 +301,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(apiError);
     }
 
-    @ExceptionHandler(com.firatkaya.exceptions.EmailException.class)
+    @ExceptionHandler(EmailException.class)
     protected ResponseEntity<Object> handleConstraintViolation(EmailException ex) {
         APIError apiError = new APIError.Builder()
                 .httpStatus(HttpStatus.NOT_FOUND)
@@ -312,7 +311,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(apiError);
     }
 
-    @ExceptionHandler(com.firatkaya.exceptions.UnknownOrderedRequestException.class)
+    @ExceptionHandler(UnknownOrderedRequestException.class)
     protected ResponseEntity<Object> handleConstraintViolation(UnknownOrderedRequestException ex) {
         APIError apiError = new APIError.Builder()
                 .httpStatus(HttpStatus.NOT_FOUND)
@@ -322,7 +321,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(apiError);
     }
 
-    @ExceptionHandler(com.firatkaya.exceptions.UserNameNotFoundException.class)
+    @ExceptionHandler(UserNameNotFoundException.class)
     protected ResponseEntity<Object> handleConstraintViolation(UserNameNotFoundException ex) {
         APIError apiError = new APIError.Builder()
                 .httpStatus(HttpStatus.NOT_FOUND)
@@ -342,4 +341,13 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(apiError);
     }
 
+    @ExceptionHandler(UserIdNotFoundException.class)
+    protected ResponseEntity<Object> handleConstraintViolation(UserIdNotFoundException ex) {
+        APIError apiError = new APIError.Builder()
+                .httpStatus(HttpStatus.NOT_FOUND)
+                .errorCode(93)
+                .message(ex.getMessage())
+                .build();
+        return buildResponseEntity(apiError);
+    }
 }
