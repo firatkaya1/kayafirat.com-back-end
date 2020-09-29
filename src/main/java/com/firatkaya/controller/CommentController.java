@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,15 +15,12 @@ import com.firatkaya.service.CommentService;
 
 @RestController
 @RequestMapping("api/v1/comment")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class CommentController {
 
 
 	private final CommentService commentService;
 
-	@Autowired
-	public CommentController(CommentService commentService) {
-		this.commentService = commentService;
-	}
 
 
 	@GetMapping(value = "all/{postId}")

@@ -12,9 +12,13 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy= ValidUsernameValidator.class)
 @Documented
-public @interface ValidUsername {
+public @interface ExistsUsername {
+
+    String message() default "Sorry, There is no record in this username.";
+
+    Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
 
-    String value();
+    String value = null;
 }

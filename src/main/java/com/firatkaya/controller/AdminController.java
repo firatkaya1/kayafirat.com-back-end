@@ -2,7 +2,7 @@ package com.firatkaya.controller;
 
 import com.firatkaya.model.AuthenticationRequest;
 import com.firatkaya.service.*;
-import com.firatkaya.validation.constraint.ValidEmail;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("api/v1/admin")
 @Validated
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AdminController {
 
     private final UserService userService;
@@ -20,14 +21,6 @@ public class AdminController {
     private final PostService postService;
     private final CommentService commentService;
 
-    @Autowired
-    public AdminController(UserService userService,EmailService emailService, OauthService oauthService,PostService postService,CommentService commentService) {
-        this.userService = userService;
-        this.emailService = emailService;
-        this.oauthService = oauthService;
-        this.postService = postService;
-        this.commentService = commentService;
-    }
 
     @PostMapping(value = "/auth")
     public ResponseEntity<?> auth(@RequestBody AuthenticationRequest authRequest) throws Exception {
@@ -45,7 +38,7 @@ public class AdminController {
     }
 
     @GetMapping(value ="/users/{email}")
-    public ResponseEntity<?> getComments(@PathVariable("email") @ValidEmail("email")  String email){
+    public ResponseEntity<?> getComments(@PathVariable("email") String email){
         return ResponseEntity.ok(userService.getUser(email));
     }
 

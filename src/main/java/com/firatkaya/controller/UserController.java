@@ -8,12 +8,11 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import com.firatkaya.service.OauthService;
-import com.firatkaya.validation.constraint.ValidUsername;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,8 +28,6 @@ import com.firatkaya.entity.UserPermissions;
 import com.firatkaya.model.AuthenticationRequest;
 import com.firatkaya.service.EmailService;
 import com.firatkaya.service.UserService;
-import com.firatkaya.exceptions.UserEmailNotFoundException;
-import com.firatkaya.exceptions.UserNameNotFoundException;
 
 /**
  * @author firatkaya
@@ -39,22 +36,17 @@ import com.firatkaya.exceptions.UserNameNotFoundException;
 
 @RestController
 @RequestMapping("api/v1/user")
+@Validated
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserController {
 
     private final UserService userService;
     private final EmailService emailService;
     private final OauthService oauthService;
 
-    @Autowired
-    public UserController(UserService userService,EmailService emailService, OauthService oauthService) {
-        this.userService = userService;
-        this.emailService = emailService;
-        this.oauthService = oauthService;
-    }
-
 
     @PostMapping(value = "/login")
-    public ResponseEntity<?> login(@RequestBody AuthenticationRequest authRequest, HttpServletResponse res) throws Exception {
+    public ResponseEntity<?> login(@RequestBody  AuthenticationRequest authRequest, HttpServletResponse res) throws Exception {
         String token = userService.authenticateUser(authRequest);
         Cookie cookie = new Cookie("authenticate", token);
         cookie.setMaxAge(86400);
@@ -91,44 +83,41 @@ public class UserController {
     }
 
     @PostMapping(value = "/auth/linkedin")
-    public ResponseEntity<?> authLinkedin(@RequestBody HashMap<String,String> request) throws Exception {
+    public ResponseEntity<?> authLinkedin(@RequestBody HashMap<String, String> request) throws Exception {
         return ResponseEntity.ok(oauthService.oAuthLinkedinUserAuthenticate(request.get("code")));
     }
 
     @GetMapping(value = "/username/{username}")
-    public ResponseEntity<?> getUserByUsername(@PathVariable(value = "username") @ValidUsername("username") String username) {
+    public ResponseEntity<?> getUserByUsername(@PathVariable(value = "username")  String username) {
         return ResponseEntity.ok(userService.getUserByUsername(username));
     }
 
 
-    @PostMapping(value = "/email/photo")
-    public ResponseEntity<?> getUserPhotoByEmail(@RequestBody HashMap<String, String> request,HttpServletResponse res) {
-
+    @GetMapping(value = "/email/photo/{email}")
+    public ResponseEntity<?> getUserPhotoByEmail(@PathVariable(value = "email") String email) {
+        System.out.println("email photo :"+email);
         return ResponseEntity.ok(HttpStatus.OK);
-
-
     }
 
-    @PostMapping(value = "/username/photo")
-    public ResponseEntity<?> getUserPhotoByUsername(@RequestBody HashMap<String, String> request) {
-        return ResponseEntity.ok(userService.getUserByUsername(request.get("username")).getUserProfilePhoto());
+    @GetMapping(value = "/username/photo/{username}")
+    public ResponseEntity<?> getUserPhotoByUsername(@PathVariable(value = "username")  String username) {
+        return ResponseEntity.ok(userService.getUserByUsername(username).getUserProfilePhoto());
 
     }
 
     @PostMapping(value = "/register")
     public ResponseEntity<?> addUser(@Validated @RequestBody User user) {
-        System.out.println("user :"+user.toString());
         userService.saveUser(user);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PutMapping(value = "/update/userpermissions/{username}")
-    public ResponseEntity<?> updateUserPermissions(@RequestBody UserPermissions userPermissions, @PathVariable(value = "username") String username) {
+    @PutMapping(value = "/update/permissions/{username}")
+    public ResponseEntity<?> updateUserPermissions(@RequestBody UserPermissions userPermissions, @PathVariable(value = "username")  String username) {
         return ResponseEntity.ok(userService.updateUserPermissions(username, userPermissions));
     }
 
     @PostMapping("/verification")
-    public ResponseEntity<?> verificationUser(@RequestBody HashMap<String, String> request) {
+    public ResponseEntity<?> verificationUser( @RequestBody  HashMap<String, String>  request) {
 
         if (userService.verificationUser(request.get("id"), request.get("email"))) {
             User user = userService.getUser(request.get("email"));
@@ -145,12 +134,11 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
-    @PostMapping("/sendemail")
+    @PostMapping("/sendmail")
     public ResponseEntity<?> sendVerificationEmail(@RequestBody HashMap<String, String> request) throws MessagingException {
         emailService.sendVerificationEmail(request);
         return ResponseEntity.ok(HttpStatus.OK);
     }
-
 
     @PostMapping("/sendResetEmail")
     public ResponseEntity<?> sendResetEmail(@RequestBody HashMap<String, String> request) throws MessagingException {

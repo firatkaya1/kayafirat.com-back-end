@@ -32,6 +32,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.firatkaya.model.APIError;
 
+import javax.validation.ConstraintViolationException;
+
 /**
  * @author kaya
  */
@@ -339,4 +341,5 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                 .build();
         return buildResponseEntity(apiError);
     }
+
 }

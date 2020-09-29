@@ -15,6 +15,10 @@ import javax.transaction.Transactional;
 
 import com.firatkaya.model.AuthenticationRequest;
 import com.firatkaya.util.JwtUtil;
+import com.firatkaya.validation.constraint.ExistsEmail;
+import com.firatkaya.validation.constraint.ExistsId;
+import com.firatkaya.validation.constraint.ExistsUsername;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cache.annotation.CacheEvict;
@@ -114,49 +118,30 @@ public class UserServiceImp implements UserService {
     @Transactional
     @Override
     @Caching(evict = {@CacheEvict(value = "User", key = "#user.userEmail"), @CacheEvict(value = "User", key = "#user.userName")})
-    public User updateUser(User user) {
-        User result;
-        if (userRepository.existsByUserEmail(user.getUserEmail()))
-            result = userRepository.save(user);
-        else
-            throw new UserEmailNotFoundException(user.getUserEmail());
-        return result;
+    public User updateUser(@ExistsEmail User user) {
+        return userRepository.save(user);
     }
 
     @Transactional
     @Override
     @CacheEvict(value = "User", key = "#username")
-    public boolean updateUserPermissions(String username, UserPermissions userPermissions) {
+    public boolean updateUserPermissions(@ExistsUsername String username, UserPermissions userPermissions) {
         User user = userRepository.findByUserName(username);
-        if (userRepository.existsByUserEmail(user.getUserEmail())) {
-            userPermissions.setUserEmail(user.getUserEmail());
-            userRepository.updateUserPermissions(userPermissions);
-        } else {
-            throw new UserEmailNotFoundException(username);
-        }
+        userPermissions.setUserEmail(user.getUserEmail());
+        userRepository.updateUserPermissions(userPermissions);
         return true;
     }
 
     @Transactional
     @Override
     @CacheEvict(value = "User", key = "#email")
-    public boolean deleteUser(String email) {
-
-        if (userRepository.existsByUserEmail(email)) {
-            userRepository.deleteById(email);
-            return true;
-        } else {
-            throw new UserEmailNotFoundException(email);
-        }
+    public boolean deleteUser(@ExistsEmail String email) {
+        userRepository.deleteById(email);
+        return true;
     }
 
     @Override
-    public boolean verificationUser(String userId, String email) {
-        boolean isUserExists;
-        isUserExists = userRepository.existsByUserEmailandUserId(email, userId) == 1;
-        if (!isUserExists) {
-            throw new UserEmailNotFoundException(email);
-        }
+    public boolean verificationUser(@ExistsId String userId, @ExistsEmail String email) {
         return true;
     }
 
@@ -167,7 +152,7 @@ public class UserServiceImp implements UserService {
 
     @Override
     @Cacheable(cacheNames = "User", key = "#username")
-    public User getUserByUsername(String username) {
+    public User getUserByUsername(@ExistsEmail String username) {
         return userRepository.findByUserName(username);
     }
 
@@ -204,66 +189,41 @@ public class UserServiceImp implements UserService {
     @Transactional
     @Override
     @Caching(evict = {@CacheEvict(value = "User", key = "#email"), @CacheEvict(value = "User", key = "#username")})
-    public boolean updateUserUsername(String email, String username) {
-        if (userRepository.existsByUserEmail(email)) {
-            userRepository.updateUserUsernameOnUser(email, username);
-            userRepository.updateUserUsernameOnComment(username);
-        } else {
-            throw new UserEmailNotFoundException(email);
-        }
-
+    public boolean updateUserUsername(@ExistsEmail  String email, @ExistsUsername String username) {
+        userRepository.updateUserUsernameOnUser(email, username);
+        userRepository.updateUserUsernameOnComment(username);
         return true;
     }
 
     @Transactional
     @Override
     @CacheEvict(value = "User", allEntries = true)
-    public boolean updateUserGithubAddress(String email, String githubaddress) {
-
-        if (userRepository.existsByUserEmail(email)) {
-            userRepository.updateGithubAddress(email, githubaddress);
-        } else {
-            throw new UserEmailNotFoundException(email);
-        }
+    public boolean updateUserGithubAddress(@ExistsEmail String email, String gitaddress) {
+        userRepository.updateGithubAddress(email, gitaddress);
         return true;
     }
 
     @Transactional
     @Override
     @CacheEvict(value = "User",allEntries = true)
-    public boolean updateUserLinkedinAddress(String email, String linkedinaddress) {
-        if (userRepository.existsByUserEmail(email)) {
-            userRepository.updateLinkedinAddress(email, linkedinaddress);
-        } else {
-            throw new UserEmailNotFoundException(email);
-        }
+    public boolean updateUserLinkedinAddress(@ExistsEmail String email, String linkedinaddress) {
+        userRepository.updateLinkedinAddress(email, linkedinaddress);
         return true;
     }
 
     @Transactional
     @Override
     @CacheEvict(value = "User", allEntries = true)
-    public boolean updateUserBirthDate(String email, String date) {
-
-        if (userRepository.existsByUserEmail(email))
-            userRepository.updateUserBirthDate(email, date);
-        else
-            throw new UserEmailNotFoundException(email);
-
-
+    public boolean updateUserBirthDate(@ExistsEmail String email, String date) {
+        userRepository.updateUserBirthDate(email, date);
         return true;
     }
 
     @Transactional
     @Override
     @CacheEvict(value = "User", allEntries = true)
-    public boolean updateUserPasswordSettings(String email, String pass) {
-        if (userRepository.existsByUserEmail(email))
-            userRepository.updateUserPassword(email, pass);
-        else
-            throw new UserEmailNotFoundException(email);
-
-
+    public boolean updateUserPasswordSettings(@ExistsEmail String email, String pass) {
+        userRepository.updateUserPassword(email, pass);
         return true;
     }
 
@@ -299,16 +259,12 @@ public class UserServiceImp implements UserService {
 
     @Override
     @Cacheable(cacheNames = "UserToken", key = "'loadByUsername'+ #email")
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        boolean isUserExists = userRepository.existsByUserEmail(email);
-        if (isUserExists) {
-            List<Object[]> user = userRepository.findUser(email);
-            String userEmail = user.get(0)[0].toString();
-            String userPass = bCryptPasswordEncoder.encode(user.get(0)[1].toString());
-            return new org.springframework.security.core.userdetails.User(userEmail, userPass, new ArrayList<>());
-        } else {
-            throw new UserEmailNotFoundException(email);
-        }
+    public UserDetails loadUserByUsername(@ExistsEmail String email) throws UsernameNotFoundException {
+        List<Object[]> user = userRepository.findUser(email);
+        String userEmail = user.get(0)[0].toString();
+        String userPass = bCryptPasswordEncoder.encode(user.get(0)[1].toString());
+        return new org.springframework.security.core.userdetails.User(userEmail, userPass, new ArrayList<>());
+
 
     }
 
