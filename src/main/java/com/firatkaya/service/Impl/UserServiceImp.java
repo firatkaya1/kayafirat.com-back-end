@@ -19,7 +19,6 @@ import com.firatkaya.validation.constraint.ExistsEmail;
 import com.firatkaya.validation.constraint.ExistsId;
 import com.firatkaya.validation.constraint.ExistsUsername;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -38,7 +37,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.firatkaya.entity.User;
 import com.firatkaya.entity.UserPermissions;
 import com.firatkaya.entity.UserProfile;
-import com.firatkaya.exceptions.customExceptions.EmailException;
+import com.firatkaya.exceptions.customExceptions.MailException;
 import com.firatkaya.exceptions.customExceptions.UserEmailAlreadyExistsException;
 import com.firatkaya.exceptions.customExceptions.UserNameAlreadyExistsException;
 import com.firatkaya.exceptions.customExceptions.UserEmailNotFoundException;
@@ -160,7 +159,7 @@ public class UserServiceImp implements UserService {
                 emailService.sendSuccessResetPassword(email, ipAddress, userAgent);
 
             } catch (MessagingException e) {
-                throw new EmailException(email);
+                throw new MailException(email);
             }
         } else {
             throw new UserEmailNotFoundException(email);

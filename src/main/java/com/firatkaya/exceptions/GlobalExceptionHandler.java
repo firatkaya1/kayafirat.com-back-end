@@ -301,8 +301,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(apiError);
     }
 
-    @ExceptionHandler(EmailException.class)
-    protected ResponseEntity<Object> handleConstraintViolation(EmailException ex) {
+    @ExceptionHandler(MailException.class)
+    protected ResponseEntity<Object> handleConstraintViolation(MailException ex) {
         APIError apiError = new APIError.Builder()
                 .httpStatus(HttpStatus.NOT_FOUND)
                 .errorCode(51)

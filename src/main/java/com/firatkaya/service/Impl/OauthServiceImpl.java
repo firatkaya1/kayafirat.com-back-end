@@ -20,25 +20,16 @@ import java.util.Map;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class OauthServiceImpl implements OauthService {
 
-    private final static String GITHUB_USER_ROOT_URI = "";
-    private final static String GITHUB_OAUTH_ROOT_URI = "";
-    private final static String GITHUB_CLIENT_ID = "";
-    private final static String GITHUB_CLIENT_SECRET = "";
-
     private final RestTemplate restTemplate;
     private final UserRepository userRepository;
     private final UserService userService;
     private final Environment env;
 
 
-
     public String oAuthGithubUserAuthenticate(String code) throws Exception {
-
         String accessToken = oAuthGithubUserAccessToken(code);
-
         JSONObject jsonObject = new JSONObject(getGithubUser(accessToken));
         return saveAuthUser(jsonObject.get("email").toString(),jsonObject.get("login").toString(),createRandomPassword());
-
     }
 
     public String oAuthLinkedinUserAuthenticate(String code) throws Exception {
@@ -47,9 +38,17 @@ public class OauthServiceImpl implements OauthService {
         String val = getLinkedinUserEmail(accessToken).toString();
         String email = val.substring(val.indexOf("ss=")+3,val.lastIndexOf("}, "));
         String username = userMap.get("localizedFirstName").toString().toLowerCase() + userMap.get("localizedLastName").toString().toLowerCase() + ((int) (Math.random() * (10000) + 1000));
-
         return saveAuthUser(email,username,createRandomPassword());
 
+    }
+
+    private String oAuthGithubUserAccessToken(String code) {
+        String url = env.getProperty("oauth2.github.user-root-uri")+"/access_token?client_id="+env.getProperty("oauth2.github.client-id")+"&client_secret="+env.getProperty("oauth2.github.client-secret")+"&code="+code;
+        return restTemplate.postForEntity(url,null,String.class).getBody().substring(13,53);
+    }
+
+    private Map getGithubUser(String accessToken) {
+        return restTemplate.exchange(env.getProperty("oauth2.github.user-root-uri"), HttpMethod.GET,prepareHTTPEntity(accessToken), Map.class).getBody();
     }
 
     private String oAuthLinkedinAccessToken(String code){
@@ -67,15 +66,6 @@ public class OauthServiceImpl implements OauthService {
     private Map getLinkedinUserName(String accessToken) {
         String url = "https://api.linkedin.com/v2/me";
         return restTemplate.exchange(url, HttpMethod.GET,prepareHTTPEntity(accessToken), Map.class).getBody();
-    }
-
-    private String oAuthGithubUserAccessToken(String code) {
-        String url = env.getProperty("oauth2.github.user-root-uri")+"/access_token?client_id="+GITHUB_CLIENT_ID+"&client_secret="+GITHUB_CLIENT_SECRET+"&code="+code;
-        return restTemplate.postForEntity(url,null,String.class).getBody().substring(13,53);
-    }
-
-    private Map getGithubUser(String accessToken) {
-        return restTemplate.exchange(env.getProperty("oauth2.github.user-root-uri"), HttpMethod.GET,prepareHTTPEntity(accessToken), Map.class).getBody();
     }
 
     private String createRandomPassword() {
@@ -113,6 +103,5 @@ public class OauthServiceImpl implements OauthService {
         headers.setBearerAuth (accessToken);
         return new HttpEntity<>("parameters", headers);
     }
-
 
 }

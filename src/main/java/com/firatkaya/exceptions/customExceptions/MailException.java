@@ -2,7 +2,7 @@ package com.firatkaya.exceptions.customExceptions;
 
 import java.time.LocalDateTime;
 
-public class EmailException extends RuntimeException {
+public class MailException extends RuntimeException {
 
 	/**
 	 * 
@@ -10,7 +10,7 @@ public class EmailException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
 	
-	public EmailException(String exception) {
+	public MailException(String exception) {
         super("Email could not send to  :"+exception+" address.");
 
 	}
