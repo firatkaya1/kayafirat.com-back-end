@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.UUID;
 
 import com.firatkaya.entity.PostSeo;
+import com.firatkaya.validation.constraint.ExistsPostId;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -22,14 +24,10 @@ import com.firatkaya.repository.PostRepository;
 import com.firatkaya.service.PostService;
 
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class PostServiceImp implements PostService {
 
     private final PostRepository postRepository;
-
-    @Autowired
-    public PostServiceImp(PostRepository postRepository ){
-        this.postRepository = postRepository;
-    }
 
     @Override
     public List<PostExceptr> getAllPost() {
@@ -37,7 +35,7 @@ public class PostServiceImp implements PostService {
     }
 
     @Override
-    public Page<PostExceptr> getAllPost(int pageNumber, int pageSize, String sortedBy, String orderBy) {
+    public Page<PostExceptr> getAllPostPagenable(int pageNumber, int pageSize, String sortedBy, String orderBy) {
         Sort sort;
         if (orderBy.equals("asc"))
             sort = Sort.by(sortedBy).ascending();
@@ -51,10 +49,7 @@ public class PostServiceImp implements PostService {
 
     @Override
     @Cacheable(cacheNames = "PostId", key = "#postId")
-    public Post getPost(String postId) {
-        if (!postRepository.existsByPostId(postId))
-            throw new PostNotFoundException(postId);
-
+    public Post getByPostId(@ExistsPostId String postId) {
         return postRepository.findByPostIdOrderByPostTimeAsc(postId);
     }
 
@@ -68,7 +63,7 @@ public class PostServiceImp implements PostService {
     }
 
     @Override
-    public void deletePost(String postId) {
+    public void deletePost(@ExistsPostId String postId) {
         postRepository.deleteById(postId);
     }
 

@@ -4,6 +4,8 @@ import java.util.*;
 
 import javax.transaction.Transactional;
 
+import com.firatkaya.validation.constraint.ExistsCommentId;
+import com.firatkaya.validation.constraint.ExistsPostId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -14,8 +16,6 @@ import org.springframework.stereotype.Service;
 import com.firatkaya.entity.Comment;
 import com.firatkaya.entity.Post;
 import com.firatkaya.entity.User;
-import com.firatkaya.exceptions.customExceptions.CommentNotFoundException;
-import com.firatkaya.exceptions.customExceptions.PostNotFoundException;
 import com.firatkaya.model.excep.CommentExceptr;
 import com.firatkaya.repository.CommentRepository;
 import com.firatkaya.repository.PostRepository;
@@ -38,10 +38,7 @@ public class CommentServiceImp implements CommentService {
 
     @Override
     @Cacheable(cacheNames = "allComments", key = "#postId")
-    public List<Comment> getAllComments(String postId) {
-        if (!postRepository.existsByPostId(postId))
-            throw new PostNotFoundException(postId);
-
+    public List<Comment> getAllComments(@ExistsPostId String postId) {
         return commentRepository.findAll();
     }
 
@@ -68,23 +65,16 @@ public class CommentServiceImp implements CommentService {
     @Transactional
     @Override
     @CacheEvict(value = "PostTitle", allEntries=true)
-    public boolean updateComment(HashMap<String,String> request) {
-        if (!commentRepository.existsById(request.get("commentId")))
-            throw new CommentNotFoundException(request.get("commentId"));
+    public void updateComment(@ExistsCommentId  HashMap<String,String> request) {
         commentRepository.updateUserComment(request.get("commentMessage"),request.get("commentId"));
-        return true;
     }
 
     @Transactional
     @Override
     @CacheEvict(value = "PostTitle", allEntries=true)
-    public boolean deleteComment(String commentId,String postId) {
-        if (!commentRepository.existsById(commentId))
-            throw new CommentNotFoundException(commentId);
-
+    public void deleteComment(@ExistsCommentId String commentId, @ExistsPostId String postId) {
         postRepository.decreaseTotalComment(postId);
         commentRepository.deleteByCommentsId(commentId);
-        return true;
     }
 
     @Override

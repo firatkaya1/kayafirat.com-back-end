@@ -13,9 +13,9 @@ public interface PostService {
 
     List<PostExceptr> getAllPost();
 
-    Page<PostExceptr> getAllPost(int pageNumber, int pageSize, String sortedBy, String orderBy);
+    Page<PostExceptr> getAllPostPagenable(int pageNumber, int pageSize, String sortedBy, String orderBy);
 
-    Post getPost(String postId);
+    Post getByPostId(String postId);
 
     Post savePost(Post post);
 

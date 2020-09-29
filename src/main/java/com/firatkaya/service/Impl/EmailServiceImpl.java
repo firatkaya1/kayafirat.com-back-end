@@ -20,7 +20,6 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import com.firatkaya.entity.User;
-import com.firatkaya.exceptions.customExceptions.UserEmailNotFoundException;
 import com.firatkaya.repository.UserRepository;
 import com.firatkaya.service.EmailService;
 
@@ -143,8 +142,7 @@ public class EmailServiceImpl implements EmailService {
 	}
 	public String getDate() {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd-yyyy hh:mm");
-		String date = simpleDateFormat.format(new Date());
-		return date;
+		return simpleDateFormat.format(new Date());
 	}
 
 	

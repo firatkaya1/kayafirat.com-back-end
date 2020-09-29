@@ -2,6 +2,7 @@ package com.firatkaya.service.Impl;
 
 import javax.transaction.Transactional;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,16 +13,12 @@ import com.firatkaya.service.StaticsViewService;
 
 
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class StaticsViewServiceImpl implements StaticsViewService {
 
     private final StaticsViewRepository staticViewRepo;
     private final PostRepository postRepo;
 
-    @Autowired
-    public StaticsViewServiceImpl(StaticsViewRepository staticViewRepo,PostRepository postRepository){
-        this.staticViewRepo = staticViewRepo;
-        this.postRepo = postRepository;
-    }
 
     @Transactional
     @Override
@@ -31,9 +28,5 @@ public class StaticsViewServiceImpl implements StaticsViewService {
             staticViewRepo.save(statistic);
             postRepo.updatePageView(statistic.getPostId());
         }
-
-
     }
-
-
 }

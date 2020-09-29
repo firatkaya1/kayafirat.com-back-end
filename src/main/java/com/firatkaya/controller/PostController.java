@@ -36,12 +36,12 @@ public class PostController {
             @PathVariable(value = "orderBy") String orderBy) {
 
 
-        return ResponseEntity.ok(postService.getAllPost(pageNumber, pageSize, sortedBy, orderBy));
+        return ResponseEntity.ok(postService.getAllPostPagenable(pageNumber, pageSize, sortedBy, orderBy));
     }
 
     @GetMapping(value = "postId/{postId}")
     public ResponseEntity<Post> getPost(@PathVariable(value = "postId") String postId) {
-        return ResponseEntity.ok(postService.getPost(postId));
+        return ResponseEntity.ok(postService.getByPostId(postId));
     }
 
     @GetMapping(value = "postTitle/{postTitle}")
