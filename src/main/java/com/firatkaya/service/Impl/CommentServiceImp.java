@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import com.firatkaya.entity.Comment;
 import com.firatkaya.entity.Post;
 import com.firatkaya.entity.User;
-import com.firatkaya.model.excep.CommentExceptr;
+import com.firatkaya.model.projection.CommentExceptr;
 import com.firatkaya.repository.CommentRepository;
 import com.firatkaya.repository.PostRepository;
 import com.firatkaya.service.CommentService;

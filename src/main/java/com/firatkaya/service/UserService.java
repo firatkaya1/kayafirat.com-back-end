@@ -41,8 +41,6 @@ public interface UserService extends UserDetailsService {
 
     void updateUserBirthDate(String email, String date);
 
-    void updateUserPasswordSettings(String email, String pass);
-
     void updateUserImage(MultipartFile file, String userId);
 
     String authenticateUser(AuthenticationRequest authRequest) throws Exception;

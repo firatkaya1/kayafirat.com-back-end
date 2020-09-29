@@ -41,7 +41,7 @@ import com.firatkaya.exceptions.customExceptions.MailException;
 import com.firatkaya.exceptions.customExceptions.UserEmailAlreadyExistsException;
 import com.firatkaya.exceptions.customExceptions.UserNameAlreadyExistsException;
 import com.firatkaya.exceptions.customExceptions.UserEmailNotFoundException;
-import com.firatkaya.model.excep.UserExceptr;
+import com.firatkaya.model.projection.UserExceptr;
 import com.firatkaya.repository.CommentRepository;
 import com.firatkaya.repository.UserRepository;
 import com.firatkaya.service.EmailService;

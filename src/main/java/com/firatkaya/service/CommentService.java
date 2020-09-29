@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
-import com.firatkaya.model.excep.CommentExceptr;
+import com.firatkaya.model.projection.CommentExceptr;
 
 import com.firatkaya.entity.Comment;
 

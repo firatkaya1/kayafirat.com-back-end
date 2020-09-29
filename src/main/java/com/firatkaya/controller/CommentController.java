@@ -18,10 +18,7 @@ import com.firatkaya.service.CommentService;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class CommentController {
 
-
 	private final CommentService commentService;
-
-
 
 	@GetMapping(value = "all/{postId}")
 	public ResponseEntity<List<Comment>> getPostComments(@PathVariable(value = "postId") String postId){
@@ -30,8 +27,7 @@ public class CommentController {
 	
 	@PostMapping(value = "/{postId}")
 	public ResponseEntity<?> addComment(@RequestBody Comment comment,@PathVariable(value = "postId") String postId){
-		commentService.saveComment(comment,postId);
-		return ResponseEntity.ok(HttpStatus.OK);
+		return ResponseEntity.ok(commentService.saveComment(comment,postId));
 	}
 
 	@PutMapping
@@ -42,10 +38,7 @@ public class CommentController {
 
 	@DeleteMapping(value = "/{postId}/{commentId}")
 	public ResponseEntity<?> deleteComment(@PathVariable(value = "commentId") String commentId,@PathVariable(value = "postId") String postId){
-		System.out.println("commentId:"+commentId);
-		System.out.println("post Id :"+postId);
 		commentService.deleteComment(commentId,postId);
-
 		return ResponseEntity.ok(HttpStatus.OK);
 	}
 	

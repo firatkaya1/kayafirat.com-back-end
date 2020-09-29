@@ -3,7 +3,6 @@ package com.firatkaya.repository;
 import java.util.Collection;
 import java.util.List;
 
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,8 +12,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.firatkaya.entity.Post;
-import com.firatkaya.model.excep.PostExceptr;
-import com.firatkaya.model.excep.PostExceptrSearch;
+import com.firatkaya.model.projection.PostExceptr;
+import com.firatkaya.model.projection.PostExceptrSearch;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, String> {

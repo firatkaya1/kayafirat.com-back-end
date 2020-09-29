@@ -1,4 +1,4 @@
-package com.firatkaya.model.excep;
+package com.firatkaya.model.projection;
 
 import org.springframework.data.rest.core.config.Projection;
 

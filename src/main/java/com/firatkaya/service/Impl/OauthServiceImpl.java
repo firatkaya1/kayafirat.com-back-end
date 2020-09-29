@@ -17,13 +17,20 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Map;
 
 @Service
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class OauthServiceImpl implements OauthService {
 
     private final RestTemplate restTemplate;
     private final UserRepository userRepository;
     private final UserService userService;
     private final Environment env;
+
+    @Autowired
+    public OauthServiceImpl(RestTemplateBuilder restTemplateBuilder,UserRepository userRepository, UserService userService,Environment env) {
+        this.restTemplate = restTemplateBuilder.build();
+        this.userRepository = userRepository;
+        this.userService = userService;
+        this.env = env;
+    }
 
 
     public String oAuthGithubUserAuthenticate(String code) throws Exception {
