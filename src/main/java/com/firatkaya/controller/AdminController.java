@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController {
 
     private final UserService userService;
-    private final EmailService emailService;
-    private final OauthService oauthService;
     private final PostService postService;
     private final CommentService commentService;
 

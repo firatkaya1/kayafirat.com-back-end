@@ -26,8 +26,6 @@ public class PostController {
     private final PostService postService;
     private final StaticsViewService staticViewService;
 
-
-
     @GetMapping(value = "/{pagenumber}/{pageSize}/sorted/{sortedBy}/orderby/{orderBy}")
     public ResponseEntity<Page<PostExceptr>> getAllPosts(
             @PathVariable(value = "pagenumber") int pageNumber,

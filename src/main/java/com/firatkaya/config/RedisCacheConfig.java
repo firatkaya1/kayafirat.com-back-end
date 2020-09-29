@@ -11,7 +11,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 @Configuration
 public class RedisCacheConfig {

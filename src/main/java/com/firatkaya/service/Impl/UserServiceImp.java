@@ -199,13 +199,6 @@ public class UserServiceImp implements UserService {
     @Transactional
     @Override
     @CacheEvict(value = "User", allEntries = true)
-    public void updateUserPasswordSettings(@ExistsEmail String email, String pass) {
-        userRepository.updateUserPassword(email, pass);
-    }
-
-    @Transactional
-    @Override
-    @CacheEvict(value = "User", allEntries = true)
     public void updateUserImage(MultipartFile file,@ExistsId String userId) {
         byte[] bytes;
         try {
