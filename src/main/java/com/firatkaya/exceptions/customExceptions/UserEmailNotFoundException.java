@@ -4,9 +4,6 @@ import java.time.LocalDateTime;
 
 public class UserEmailNotFoundException extends RuntimeException {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 1L;
 
     public UserEmailNotFoundException(String emailAddress) {
@@ -26,6 +23,5 @@ public class UserEmailNotFoundException extends RuntimeException {
     public LocalDateTime getTime() {
         return LocalDateTime.now();
     }
-
 
 }

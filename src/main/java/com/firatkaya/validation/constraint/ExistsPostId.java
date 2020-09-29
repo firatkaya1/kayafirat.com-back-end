@@ -3,7 +3,6 @@ package com.firatkaya.validation.constraint;
 
 import com.firatkaya.validation.validator.ValidPostIdMapValidator;
 import com.firatkaya.validation.validator.ValidPostIdValidator;
-import com.firatkaya.validation.validator.ValidUserIdValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

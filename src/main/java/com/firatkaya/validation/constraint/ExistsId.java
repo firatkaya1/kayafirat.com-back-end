@@ -14,7 +14,7 @@ import java.lang.annotation.*;
 @Documented
 public @interface ExistsId {
 
-    String message() default "Sorry, passwords does not match";
+    String message() default "Sorry, There is no record in this id.";
 
     Class<?>[] groups() default {};
 

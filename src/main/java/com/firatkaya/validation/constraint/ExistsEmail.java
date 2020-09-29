@@ -9,7 +9,7 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.*;
 
-@Target({ ElementType.PARAMETER})
+@Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy= {ValidEmailValidator.class, ValidEmailMapValidator.class, ValidEmailUserValidator.class})
 @Documented
@@ -20,5 +20,4 @@ public @interface ExistsEmail {
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
-
 }

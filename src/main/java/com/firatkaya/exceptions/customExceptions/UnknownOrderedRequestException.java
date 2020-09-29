@@ -4,9 +4,6 @@ import java.time.LocalDateTime;
 
 public class UnknownOrderedRequestException extends RuntimeException {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 1L;
 
     public UnknownOrderedRequestException() {
@@ -26,4 +23,5 @@ public class UnknownOrderedRequestException extends RuntimeException {
     public LocalDateTime getTime() {
         return LocalDateTime.now();
     }
+
 }

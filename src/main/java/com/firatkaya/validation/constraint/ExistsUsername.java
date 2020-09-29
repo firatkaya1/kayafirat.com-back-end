@@ -20,5 +20,4 @@ public @interface ExistsUsername {
 
     Class<? extends Payload>[] payload() default {};
 
-    String value = null;
 }

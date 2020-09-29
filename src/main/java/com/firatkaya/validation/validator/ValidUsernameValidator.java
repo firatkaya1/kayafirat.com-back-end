@@ -13,6 +13,10 @@ public class ValidUsernameValidator implements ConstraintValidator<ExistsUsernam
     @Autowired
     UserRepository userRepository;
 
+    @Override
+    public void initialize(ExistsUsername constraintAnnotation) {
+
+    }
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {

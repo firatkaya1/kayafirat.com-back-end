@@ -3,15 +3,11 @@ package com.firatkaya.exceptions.customExceptions;
 import java.time.LocalDateTime;
 
 public class UserIdNotFoundException extends RuntimeException {
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 1L;
 
     public UserIdNotFoundException(String exception) {
         super("There is not id in this record :"+exception);
-
     }
 
     @Override

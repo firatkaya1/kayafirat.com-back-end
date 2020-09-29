@@ -1,5 +1,6 @@
 package com.firatkaya.validation.validator;
 
+import com.firatkaya.exceptions.customExceptions.UserEmailNotFoundException;
 import com.firatkaya.exceptions.customExceptions.UserNameNotFoundException;
 import com.firatkaya.repository.UserRepository;
 import com.firatkaya.validation.constraint.ExistsEmail;
@@ -20,9 +21,8 @@ public class ValidEmailValidator implements ConstraintValidator<ExistsEmail,Stri
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
        if(!userRepository.existsByUserEmail(value)){
-           throw new UserNameNotFoundException(value);
+           throw new UserEmailNotFoundException(value);
        }
-
        return true;
     }
 }

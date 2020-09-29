@@ -4,9 +4,6 @@ import java.time.LocalDateTime;
 
 public class PostNotFoundException extends RuntimeException {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	public PostNotFoundException(String errorMessage) {

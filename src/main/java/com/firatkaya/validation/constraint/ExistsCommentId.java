@@ -16,10 +16,9 @@ import java.lang.annotation.*;
 @Documented
 public @interface ExistsCommentId {
 
-    String message() default "Sorry, there is not record in this post id.";
+    String message() default "Sorry, there is not record in this comment id.";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
-
 }

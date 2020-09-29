@@ -14,6 +14,11 @@ public class ValidUserIdValidator implements ConstraintValidator<ExistsId,String
     UserRepository userRepository;
 
     @Override
+    public void initialize(ExistsId constraintAnnotation) {
+
+    }
+
+    @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
         if (!userRepository.existsByUserId(value)) {
             throw new UserIdNotFoundException(value);

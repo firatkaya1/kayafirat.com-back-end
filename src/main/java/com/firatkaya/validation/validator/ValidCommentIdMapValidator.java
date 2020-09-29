@@ -1,23 +1,22 @@
 package com.firatkaya.validation.validator;
 
 import com.firatkaya.exceptions.customExceptions.CommentNotFoundException;
-import com.firatkaya.exceptions.customExceptions.UserEmailNotFoundException;
 import com.firatkaya.repository.CommentRepository;
-import com.firatkaya.repository.PostRepository;
-import com.firatkaya.validation.constraint.ExistsEmail;
+import com.firatkaya.validation.constraint.ExistsCommentId;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.HashMap;
 
-public class ValidCommentIdMapValidator implements ConstraintValidator<ExistsEmail, HashMap<String,String>> {
+public class ValidCommentIdMapValidator implements ConstraintValidator<ExistsCommentId, HashMap<String,String>> {
 
     @Autowired
     CommentRepository commentRepository;
 
     @Override
-    public void initialize(ExistsEmail constraintAnnotation) {
+    public void initialize(ExistsCommentId constraintAnnotation) {
+
     }
 
     @Override
