@@ -216,7 +216,16 @@ public class UserServiceImp implements UserService {
 
     @Override
     public boolean updateUserVerification(@ExistsId String userId, @ExistsEmail String email) {
-        return true;
+            User user = getUserByEmail(email);
+            user.setVerification(true);
+            updateUser(user);
+            try {
+                emailService.sendSuccessVerification(user.getUserEmail());
+            } catch (MessagingException e) {
+                throw new MailException(email);
+            }
+            return true;
+
     }
 
     public String authenticateUser(AuthenticationRequest authRequest) throws Exception {

@@ -25,24 +25,10 @@ public class MailController {
 
     private final UserService userService;
     private final EmailService emailService;
-    private final OauthService oauthService;
 
-    @PostMapping("/verification")
+    @PostMapping("/verify")
     public ResponseEntity<?> verificationUser(@RequestBody HashMap<String, String> request) {
-
-        if (userService.updateUserVerification(request.get("id"), request.get("email"))) {
-            User user = userService.getUserByEmail(request.get("email"));
-            user.setVerification(true);
-            userService.updateUser(user);
-            try {
-                emailService.sendSuccessVerification(user.getUserEmail());
-            } catch (MessagingException e) {
-                e.printStackTrace();
-            }
-            return ResponseEntity.ok(HttpStatus.OK);
-        }
-
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        return ResponseEntity.ok(userService.updateUserVerification(request.get("id"),request.get("email")));
     }
 
     @PostMapping

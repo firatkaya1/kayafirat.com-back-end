@@ -3,8 +3,6 @@ package com.firatkaya.controller;
 import java.util.Collection;
 import java.util.HashMap;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.firatkaya.entity.User;
 import com.firatkaya.entity.UserPermissions;
-import com.firatkaya.model.AuthenticationRequest;
-import com.firatkaya.service.EmailService;
 import com.firatkaya.service.UserService;
 
 /**
@@ -46,12 +42,12 @@ public class UserController {
     }
 
     @GetMapping(value = "/photo/{email}")
-    public ResponseEntity<?> getUserPhotoByEmail(@PathVariable(value = "email") String email) {
-        return ResponseEntity.ok(HttpStatus.OK);
+    public ResponseEntity<?> getPhotoByEmail(@PathVariable(value = "email") String email) {
+        return ResponseEntity.ok(userService.getUserByEmail(email).getUserProfilePhoto());
     }
 
     @GetMapping(value = "/username/photo/{username}")
-    public ResponseEntity<?> getUserPhotoByUsername(@PathVariable(value = "username")  String username) {
+    public ResponseEntity<?> getPhotoByUsername(@PathVariable(value = "username")  String username) {
         return ResponseEntity.ok(userService.getUserByUsername(username).getUserProfilePhoto());
     }
 
@@ -62,12 +58,12 @@ public class UserController {
     }
 
     @PutMapping(value = "/permissions/{username}")
-    public ResponseEntity<?> updateUserPermissions(@RequestBody UserPermissions userPermissions, @PathVariable(value = "username")  String username) {
+    public ResponseEntity<?> updatePermissions(@RequestBody UserPermissions userPermissions, @PathVariable(value = "username")  String username) {
         return ResponseEntity.ok(userService.updateUserPermissions(username, userPermissions));
     }
 
     @PutMapping(value = "/update")
-    public ResponseEntity<?> updateUserUsername(@RequestBody HashMap<String, String> request) {
+    public ResponseEntity<?> updateUsername(@RequestBody HashMap<String, String> request) {
         String key = request.get("key");
         String usermail = request.get("email");
         switch (key) {
@@ -98,7 +94,7 @@ public class UserController {
     }
 
     @GetMapping(value = "search/{keyword}")
-    public ResponseEntity<Collection<?>> searchUser(@PathVariable(value = "keyword") String keyword) {
+    public ResponseEntity<Collection<?>> search(@PathVariable(value = "keyword") String keyword) {
         return ResponseEntity.ok(userService.searchUser(keyword));
     }
 
