@@ -3,11 +3,9 @@ package com.firatkaya.controller;
 import java.util.Collection;
 import java.util.HashMap;
 
-import javax.mail.MessagingException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
-import com.firatkaya.service.OauthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,68 +39,20 @@ import com.firatkaya.service.UserService;
 public class UserController {
 
     private final UserService userService;
-    private final EmailService emailService;
-    private final OauthService oauthService;
 
-
-    @PostMapping(value = "/login")
-    public ResponseEntity<?> login(@RequestBody  AuthenticationRequest authRequest, HttpServletResponse res) throws Exception {
-        String token = userService.authenticateUser(authRequest);
-        Cookie cookie = new Cookie("authenticate", token);
-        cookie.setMaxAge(86400);
-       // cookie.setDomain("kayafirat.com");
-        cookie.setPath("/");
-        cookie.setSecure(true);
-        cookie.setHttpOnly(true);
-        User user = userService.getUserByEmail(authRequest.getUsername());
-        Cookie usernameCookie = new Cookie("username",user.getUserName());
-        usernameCookie.setMaxAge(86400);
-        //  usernameCookie.setDomain("kayafirat.com");
-        usernameCookie.setPath("/");
-        usernameCookie.setSecure(false);
-        usernameCookie.setHttpOnly(false);
-        Cookie userPhotoCookie = new Cookie("userPhoto",user.getUserProfilePhoto());
-        userPhotoCookie.setMaxAge(86400);
-        userPhotoCookie.setPath("/");
-        //   userPhotoCookie.setDomain("kayafirat.com");
-        userPhotoCookie.setSecure(false);
-        userPhotoCookie.setHttpOnly(false);
-        res.addCookie(usernameCookie);
-        res.addCookie(userPhotoCookie);
-        res.addCookie(cookie);
-        res.setHeader("Access-Control-Allow-Credentials", "true");
-
-        return ResponseEntity.ok().body(token);
-    }
-
-    @PostMapping(value = "/auth/github")
-    public ResponseEntity<?> authGithub(@RequestBody HashMap<String,String> request) throws Exception {
-        String jwt = oauthService.oAuthGithubUserAuthenticate(request.get("code"));
-        System.out.println("jwt : "+jwt);
-        return ResponseEntity.ok(jwt);
-    }
-
-    @PostMapping(value = "/auth/linkedin")
-    public ResponseEntity<?> authLinkedin(@RequestBody HashMap<String, String> request) throws Exception {
-        return ResponseEntity.ok(oauthService.oAuthLinkedinUserAuthenticate(request.get("code")));
-    }
-
-    @GetMapping(value = "/username/{username}")
+    @GetMapping(value = "/{username}")
     public ResponseEntity<?> getUserByUsername(@PathVariable(value = "username")  String username) {
         return ResponseEntity.ok(userService.getUserByUsername(username));
     }
 
-
-    @GetMapping(value = "/email/photo/{email}")
+    @GetMapping(value = "/photo/{email}")
     public ResponseEntity<?> getUserPhotoByEmail(@PathVariable(value = "email") String email) {
-        System.out.println("email photo :"+email);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @GetMapping(value = "/username/photo/{username}")
     public ResponseEntity<?> getUserPhotoByUsername(@PathVariable(value = "username")  String username) {
         return ResponseEntity.ok(userService.getUserByUsername(username).getUserProfilePhoto());
-
     }
 
     @PostMapping(value = "/register")
@@ -111,55 +61,9 @@ public class UserController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PutMapping(value = "/update/permissions/{username}")
+    @PutMapping(value = "/permissions/{username}")
     public ResponseEntity<?> updateUserPermissions(@RequestBody UserPermissions userPermissions, @PathVariable(value = "username")  String username) {
         return ResponseEntity.ok(userService.updateUserPermissions(username, userPermissions));
-    }
-
-    @PostMapping("/verification")
-    public ResponseEntity<?> verificationUser( @RequestBody  HashMap<String, String>  request) {
-
-        if (userService.updateUserVerification(request.get("id"), request.get("email"))) {
-            User user = userService.getUserByEmail(request.get("email"));
-            user.setVerification(true);
-            userService.updateUser(user);
-            try {
-                emailService.sendSuccessVerification(user.getUserEmail());
-            } catch (MessagingException e) {
-                e.printStackTrace();
-            }
-            return ResponseEntity.ok(HttpStatus.OK);
-        }
-
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-    }
-
-    @PostMapping("/sendmail")
-    public ResponseEntity<?> sendVerificationEmail(@RequestBody HashMap<String, String> request) throws MessagingException {
-        emailService.sendVerificationEmail(request);
-        return ResponseEntity.ok(HttpStatus.OK);
-    }
-
-    @PostMapping("/sendResetEmail")
-    public ResponseEntity<?> sendResetEmail(@RequestBody HashMap<String, String> request) throws MessagingException {
-        emailService.sendResetPasswordEmail(request);
-        return ResponseEntity.ok(HttpStatus.OK);
-    }
-
-    @PostMapping("/reset")
-    public ResponseEntity<?> resetPassword(@RequestBody HashMap<String, String> request) {
-        userService.updatePassword(request);
-        return ResponseEntity.ok(HttpStatus.OK);
-    }
-
-    @GetMapping(value = "search/{keyword}")
-    public ResponseEntity<Collection<?>> searchUser(@PathVariable(value = "keyword") String keyword) {
-        return ResponseEntity.ok(userService.searchUser(keyword));
-    }
-
-    @PostMapping(value = "/validaterecaptcha")
-    public ResponseEntity<?> validateGoogleCaptcha(@RequestBody HashMap<String, String> request) {
-        return ResponseEntity.ok(userService.validateCaptcha(request.get("key")));
     }
 
     @PutMapping(value = "/update")
@@ -187,34 +91,15 @@ public class UserController {
 
     }
 
-
-    @PostMapping(value = "/updatepicture/{userId}")
-    public ResponseEntity<?> updatepicture(@RequestParam("file") MultipartFile file, @PathVariable(value = "userId") String userId) {
+    @PostMapping(value = "/photo/{userId}")
+    public ResponseEntity<?> updatePicture(@RequestParam("file") MultipartFile file, @PathVariable(value = "userId") String userId) {
         userService.updateUserImage(file, userId);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PostMapping(value = "/logout")
-    public ResponseEntity<?> logout(HttpServletResponse res) {
-        Cookie cookie = new Cookie("authenticate","");
-        cookie.setPath("/");
-        cookie.setHttpOnly(true);
-        cookie.setMaxAge(0);
-        Cookie usernameCookie = new Cookie("username","");
-        usernameCookie.setMaxAge(0);
-        usernameCookie.setPath("/");
-        usernameCookie.setSecure(false);
-        usernameCookie.setHttpOnly(false);
-        Cookie userPhotoCookie = new Cookie("userPhoto","");
-        userPhotoCookie.setMaxAge(0);
-        userPhotoCookie.setPath("/");
-        userPhotoCookie.setSecure(false);
-        userPhotoCookie.setHttpOnly(false);
-        res.addCookie(usernameCookie);
-        res.addCookie(userPhotoCookie);
-        res.addCookie(cookie);
-
-        return ResponseEntity.ok(HttpStatus.OK);
+    @GetMapping(value = "search/{keyword}")
+    public ResponseEntity<Collection<?>> searchUser(@PathVariable(value = "keyword") String keyword) {
+        return ResponseEntity.ok(userService.searchUser(keyword));
     }
 
 

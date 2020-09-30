@@ -89,7 +89,7 @@ public class UserServiceImp implements UserService {
 
     @Override
     @Cacheable(cacheNames = "User", key = "#username")
-    public User getUserByUsername(@ExistsEmail String username) {
+    public User getUserByUsername(@ExistsUsername String username) {
         return userRepository.findByUserName(username);
     }
 

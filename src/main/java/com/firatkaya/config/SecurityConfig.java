@@ -3,6 +3,7 @@ package com.firatkaya.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -46,13 +47,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/v1/user/auth/github").permitAll()
                 .antMatchers("/api/v1/user/auth/linkedin").permitAll()
-                .antMatchers("/api/v1/user/sendemail").permitAll()
                 .antMatchers("/api/v1/user/login").permitAll()
                 .antMatchers("/api/v1/user/register").permitAll()
                 .antMatchers("/api/v1/user/verification").permitAll()
                 .antMatchers("/api/v1/user/sendResetEmail").permitAll()
                 .antMatchers("/api/v1/user/reset/**").permitAll()
                 .antMatchers("/api/v1/user/validaterecaptcha").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/v1/post/**").permitAll()
+                .antMatchers(HttpMethod.POST,"/api/v1/comment/**").permitAll()
+                .antMatchers(HttpMethod.DELETE,"/api/v1/comment/").authenticated()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

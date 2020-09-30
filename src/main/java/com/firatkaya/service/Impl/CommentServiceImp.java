@@ -4,6 +4,7 @@ import java.util.*;
 
 import javax.transaction.Transactional;
 
+import com.firatkaya.repository.UserRepository;
 import com.firatkaya.validation.constraint.ExistsCommentId;
 import com.firatkaya.validation.constraint.ExistsPostId;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,6 @@ import com.firatkaya.model.projection.CommentExceptr;
 import com.firatkaya.repository.CommentRepository;
 import com.firatkaya.repository.PostRepository;
 import com.firatkaya.service.CommentService;
-import com.firatkaya.service.UserService;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -28,7 +28,7 @@ public class CommentServiceImp implements CommentService {
 
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
-    private final UserService userService;
+    private final UserRepository userRepository;
     private final Environment env;
 
     @Override
@@ -53,7 +53,7 @@ public class CommentServiceImp implements CommentService {
         if (comment.getUsername().equals("Anonymous")) {
             comment.setUserProfilePhoto(env.getProperty("user.default.profile-photo"));
         } else {
-            User user = userService.getUserByEmail(comment.getUsername());
+            User user = userRepository.findByUserName(comment.getUsername());
             comment.setUserProfilePhoto(user.getUserProfilePhoto());
             comment.setUsername(user.getUserName());
         }

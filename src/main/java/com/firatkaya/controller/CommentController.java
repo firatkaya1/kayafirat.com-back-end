@@ -20,7 +20,7 @@ public class CommentController {
 
 	private final CommentService commentService;
 
-	@GetMapping(value = "all/{postId}")
+	@GetMapping(value = "/{postId}")
 	public ResponseEntity<List<Comment>> getPostComments(@PathVariable(value = "postId") String postId){
 		return ResponseEntity.ok(commentService.getAllComments(postId));
 	}
@@ -29,7 +29,6 @@ public class CommentController {
 	public ResponseEntity<?> addComment(@RequestBody Comment comment,@PathVariable(value = "postId") String postId){
 		return ResponseEntity.ok(commentService.saveComment(comment,postId));
 	}
-
 	@PutMapping
 	public ResponseEntity<?> updateComment(@RequestBody HashMap<String,String> request){
 		commentService.updateComment(request);
