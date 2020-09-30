@@ -3,6 +3,7 @@ package com.firatkaya.controller;
 import com.firatkaya.entity.User;
 import com.firatkaya.model.AuthenticationRequest;
 import com.firatkaya.service.UserService;
+import com.firatkaya.util.CookieUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,58 +25,25 @@ import java.util.HashMap;
 public class LoginController {
 
     private final UserService userService;
+    private final CookieUtil cookieUtil;
 
     @PostMapping(value = "/login")
     public ResponseEntity<?> login(@RequestBody AuthenticationRequest authRequest, HttpServletResponse res) throws Exception {
         String token = userService.authenticateUser(authRequest);
-        Cookie cookie = new Cookie("authenticate", token);
-        cookie.setMaxAge(86400);
-        // cookie.setDomain("kayafirat.com");
-        cookie.setPath("/");
-        cookie.setSecure(true);
-        cookie.setHttpOnly(true);
         User user = userService.getUserByEmail(authRequest.getUsername());
-        Cookie usernameCookie = new Cookie("username",user.getUserName());
-        usernameCookie.setMaxAge(86400);
-        //  usernameCookie.setDomain("kayafirat.com");
-        usernameCookie.setPath("/");
-        usernameCookie.setSecure(false);
-        usernameCookie.setHttpOnly(false);
-        Cookie userPhotoCookie = new Cookie("userPhoto",user.getUserProfilePhoto());
-        userPhotoCookie.setMaxAge(86400);
-        userPhotoCookie.setPath("/");
-        //   userPhotoCookie.setDomain("kayafirat.com");
-        userPhotoCookie.setSecure(false);
-        userPhotoCookie.setHttpOnly(false);
-        res.addCookie(usernameCookie);
-        res.addCookie(userPhotoCookie);
-        res.addCookie(cookie);
+        res.addCookie(cookieUtil.createCookie("authenticate",token,86400,"kayafirat.com","/",true,true));
+        res.addCookie(cookieUtil.createCookie("username",user.getUserName(),86400,"kayafirat.com","/",false,false));
+        res.addCookie(cookieUtil.createCookie("userPhoto",user.getUserProfilePhoto(),86400,"kayafirat.com","/",false,false));
         res.setHeader("Access-Control-Allow-Credentials", "true");
-
         return ResponseEntity.ok().body(token);
     }
 
 
     @PostMapping(value = "/logout")
     public ResponseEntity<?> logout(HttpServletResponse res) {
-        Cookie cookie = new Cookie("authenticate","");
-        cookie.setPath("/");
-        cookie.setHttpOnly(true);
-        cookie.setMaxAge(0);
-        Cookie usernameCookie = new Cookie("username","");
-        usernameCookie.setMaxAge(0);
-        usernameCookie.setPath("/");
-        usernameCookie.setSecure(false);
-        usernameCookie.setHttpOnly(false);
-        Cookie userPhotoCookie = new Cookie("userPhoto","");
-        userPhotoCookie.setMaxAge(0);
-        userPhotoCookie.setPath("/");
-        userPhotoCookie.setSecure(false);
-        userPhotoCookie.setHttpOnly(false);
-        res.addCookie(usernameCookie);
-        res.addCookie(userPhotoCookie);
-        res.addCookie(cookie);
-
+        res.addCookie(cookieUtil.deleteCookie("authenticate"));
+        res.addCookie(cookieUtil.deleteCookie("username"));
+        res.addCookie(cookieUtil.deleteCookie("userPhoto"));
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
