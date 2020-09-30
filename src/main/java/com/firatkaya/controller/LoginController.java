@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 
@@ -31,9 +30,9 @@ public class LoginController {
     public ResponseEntity<?> login(@RequestBody AuthenticationRequest authRequest, HttpServletResponse res) throws Exception {
         String token = userService.authenticateUser(authRequest);
         User user = userService.getUserByEmail(authRequest.getUsername());
-        res.addCookie(cookieUtil.createCookie("authenticate",token,86400,"kayafirat.com","/",true,true));
-        res.addCookie(cookieUtil.createCookie("username",user.getUserName(),86400,"kayafirat.com","/",false,false));
-        res.addCookie(cookieUtil.createCookie("userPhoto",user.getUserProfilePhoto(),86400,"kayafirat.com","/",false,false));
+        res.addCookie(cookieUtil.createCookie("authenticate",token,true,true));
+        res.addCookie(cookieUtil.createCookie("username",user.getUserName(),false,false));
+        res.addCookie(cookieUtil.createCookie("userPhoto",user.getUserProfilePhoto(),false,false));
         res.setHeader("Access-Control-Allow-Credentials", "true");
         return ResponseEntity.ok().body(token);
     }

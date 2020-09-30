@@ -26,53 +26,39 @@ public class PostController {
     private final PostService postService;
     private final StaticsViewService staticViewService;
 
-    @GetMapping(value = "/{pagenumber}/{pageSize}/sorted/{sortedBy}/orderby/{orderBy}")
-    public ResponseEntity<Page<PostExceptr>> getAllPosts(
-            @PathVariable(value = "pagenumber") int pageNumber,
-            @PathVariable(value = "pageSize") int pageSize,
-            @PathVariable(value = "sortedBy") String sortedBy,
-            @PathVariable(value = "orderBy") String orderBy) {
-
-
-        return ResponseEntity.ok(postService.getAllPostPagenable(pageNumber, pageSize, sortedBy, orderBy));
+    @GetMapping
+    public ResponseEntity<Page<PostExceptr>> getAllPosts(@RequestParam int page, @RequestParam int size, @RequestParam String sort, @RequestParam String order) {
+        return ResponseEntity.ok(postService.getAllPostPagenable(page, size, sort, order));
     }
 
-    @GetMapping(value = "postId/{postId}")
-    public ResponseEntity<Post> getPost(@PathVariable(value = "postId") String postId) {
-        return ResponseEntity.ok(postService.getByPostId(postId));
+    @GetMapping(value = "/id")
+    public ResponseEntity<Post> getById(@RequestParam String id) {
+        return ResponseEntity.ok(postService.getByPostId(id));
     }
 
-    @GetMapping(value = "postTitle/{postTitle}")
-    public ResponseEntity<List<Post>> getPostTitle(@PathVariable(value = "postTitle") String postTitle) {
+    @GetMapping(value = "/title")
+    public ResponseEntity<List<Post>> getByTitle(@RequestParam String title) {
         List<Post> myPost = new ArrayList<>();
-        myPost.add(postService.getByPostTitle(postTitle));
+        myPost.add(postService.getByPostTitle(title));
         return ResponseEntity.ok(myPost);
     }
 
-    @GetMapping(value = "postTag/{postTag}")
-    public ResponseEntity<Collection<?>> getPostTag(@PathVariable(value = "postTag") String postTag) {
-
-        return ResponseEntity.ok(postService.getByPostTag(postTag));
+    @GetMapping(value = "/tag")
+    public ResponseEntity<Collection<?>> getByTag(@RequestParam String tag) {
+        return ResponseEntity.ok(postService.getByPostTag(tag));
     }
 
-    @GetMapping(value = "lastposts/{postnumber}/{ordertype}")
-    public ResponseEntity<Collection<?>> lastpost(@PathVariable(value = "postnumber") int limit,
-                                                  @PathVariable(value = "ordertype") String ordertype) {
-
-        return ResponseEntity.ok(postService.lastPost(limit, ordertype));
+    @GetMapping(value = "/last")
+    public ResponseEntity<Collection<?>> lastpost(@RequestParam int limit, @RequestParam String order) {
+        return ResponseEntity.ok(postService.lastPost(limit, order));
     }
 
-    @GetMapping(value = "search/{keyword}/{pagenumber}/{pageSize}/sorted/{sortedBy}/orderby/{orderBy}")
-    public ResponseEntity<Page<PostExceptrSearch>> searchPost(@PathVariable(value = "keyword") String keyword,
-                                                              @PathVariable(value = "pagenumber") int pageNumber,
-                                                              @PathVariable(value = "pageSize") int pageSize,
-                                                              @PathVariable(value = "sortedBy") String sortedBy,
-                                                              @PathVariable(value = "orderBy") String orderBy) {
-
-        return ResponseEntity.ok(postService.searchPost(keyword, pageNumber, pageSize, sortedBy, orderBy));
+    @GetMapping(value = "/search")
+    public ResponseEntity<Page<PostExceptrSearch>> searchPost(@RequestParam String keyword, @RequestParam int page, @RequestParam int size, @RequestParam String sort, @RequestParam String order) {
+        return ResponseEntity.ok(postService.searchPost(keyword, page, size, sort, order));
     }
 
-    @PostMapping(value = "/updateview")
+    @PostMapping(value = "/view")
     public ResponseEntity<?> updateMaxView(@RequestBody StaticsViews staticview) {
         staticViewService.addStaticViews(staticview);
         return ResponseEntity.ok(HttpStatus.OK);
