@@ -29,15 +29,15 @@ import com.firatkaya.service.UserService;
  */
 
 @RestController
-@RequestMapping("api/v1/user")
+@RequestMapping("/v1/user")
 @Validated
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserController {
 
     private final UserService userService;
 
-    @GetMapping(value = "/{username}")
-    public ResponseEntity<?> getUserByUsername(@PathVariable(value = "username")  String username) {
+    @GetMapping
+    public ResponseEntity<?> getUserByUsername(@RequestParam(value = "username")  String username) {
         return ResponseEntity.ok(userService.getUserByUsername(username));
     }
 
@@ -57,9 +57,10 @@ public class UserController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PutMapping(value = "/permissions/{username}")
-    public ResponseEntity<?> updatePermissions(@RequestBody UserPermissions userPermissions, @PathVariable(value = "username")  String username) {
-        return ResponseEntity.ok(userService.updateUserPermissions(username, userPermissions));
+    @PutMapping(value = "/permissions")
+    public ResponseEntity<?> updatePermissions(@RequestBody UserPermissions userPermissions) {
+        userService.updateUserPermissions(userPermissions);
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @PutMapping(value = "/update")

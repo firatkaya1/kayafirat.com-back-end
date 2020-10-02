@@ -23,7 +23,7 @@ public interface UserService extends UserDetailsService {
 
     boolean deleteUser(String email);
 
-    boolean updateUserPermissions(String username, UserPermissions userPermissions);
+    boolean updateUserPermissions(UserPermissions userPermissions);
 
     boolean updateUserVerification(String userId, String userEmail);
 

@@ -18,7 +18,7 @@ import javax.mail.MessagingException;
 import java.util.HashMap;
 
 @RestController
-@RequestMapping("api/v1/mail")
+@RequestMapping("/v1/mail")
 @Validated
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class MailController {

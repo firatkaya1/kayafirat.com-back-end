@@ -136,10 +136,8 @@ public class UserServiceImp implements UserService {
 
     @Transactional
     @Override
-    @CacheEvict(value = "User", key = "#username")
-    public boolean updateUserPermissions(@ExistsUsername String username, UserPermissions userPermissions) {
-        User user = userRepository.findByUserName(username);
-        userPermissions.setUserEmail(user.getUserEmail());
+    @CacheEvict(value = "User", allEntries = true)
+    public boolean updateUserPermissions(UserPermissions userPermissions) {
         userRepository.updateUserPermissions(userPermissions);
         return true;
     }

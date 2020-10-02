@@ -45,22 +45,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .csrfTokenRepository(cookieCsrfTokenRepository()).and()
                 .authorizeRequests()
-                .antMatchers("/api/v1/user/auth/github").permitAll()
-                .antMatchers("/api/v1/user/auth/linkedin").permitAll()
-                .antMatchers("/api/v1/user/login").permitAll()
-                .antMatchers("/api/v1/user/register").permitAll()
-                .antMatchers("/api/v1/user/verification").permitAll()
-                .antMatchers("/api/v1/user/sendResetEmail").permitAll()
-                .antMatchers("/api/v1/user/reset/**").permitAll()
-                .antMatchers("/api/v1/user/validaterecaptcha").permitAll()
-                .antMatchers(HttpMethod.GET,"/api/v1/post/**").permitAll()
-                .antMatchers(HttpMethod.POST,"/api/v1/comment/**").permitAll()
-                .antMatchers(HttpMethod.DELETE,"/api/v1/comment/").authenticated()
+                .antMatchers("/v1/auth/github").permitAll()
+                .antMatchers("/v1/auth/linkedin").permitAll()
+                .antMatchers("/v1/login").permitAll()
+                .antMatchers("/v1/register").permitAll()
+                .antMatchers("/v1/recaptcha").permitAll()
+                .antMatchers("/v1/post/**").permitAll()
+                .antMatchers("/v1/comment/**").permitAll()
+                .antMatchers("/v1/comment/").authenticated()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .logout().logoutUrl("/api/v1/admin/logout").deleteCookies("authenticate").invalidateHttpSession(true);
+                .logout().logoutUrl("/v1/admin/logout").deleteCookies("authenticate").invalidateHttpSession(true);
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
 

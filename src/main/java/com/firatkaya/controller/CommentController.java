@@ -14,20 +14,20 @@ import com.firatkaya.entity.Comment;
 import com.firatkaya.service.CommentService;
 
 @RestController
-@RequestMapping("api/v1/comment")
+@RequestMapping("/v1/comment")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class CommentController {
 
 	private final CommentService commentService;
 
-	@GetMapping(value = "/{postId}")
-	public ResponseEntity<List<Comment>> getPostComments(@PathVariable(value = "postId") String postId){
-		return ResponseEntity.ok(commentService.getAllComments(postId));
+	@GetMapping
+	public ResponseEntity<List<Comment>> getPostComments(@RequestParam String id){
+		return ResponseEntity.ok(commentService.getAllComments(id));
 	}
 	
-	@PostMapping(value = "/{postId}")
-	public ResponseEntity<?> addComment(@RequestBody Comment comment,@PathVariable(value = "postId") String postId){
-		return ResponseEntity.ok(commentService.saveComment(comment,postId));
+	@PostMapping
+	public ResponseEntity<?> addComment(@RequestBody Comment comment,@RequestParam String id){
+		return ResponseEntity.ok(commentService.saveComment(comment,id));
 	}
 	@PutMapping
 	public ResponseEntity<?> updateComment(@RequestBody HashMap<String,String> request){
@@ -35,14 +35,14 @@ public class CommentController {
 		return ResponseEntity.ok(HttpStatus.OK);
 	}
 
-	@DeleteMapping(value = "/{postId}/{commentId}")
-	public ResponseEntity<?> deleteComment(@PathVariable(value = "commentId") String commentId,@PathVariable(value = "postId") String postId){
+	@DeleteMapping
+	public ResponseEntity<?> deleteComment(@RequestParam String commentId,@RequestParam String postId){
 		commentService.deleteComment(commentId,postId);
 		return ResponseEntity.ok(HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "search/{keyword}")
-	public ResponseEntity<Collection<?>> searchComment(@PathVariable(value = "keyword") String keyword) {
+	@GetMapping(value = "/search")
+	public ResponseEntity<Collection<?>> searchComment(@RequestParam String keyword) {
 		return ResponseEntity.ok(commentService.searchComment(keyword));
 	}
 }

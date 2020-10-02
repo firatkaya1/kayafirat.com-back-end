@@ -19,7 +19,7 @@ import com.firatkaya.service.PostService;
 import com.firatkaya.service.StaticsViewService;
 
 @RestController
-@RequestMapping("/api/v1/post")
+@RequestMapping("/v1/post")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class PostController {
 
@@ -49,7 +49,7 @@ public class PostController {
     }
 
     @GetMapping(value = "/last")
-    public ResponseEntity<Collection<?>> lastpost(@RequestParam int limit, @RequestParam String order) {
+    public ResponseEntity<Collection<?>> getPostByOrder(@RequestParam int limit, @RequestParam String order) {
         return ResponseEntity.ok(postService.lastPost(limit, order));
     }
 

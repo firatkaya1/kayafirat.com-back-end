@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 
 @RestController
-@RequestMapping("api/v1")
+@RequestMapping("/v1")
 @Validated
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class LoginController {
@@ -28,6 +28,7 @@ public class LoginController {
 
     @PostMapping(value = "/login")
     public ResponseEntity<?> login(@RequestBody AuthenticationRequest authRequest, HttpServletResponse res) throws Exception {
+
         String token = userService.authenticateUser(authRequest);
         User user = userService.getUserByEmail(authRequest.getUsername());
         res.addCookie(cookieUtil.createCookie("authenticate",token,true,true));

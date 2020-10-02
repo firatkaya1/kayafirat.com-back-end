@@ -27,7 +27,7 @@ public class CookieUtil {
         Cookie cookie = new Cookie(key,value);
         cookie.setMaxAge(86400);
         cookie.setDomain(env.getProperty("cookie.default.domain"));
-        cookie.setPath(env.getProperty("cookie.default.max-age"));
+        cookie.setPath(env.getProperty("cookie.default.path"));
         cookie.setSecure(isSecure);
         cookie.setHttpOnly(isHttpOnly);
         return cookie;
