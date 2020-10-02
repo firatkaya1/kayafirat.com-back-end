@@ -113,7 +113,6 @@ public class UserServiceImp implements UserService {
         user.setUserProfile(userProfile);
         user.setUserPermissions(userPermissions);
         user.setUserProfilePhoto(env.getProperty("user.default.profile-photo"));
-
         return userRepository.save(user);
 
 

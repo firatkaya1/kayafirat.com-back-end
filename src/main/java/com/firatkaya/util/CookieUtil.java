@@ -33,8 +33,12 @@ public class CookieUtil {
         return cookie;
     }
 
-    public Cookie deleteCookie(String key){
+    public Cookie deleteCookie(String key,boolean isSecure,boolean isHttpOnly ){
         Cookie cookie = new Cookie(key,"");
+        cookie.setDomain(env.getProperty("cookie.default.domain"));
+        cookie.setPath(env.getProperty("cookie.default.path"));
+        cookie.setSecure(isSecure);
+        cookie.setHttpOnly(isHttpOnly);
         cookie.setMaxAge(0);
         return cookie;
     }

@@ -50,7 +50,7 @@ public class OauthServiceImpl implements OauthService {
     }
 
     private String oAuthGithubUserAccessToken(String code) {
-        String url = env.getProperty("oauth2.github.user-root-uri")+"/access_token?client_id="+env.getProperty("oauth2.github.client-id")+"&client_secret="+env.getProperty("oauth2.github.client-secret")+"&code="+code;
+        String url = env.getProperty("oauth2.github.root-uri")+"/access_token?client_id="+env.getProperty("oauth2.github.client-id")+"&client_secret="+env.getProperty("oauth2.github.client-secret")+"&code="+code;
         return restTemplate.postForEntity(url,null,String.class).getBody().substring(13,53);
     }
 
