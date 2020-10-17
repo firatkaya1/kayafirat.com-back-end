@@ -37,10 +37,8 @@ public class PostController {
     }
 
     @GetMapping(value = "/title")
-    public ResponseEntity<List<Post>> getByTitle(@RequestParam String title) {
-        List<Post> myPost = new ArrayList<>();
-        myPost.add(postService.getByPostTitle(title));
-        return ResponseEntity.ok(myPost);
+    public ResponseEntity<?> getByTitle(@RequestParam String title) {
+        return ResponseEntity.ok(postService.getByPostTitle(title));
     }
 
     @GetMapping(value = "/tag")

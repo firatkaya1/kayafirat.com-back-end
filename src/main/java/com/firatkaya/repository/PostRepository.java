@@ -40,6 +40,7 @@ public interface PostRepository extends JpaRepository<Post, String> {
 
     Post findByPostTitle(String postTitle);
 
+ 
     @Query(value = "SELECT * FROM post order by post_time DESC LIMIT :lim", nativeQuery = true)
     <T> Collection<T> orderByDesc(@Param("lim") int limit, Class<T> type);
 

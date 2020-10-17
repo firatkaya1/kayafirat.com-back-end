@@ -40,12 +40,9 @@ public class MailController {
     @PostMapping("/reset")
     public ResponseEntity<?> sendResetEmail(@RequestBody HashMap<String, String> request) throws MessagingException {
         emailService.sendResetPasswordEmail(request);
-        return ResponseEntity.ok(HttpStatus.OK);
-    }
-
-    @PostMapping("/password")
-    public ResponseEntity<?> resetPassword(@RequestBody HashMap<String, String> request) {
         userService.updatePassword(request);
         return ResponseEntity.ok(HttpStatus.OK);
     }
+
+
 }

@@ -4,9 +4,12 @@ import com.firatkaya.model.AuthenticationRequest;
 import com.firatkaya.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
 
 
 @RestController
@@ -20,11 +23,6 @@ public class AdminController {
     private final CommentService commentService;
 
 
-    @PostMapping(value = "/auth")
-    public ResponseEntity<?> auth(@RequestBody AuthenticationRequest authRequest) throws Exception {
-        return ResponseEntity.ok().body(userService.authenticateUser(authRequest));
-    }
-
     @GetMapping(value ="/posts")
     public ResponseEntity<?> getPosts(){
         return ResponseEntity.ok(postService.getAllPost());
@@ -35,18 +33,23 @@ public class AdminController {
         return ResponseEntity.ok(commentService.getAllComments());
     }
 
+    @GetMapping(value ="/comments/detail")
+    public ResponseEntity<?> getCommentsDetail(@RequestParam String id){
+        return ResponseEntity.ok(commentService.getAllCommentsDetails(id));
+    }
+    @PutMapping(value ="/comments   ")
+    public ResponseEntity<?> updateComment(@RequestBody HashMap<String,String> request){
+        commentService.updateComment(request);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
     @GetMapping(value ="/users/{email}")
     public ResponseEntity<?> getComments(@PathVariable("email") String email){
         return ResponseEntity.ok(userService.getUserByEmail(email));
     }
 
-    @PostMapping(value = "/test")
-    public ResponseEntity<?> test()   {
-        return ResponseEntity.ok().body("test başarılı");
-    }
 
-
-    @DeleteMapping("/{postId}")
+    @DeleteMapping("post/{postId}")
     public ResponseEntity<?> deletePost(@PathVariable("postId") String postId)   {
         postService.deletePost(postId);
         return ResponseEntity.ok().body(postId);

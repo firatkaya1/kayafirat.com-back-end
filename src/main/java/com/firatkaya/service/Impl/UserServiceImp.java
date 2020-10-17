@@ -15,6 +15,7 @@ import javax.transaction.Transactional;
 
 import com.firatkaya.model.AuthenticationRequest;
 import com.firatkaya.util.JwtUtil;
+import com.firatkaya.util.SecurityUtil;
 import com.firatkaya.validation.constraint.ExistsEmail;
 import com.firatkaya.validation.constraint.ExistsId;
 import com.firatkaya.validation.constraint.ExistsUsername;
@@ -59,13 +60,13 @@ public class UserServiceImp implements UserService {
     private Environment env;
 
     @Autowired
-    private  BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    @Autowired
     AuthenticationManager authenticationManager;
 
     @Autowired
     JwtUtil jwtUtil;
+
+    @Autowired
+    SecurityUtil securityUtil;
 
     private final RestTemplate restTemplate;
 
@@ -227,7 +228,7 @@ public class UserServiceImp implements UserService {
 
     public String authenticateUser(AuthenticationRequest authRequest) throws Exception {
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(),authRequest.getPassword()));
         } catch (BadCredentialsException e) {
             throw new Exception("Incorrect username or password. ", e);
         }
@@ -242,7 +243,7 @@ public class UserServiceImp implements UserService {
     public UserDetails loadUserByUsername(@ExistsEmail String email) throws UsernameNotFoundException {
         List<Object[]> user = userRepository.findUser(email);
         String userEmail = user.get(0)[0].toString();
-        String userPass = bCryptPasswordEncoder.encode(user.get(0)[1].toString());
+        String userPass = securityUtil.encode(user.get(0)[1].toString());
         return new org.springframework.security.core.userdetails.User(userEmail, userPass, new ArrayList<>());
 
 

@@ -3,18 +3,13 @@ package com.firatkaya.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -43,8 +38,10 @@ public class User extends JdkSerializationRedisSerializer implements Serializabl
     private String userName;
 
     @NotEmpty(message = "{validation.userpassword.notEmpty}")
-    @Size(min = 5, max = 45, message = "{validation.userpassword.lenght}")
+    @Size(min = 5 , message = "{validation.userpassword.lenght}")
     @Column(name = "user_password", nullable = false)
+    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String userPassword;
 
     @Column(name = "user_register_date", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")

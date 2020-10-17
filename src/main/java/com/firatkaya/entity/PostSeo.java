@@ -17,7 +17,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @ToString
 @Table(name = "postseo")
-public class PostSeo extends JdkSerializationRedisSerializer implements Serializable {
+public class    PostSeo extends JdkSerializationRedisSerializer implements Serializable {
 
     @Id
     @Column(name = "post_Id")

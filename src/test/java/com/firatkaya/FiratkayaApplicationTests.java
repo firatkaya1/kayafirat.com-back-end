@@ -1,4 +1,4 @@
-package com.firatkaya.firatkaya;
+package com.firatkaya;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

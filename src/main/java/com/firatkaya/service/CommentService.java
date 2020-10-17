@@ -4,13 +4,16 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+import com.firatkaya.model.projection.CommentDetailExcept;
 import com.firatkaya.model.projection.CommentExceptr;
 
 import com.firatkaya.entity.Comment;
 
 public interface CommentService {
 
-    List<CommentExceptr> getAllComments();
+    CommentDetailExcept getAllCommentsDetails(String commentId);
+
+    List<CommentExceptr> getAllComments( );
 
     List<Comment> getAllComments(String postId);
 

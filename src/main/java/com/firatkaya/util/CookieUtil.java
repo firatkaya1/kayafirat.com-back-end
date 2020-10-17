@@ -12,6 +12,7 @@ import javax.servlet.http.Cookie;
 public class CookieUtil {
 
     private final Environment env;
+    private final JwtUtil jwtUtil;
 
     public Cookie createCookie(String key,String value,int maxAge,String domain,String path,boolean isSecure,boolean isHttpOnly){
         Cookie cookie = new Cookie(key,value);
@@ -23,7 +24,7 @@ public class CookieUtil {
         return cookie;
     }
 
-    public Cookie createCookie(String key,String value,boolean isSecure,boolean isHttpOnly){
+    public Cookie createCookie(String key,String value,boolean isSecure,boolean isHttpOnly) throws Exception {
         Cookie cookie = new Cookie(key,value);
         cookie.setMaxAge(86400);
         cookie.setDomain(env.getProperty("cookie.default.domain"));

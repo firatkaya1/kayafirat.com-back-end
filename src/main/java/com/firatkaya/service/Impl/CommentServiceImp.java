@@ -4,6 +4,7 @@ import java.util.*;
 
 import javax.transaction.Transactional;
 
+import com.firatkaya.model.projection.CommentDetailExcept;
 import com.firatkaya.repository.UserRepository;
 import com.firatkaya.validation.constraint.ExistsCommentId;
 import com.firatkaya.validation.constraint.ExistsPostId;
@@ -30,6 +31,11 @@ public class CommentServiceImp implements CommentService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final Environment env;
+
+    @Override
+    public CommentDetailExcept getAllCommentsDetails(String id) {
+        return commentRepository.findAllCommentDetails(id);
+    }
 
     @Override
     public List<CommentExceptr> getAllComments() {
