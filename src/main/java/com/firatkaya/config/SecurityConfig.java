@@ -3,6 +3,7 @@ package com.firatkaya.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -59,8 +60,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/v1/mail").permitAll()
                 .antMatchers("/v1/mail/reset").permitAll()
                 .antMatchers("/v1/admin/**").permitAll()
+                .antMatchers("/v1/image/save").permitAll()
                 .antMatchers("/v1/image/**").permitAll()
-                .antMatchers("/v1/image").permitAll()
                 .anyRequest().authenticated()
                 .and()
 

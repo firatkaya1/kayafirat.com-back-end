@@ -1,5 +1,6 @@
 package com.firatkaya.controller;
 
+import com.firatkaya.entity.Post;
 import com.firatkaya.model.AuthenticationRequest;
 import com.firatkaya.service.*;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,10 @@ public class AdminController {
     @GetMapping(value ="/posts")
     public ResponseEntity<?> getPosts(){
         return ResponseEntity.ok(postService.getAllPost());
+    }
+    @PostMapping(value ="/post")
+    public ResponseEntity<?> savePost(@RequestBody Post post){
+        return ResponseEntity.ok(postService.savePost(post));
     }
 
     @GetMapping(value ="/comments")

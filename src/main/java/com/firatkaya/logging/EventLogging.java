@@ -15,8 +15,11 @@ public class EventLogging {
     @Pointcut("within(com.firatkaya.service.Impl..*)")
     public void eventPointCut() { }
 
+    @Pointcut("execution(* com.firatkaya.service.ImageService.saveImage(..))")
+    public void excludePointCut() {}
 
-    @Around("eventPointCut()")
+
+    @Around("eventPointCut() && !excludePointCut()")
     public Object eventLogging(ProceedingJoinPoint joinPoint) throws Throwable {
         ObjectMapper mapper = new ObjectMapper();
         String methodName = joinPoint.getSignature().getName();

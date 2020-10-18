@@ -5,7 +5,6 @@ import com.firatkaya.model.AuthenticationRequest;
 import com.firatkaya.repository.UserRepository;
 import com.firatkaya.service.OauthService;
 import com.firatkaya.service.UserService;
-import lombok.RequiredArgsConstructor;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;

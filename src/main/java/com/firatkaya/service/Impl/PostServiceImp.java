@@ -24,7 +24,7 @@ import com.firatkaya.service.PostService;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class PostServiceImp implements PostService {
+public class    PostServiceImp implements PostService {
 
     private final PostRepository postRepository;
 
@@ -54,9 +54,10 @@ public class PostServiceImp implements PostService {
 
     @Override
     public Post savePost(Post _post) {
-        Post post = new Post();
+        Post post = _post;
         PostSeo postSeo = new PostSeo();
         post.setPostId(UUID.randomUUID().toString());
+        postSeo.setPostId(post.getPostId());
         post.setPostSeo(postSeo);
         return postRepository.save(post);
     }

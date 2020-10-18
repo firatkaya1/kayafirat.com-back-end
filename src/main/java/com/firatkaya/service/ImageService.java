@@ -4,17 +4,19 @@ package com.firatkaya.service;
 import com.firatkaya.entity.Image;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Optional;
+import java.util.List;
 
 public interface ImageService {
 
-    Optional<Image> getImage(Long id);
+    Image getImage(String id);
 
-    Image saveImage(Image image, MultipartFile file);
+    List<Image> getAllImages();
 
-    void updateImage(Image image,Long id);
+    Image saveImage(MultipartFile file);
 
-    void deleteImage(Long id);
+    void updateImage(Image image,String id);
+
+    void deleteImage(String id);
 
 
 

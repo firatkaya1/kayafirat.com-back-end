@@ -14,8 +14,7 @@ import javax.persistence.*;
 public class Image {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private Long id;
+    private String Id;
 
     @Column(name = "image_name")
     private String imageName;
@@ -25,4 +24,5 @@ public class Image {
 
     @Column(name = "image_created_date")
     private String imageCreatedDate;
+
 }

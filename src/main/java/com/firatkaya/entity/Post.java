@@ -31,17 +31,17 @@ public class Post extends JdkSerializationRedisSerializer implements Serializabl
     private String postId;
 
     @NotEmpty(message = "{validation.postTag.notEmpty}")
-    @Size(min = 2, max = 10, message = "{validation.postTag.length}")
+    @Size(min = 2,  message = "{validation.postTag.length}")
     @Column(name = "post_Tag", nullable = false)
     private String postTag;
 
     @NotEmpty(message = "{validation.postTitle.notEmpty}")
-    @Size(min = 3, max = 40, message = "{validation.postTitle.length}")
+    @Size(min = 3, message = "{validation.postTitle.length}")
     @Column(name = "post_Title", nullable = false)
     private String postTitle;
 
     @NotEmpty(message = "{validation.postHeader.notEmpty}")
-    @Size(min = 5, max = 45, message = "{validation.postTitle.length}")
+    @Size(min = 5,  message = "{validation.postTitle.length}")
     @Column(name = "post_Header", nullable = false)
     private String postHeader;
 
