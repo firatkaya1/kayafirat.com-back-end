@@ -58,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/v1/comment/**").permitAll()
                 .antMatchers("/v1/comment/").authenticated()
                 .antMatchers("/v1/mail").permitAll()
-                .antMatchers("/v1/mail/reset").permitAll()
+                .antMatchers("/v1/mail/forgot").permitAll()
                 .antMatchers("/v1/admin/**").permitAll()
                 .antMatchers("/v1/image/save").permitAll()
                 .antMatchers("/v1/image/**").permitAll()

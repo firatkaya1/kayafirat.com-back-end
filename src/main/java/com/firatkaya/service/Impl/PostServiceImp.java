@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.firatkaya.entity.Post;
@@ -54,12 +55,11 @@ public class    PostServiceImp implements PostService {
 
     @Override
     public Post savePost(Post _post) {
-        Post post = _post;
         PostSeo postSeo = new PostSeo();
-        post.setPostId(UUID.randomUUID().toString());
-        postSeo.setPostId(post.getPostId());
-        post.setPostSeo(postSeo);
-        return postRepository.save(post);
+        _post.setPostId(UUID.randomUUID().toString());
+        postSeo.setPostId(_post.getPostId());
+        _post.setPostSeo(postSeo);
+        return postRepository.save(_post);
     }
 
     @Override
@@ -102,6 +102,7 @@ public class    PostServiceImp implements PostService {
 
     @Override
     public Collection<?> getByPostTag(String postTag) {
+
         return postRepository.findByAllPostTag(postTag, PostExceptr.class);
     }
 

@@ -6,8 +6,6 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.context.annotation.Configuration;
 
-
-
 @Aspect
 @Configuration
 @Slf4j
@@ -16,10 +14,13 @@ public class EventLogging {
     public void eventPointCut() { }
 
     @Pointcut("execution(* com.firatkaya.service.ImageService.saveImage(..))")
-    public void excludePointCut() {}
+    public void excludePointCutImage() {}
+
+    @Pointcut("execution(* com.firatkaya.service.UserService.updateUserImage(..))")
+    public void excludePointCutUpdateImage() {}
 
 
-    @Around("eventPointCut() && !excludePointCut()")
+    @Around("eventPointCut() && (!excludePointCutImage() && !excludePointCutUpdateImage())")
     public Object eventLogging(ProceedingJoinPoint joinPoint) throws Throwable {
         ObjectMapper mapper = new ObjectMapper();
         String methodName = joinPoint.getSignature().getName();

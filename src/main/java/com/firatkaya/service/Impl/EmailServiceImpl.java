@@ -35,8 +35,6 @@ public class EmailServiceImpl implements EmailService {
 	private final UserRepository userRepository;
 	private final Environment env;
 
-
-
 	@Override
 	public void sendVerificationEmail(@ExistsEmail  HashMap<String, String>  request) throws MessagingException {
 		User user = userRepository.findByUserEmail(request.get("email"));
@@ -58,7 +56,7 @@ public class EmailServiceImpl implements EmailService {
 	}
 	
 	@Override
-	public void sendResetPasswordEmail(@ExistsEmail  HashMap<String, String>  request) throws MessagingException {
+	public void sendResetPasswordEmail(@ExistsEmail HashMap<String, String>  request) throws MessagingException {
 		User user = userRepository.findByUserEmail(request.get("email"));
 		String token = createToken(user.getUserEmail(),user.getUserId(),env.getProperty("mail.password-code"));
 		String verificationAddress = "https://blog.kayafirat.com/forgotpassword/reset/"+token;
@@ -140,6 +138,7 @@ public class EmailServiceImpl implements EmailService {
 	        }
 		
 	}
+
 	public String getDate() {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd-yyyy hh:mm");
 		return simpleDateFormat.format(new Date());

@@ -28,6 +28,8 @@ import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -138,6 +140,7 @@ public class UserServiceImp implements UserService {
     @Override
     @CacheEvict(value = "User", allEntries = true)
     public boolean updateUserPermissions(UserPermissions userPermissions) {
+        userPermissions.setUserEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         userRepository.updateUserPermissions(userPermissions);
         return true;
     }
@@ -146,7 +149,8 @@ public class UserServiceImp implements UserService {
     @Override
     @CacheEvict(value = "User", key = "#request.get('email')")
     public void updatePassword(HashMap<String, String> request) {
-        String email = request.get("email");
+
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
         String userId = request.get("userid");
         String ipAddress = request.get("ipaddress");
         String userAgent = request.get("useragent");
@@ -197,15 +201,17 @@ public class UserServiceImp implements UserService {
     @Transactional
     @Override
     @CacheEvict(value = "User", allEntries = true)
-    public void updateUserImage(MultipartFile file,@ExistsId String userId) {
+    public void updateUserImage(MultipartFile file,@ExistsEmail String userEmail) {
         byte[] bytes;
+        User user = userRepository.findByUserEmail(userEmail);
         try {
+            String pathURI = env.getProperty("user.default.profile-photo") +  user.getUserId()+ "." + file.getOriginalFilename().split("\\.")[1];
             bytes = file.getBytes();
-            Path path = Paths.get("/home/kaya/Desktop/Angular-Projects/kayafirat.com-front-end/src/assets/upload/" + userId + "." + file.getOriginalFilename().split("\\.")[1]);
+            Path path = Paths.get(pathURI);
             Files.write(path, bytes);
 
-            userRepository.updateUserPhoto(userId, path.toString().substring(64));
-            commentRepository.updateUserPhoto(userRepository.findByUserId(userId).getUserName(), path.toString().substring(64));
+            userRepository.updateUserPhoto(user.getUserEmail(),path.toString());
+            commentRepository.updateUserPhoto(user.getUserName(), path.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
