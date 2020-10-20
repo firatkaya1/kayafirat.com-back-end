@@ -24,13 +24,20 @@ public class AdminController {
     private final CommentService commentService;
 
 
-    @GetMapping(value ="/posts")
+    @GetMapping(value = "/posts")
     public ResponseEntity<?> getPosts(){
         return ResponseEntity.ok(postService.getAllPost());
     }
-    @PostMapping(value ="/post")
+
+    @PostMapping(value = "/post")
     public ResponseEntity<?> savePost(@RequestBody Post post){
         return ResponseEntity.ok(postService.savePost(post));
+    }
+
+    @DeleteMapping(value = "/post")
+    public ResponseEntity<?> deletePost(@RequestParam String postId)   {
+        postService.deletePost(postId);
+        return ResponseEntity.ok().body(postId);
     }
 
     @GetMapping(value ="/comments")
@@ -42,22 +49,23 @@ public class AdminController {
     public ResponseEntity<?> getCommentsDetail(@RequestParam String id){
         return ResponseEntity.ok(commentService.getAllCommentsDetails(id));
     }
-    @PutMapping(value ="/comments   ")
+    @PutMapping(value ="/comments")
     public ResponseEntity<?> updateComment(@RequestBody HashMap<String,String> request){
         commentService.updateComment(request);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @GetMapping(value ="/users/{email}")
-    public ResponseEntity<?> getComments(@PathVariable("email") String email){
+    @GetMapping(value ="/users")
+    public ResponseEntity<?> getAllUsers(){
+        return ResponseEntity.ok(userService.getAll());
+    }
+
+    @GetMapping(value ="/users")
+    public ResponseEntity<?> getUser(@RequestParam String email){
         return ResponseEntity.ok(userService.getUserByEmail(email));
     }
 
 
-    @DeleteMapping("post/{postId}")
-    public ResponseEntity<?> deletePost(@PathVariable("postId") String postId)   {
-        postService.deletePost(postId);
-        return ResponseEntity.ok().body(postId);
-    }
+
 
 }

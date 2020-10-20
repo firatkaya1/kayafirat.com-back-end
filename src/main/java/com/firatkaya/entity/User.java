@@ -15,6 +15,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 
 @Entity
@@ -56,6 +57,9 @@ public class User extends JdkSerializationRedisSerializer implements Serializabl
 
     @Column(name = "is_verification", columnDefinition = "BOOLEAN DEFAULT false")
     private boolean isVerification;
+
+    @Column(name = "user_role")
+    private String role;
 
     @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinColumn(name = "userProfile_fk", referencedColumnName = "userEmail")

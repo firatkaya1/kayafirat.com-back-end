@@ -4,11 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import javax.mail.MessagingException;
 import javax.transaction.Transactional;
@@ -28,6 +24,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -91,6 +88,11 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    public List<User> getAll() {
+        return userRepository.findAll();
+    }
+
+    @Override
     @Cacheable(cacheNames = "User", key = "#username")
     public User getUserByUsername(@ExistsUsername String username) {
         return userRepository.findByUserName(username);
@@ -116,6 +118,7 @@ public class UserServiceImp implements UserService {
         user.setUserProfile(userProfile);
         user.setUserPermissions(userPermissions);
         user.setUserProfilePhoto(env.getProperty("user.default.profile-photo"));
+        user.setRole("ROLE_USER");
         return userRepository.save(user);
 
 
@@ -247,10 +250,10 @@ public class UserServiceImp implements UserService {
     @Override
     @Cacheable(cacheNames = "UserToken", key = "'loadByUsername'+ #email")
     public UserDetails loadUserByUsername(@ExistsEmail String email) throws UsernameNotFoundException {
-        List<Object[]> user = userRepository.findUser(email);
-        String userEmail = user.get(0)[0].toString();
-        String userPass = securityUtil.encode(user.get(0)[1].toString());
-        return new org.springframework.security.core.userdetails.User(userEmail, userPass, new ArrayList<>());
+        User user = userRepository.findByUserEmail(email);
+        final List<SimpleGrantedAuthority> authorities = new LinkedList<>();
+        authorities.add(new SimpleGrantedAuthority(user.getRole()));
+        return new org.springframework.security.core.userdetails.User(user.getUserEmail(), securityUtil.encode(user.getUserPassword()),new ArrayList<>() );
 
 
     }
@@ -263,6 +266,10 @@ public class UserServiceImp implements UserService {
     @Override
     public String validateCaptcha(String key) {
         String url = env.getProperty("google.recaptcha.verify-link") + "secret=" + env.getProperty("google.recaptcha.secret-key") + "&response=" + key;
+        String test =restTemplate.getForObject(url, String.class);
+        System.out.println("test : "+test);
+        test = test.substring(test.indexOf("\":")+3);
+        System.out.println("test sprt : "+test.substring(0,test.indexOf(",")));
         return restTemplate.getForObject(url, String.class);
     }
 }

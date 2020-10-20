@@ -68,7 +68,7 @@ public class UserController {
     }
 
     @PutMapping(value = "/update")
-    public ResponseEntity<?> updateSubInfos(@RequestBody HashMap<String, String> request, HttpServletResponse res) throws Exception {
+    public ResponseEntity<?> updateSubInfos(@RequestBody HashMap<String, String> request) {
         String key = request.get("key");
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         switch (key) {

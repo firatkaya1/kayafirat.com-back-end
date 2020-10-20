@@ -64,6 +64,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
      * 73 Missing Servlet Request Part
      * 74 Bind Exception
      * 75 Async Request Time Out
+     * 76 Google Captcha Not Valid
      *
      *
      */
@@ -346,6 +347,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         APIError apiError = new APIError.Builder()
                 .httpStatus(HttpStatus.NOT_FOUND)
                 .errorCode(93)
+                .message(ex.getMessage())
+                .build();
+        return buildResponseEntity(apiError);
+    }
+    @ExceptionHandler(GoogleCaptchaNotValidException.class)
+    protected ResponseEntity<Object> handleConstraintViolation(GoogleCaptchaNotValidException ex) {
+        APIError apiError = new APIError.Builder()
+                .httpStatus(HttpStatus.FORBIDDEN)
+                .errorCode(76)
                 .message(ex.getMessage())
                 .build();
         return buildResponseEntity(apiError);

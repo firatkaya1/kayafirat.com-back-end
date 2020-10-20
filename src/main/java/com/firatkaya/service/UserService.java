@@ -2,6 +2,7 @@ package com.firatkaya.service;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 import com.firatkaya.model.AuthenticationRequest;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,6 +17,8 @@ public interface UserService extends UserDetailsService {
     User getUserByEmail(String email);
 
     User getUserByUsername(String username);
+
+    List<User> getAll();
 
     User saveUser(User user);
 
