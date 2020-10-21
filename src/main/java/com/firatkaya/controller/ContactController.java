@@ -2,7 +2,6 @@ package com.firatkaya.controller;
 
 import com.firatkaya.entity.Contact;
 import com.firatkaya.service.ContactService;
-import com.firatkaya.validation.constraint.ValidateCaptcha;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/v1/contact")
-@Validated
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ContactController {
 
@@ -23,12 +21,12 @@ public class ContactController {
     public ResponseEntity<?> getContacts(){
         return ResponseEntity.ok(contactService.getContacts());
     }
-    @GetMapping
+    @GetMapping(value = "/detail")
     public ResponseEntity<?> getContact(@RequestParam Long id){
         return ResponseEntity.ok(contactService.getContact(id));
     }
     @PostMapping
-    public ResponseEntity<?> addContact(@RequestBody Contact contact, @RequestParam @ValidateCaptcha String captcha)   {
+    public ResponseEntity<?> addContact(@RequestBody Contact contact)   {
         return ResponseEntity.ok(contactService.saveContact(contact));
     }
     @PutMapping
@@ -39,6 +37,11 @@ public class ContactController {
     public ResponseEntity<?> deleteContact(@RequestParam Long id){
         contactService.deleteContact(id);
         return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/status")
+    public ResponseEntity<?> updateReadStatus(@RequestParam Long id){
+        return ResponseEntity.ok(contactService.updateReadStatus(id));
     }
 
 

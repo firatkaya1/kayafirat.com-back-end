@@ -18,4 +18,6 @@ public interface ContactService {
 
     List<Contact> getContacts();
 
+    Contact updateReadStatus(Long id);
+
 }

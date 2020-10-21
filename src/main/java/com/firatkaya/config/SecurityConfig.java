@@ -46,7 +46,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and()
                 .csrf()
-                .csrfTokenRepository(cookieCsrfTokenRepository()).and()
+                //.csrfTokenRepository(cookieCsrfTokenRepository()).and()
+                .disable()
                 .authorizeRequests()
                 .antMatchers("/v1/auth/github").permitAll()
                 .antMatchers("/v1/auth/linkedin").permitAll()
@@ -62,6 +63,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/v1/admin/**").permitAll()
                 .antMatchers("/v1/image/save").permitAll()
                 .antMatchers("/v1/image/**").permitAll()
+                .antMatchers("/v1/contact").permitAll()
+                .antMatchers("/v1/contact/**").permitAll()
+                .antMatchers("/v1/error/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
 
@@ -91,7 +95,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("*","http://localhost:4200"));
+        configuration.setAllowedOrigins(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);

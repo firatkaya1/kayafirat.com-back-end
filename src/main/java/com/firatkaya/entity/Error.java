@@ -11,21 +11,21 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Table(name = "contact")
-public class Contact {
+@Table(name = "error")
+public class Error {
 
     @Id
     @GeneratedValue
-    private Long contactId;
+    private Long errorId;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "error_code")
+    private String errorCode;
 
     @Column(name = "email")
     private String email;
 
-    @Column(name = "message")
-    private String message;
+    @Column(name = "error_message")
+    private String errorMessage;
 
     @Column(name = "created_date", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Date createdDate;

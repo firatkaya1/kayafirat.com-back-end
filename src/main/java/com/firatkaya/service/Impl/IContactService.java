@@ -44,4 +44,9 @@ public class IContactService implements ContactService {
     public List<Contact> getContacts() {
         return contactRepository.findAll();
     }
+
+    @Override
+    public Contact updateReadStatus(Long id){
+        return contactRepository.updateReadStatus(id);
+    }
 }
