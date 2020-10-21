@@ -21,7 +21,7 @@ public interface CommentService {
 
     void updateComment(HashMap<String,String> request);
 
-    void deleteComment(String commentId, String postId);
+    void deleteComment(String commentId);
 
     Collection<?> searchComment(String keyword);
 

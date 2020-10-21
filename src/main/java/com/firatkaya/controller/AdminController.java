@@ -1,6 +1,7 @@
 package com.firatkaya.controller;
 
 import com.firatkaya.entity.Post;
+import com.firatkaya.entity.UserPermissions;
 import com.firatkaya.model.AuthenticationRequest;
 import com.firatkaya.service.*;
 import lombok.RequiredArgsConstructor;
@@ -55,8 +56,8 @@ public class AdminController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
     @DeleteMapping(value = "/comment")
-    public ResponseEntity<?> deleteComment(@RequestParam String id,@RequestParam String postId){
-        commentService.deleteComment(id,postId);
+    public ResponseEntity<?> deleteComment(@RequestParam String commentId){
+        commentService.deleteComment(commentId);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
@@ -70,6 +71,11 @@ public class AdminController {
         return ResponseEntity.ok(userService.getAll());
     }
 
+    @PutMapping(value = "/user/permissions")
+    public ResponseEntity<?> updatePermissions(@RequestBody UserPermissions userPermissions) {
+        userService.updateUserPermissions(userPermissions);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
 
 
 

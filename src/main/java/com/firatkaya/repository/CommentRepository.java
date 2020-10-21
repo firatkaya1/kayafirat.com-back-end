@@ -30,7 +30,7 @@ public interface CommentRepository extends JpaRepository<Comment, String> {
 
     @Modifying
     @Transactional
-    @Query(value = "DELETE FROM comment  WHERE comment_id = :commentId", nativeQuery = true)
+    @Query(value ="DELETE FROM comment where comment_id=:commentId", nativeQuery = true)
     void deleteByCommentsId(@Param("commentId") String commentId);
 
     @Query(value = "SELECT * FROM comment ", nativeQuery = true)

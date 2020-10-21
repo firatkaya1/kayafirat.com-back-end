@@ -63,6 +63,7 @@ public class UserController {
 
     @PutMapping(value = "/permissions")
     public ResponseEntity<?> updatePermissions(@RequestBody UserPermissions userPermissions) {
+        userPermissions.setUserEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         userService.updateUserPermissions(userPermissions);
         return ResponseEntity.ok(HttpStatus.OK);
     }

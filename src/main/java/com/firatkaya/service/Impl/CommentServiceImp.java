@@ -78,8 +78,7 @@ public class CommentServiceImp implements CommentService {
     @Transactional
     @Override
     @CacheEvict(value = "PostTitle", allEntries=true)
-    public void deleteComment(@ExistsCommentId String commentId, @ExistsPostId String postId) {
-        postRepository.decreaseTotalComment(postId);
+    public void deleteComment(@ExistsCommentId String commentId) {
         commentRepository.deleteByCommentsId(commentId);
     }
 

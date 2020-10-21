@@ -142,7 +142,6 @@ public class UserServiceImp implements UserService {
     @Override
     @CacheEvict(value = "User", allEntries = true)
     public boolean updateUserPermissions(UserPermissions userPermissions) {
-        userPermissions.setUserEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         userRepository.updateUserPermissions(userPermissions);
         return true;
     }

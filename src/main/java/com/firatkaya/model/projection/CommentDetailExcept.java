@@ -1,6 +1,7 @@
 package com.firatkaya.model.projection;
 
 import com.firatkaya.entity.Comment;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.rest.core.config.Projection;
 
 @Projection(name = "commentExceptr", types = Comment.class)
@@ -21,4 +22,5 @@ public interface CommentDetailExcept {
     String getComment_Updated_Time();
 
     boolean getIs_Hide();
+
 }

@@ -55,9 +55,6 @@ public class Post extends JdkSerializationRedisSerializer implements Serializabl
     @Column(name = "post_MaxView", columnDefinition = "bigint(20) default 0")
     private long postMaxView;
 
-    @Column(name = "post_MaxComment", columnDefinition = "bigint(20) default 0")
-    private long postMaxComment;
-
     @JsonIgnoreProperties("post")
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "post", orphanRemoval = true)
     @OrderBy("comment_time")

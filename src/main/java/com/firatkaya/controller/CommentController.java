@@ -40,8 +40,8 @@ public class CommentController {
 	}
 
 	@DeleteMapping
-	public ResponseEntity<?> deleteComment(@RequestParam String commentId,@RequestParam String postId){
-		commentService.deleteComment(commentId,postId);
+	public ResponseEntity<?> deleteComment(@RequestParam String commentId){
+		commentService.deleteComment(commentId);
 		return ResponseEntity.ok(HttpStatus.OK);
 	}
 	
