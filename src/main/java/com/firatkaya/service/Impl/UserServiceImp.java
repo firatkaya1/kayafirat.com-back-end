@@ -10,6 +10,7 @@ import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 
 import com.firatkaya.model.AuthenticationRequest;
+import com.firatkaya.model.projection.UserDetailExcept;
 import com.firatkaya.util.JwtUtil;
 import com.firatkaya.util.SecurityUtil;
 import com.firatkaya.validation.constraint.ExistsEmail;
@@ -25,11 +26,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
@@ -88,8 +87,8 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public List<User> getAll() {
-        return userRepository.findAll();
+    public Collection<UserDetailExcept> getAll() {
+        return userRepository.findAll(UserDetailExcept.class);
     }
 
     @Override
@@ -158,7 +157,7 @@ public class UserServiceImp implements UserService {
         String ipAddress = request.get("ipaddress");
         String userAgent = request.get("useragent");
         String password = request.get("password");
-        if (userRepository.existsByUserEmailandUserId(email, userId) == 1) {
+        if (userRepository.existsByUserEmailUserId(email, userId) == 1) {
             userRepository.updateUserPassword(email, password);
             try {
                 emailService.sendSuccessResetPassword(email, ipAddress, userAgent);
@@ -260,9 +259,11 @@ public class UserServiceImp implements UserService {
 
     @Override
     public Collection<?> searchUser(String keyword) {
-        return userRepository.searchByUsernameAndUseremail(keyword, UserExceptr.class);
+        return userRepository.searchByUsernameAndUserEmail(keyword, UserExceptr.class);
     }
 
+    // bu method silinecektir.
+    //GÜVENLİK ZAFİYETİ
     @Override
     public String validateCaptcha(String key) {
         String url = env.getProperty("google.recaptcha.verify-link") + "secret=" + env.getProperty("google.recaptcha.secret-key") + "&response=" + key;

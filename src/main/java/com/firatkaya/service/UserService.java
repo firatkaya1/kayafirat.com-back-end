@@ -2,9 +2,9 @@ package com.firatkaya.service;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 
 import com.firatkaya.model.AuthenticationRequest;
+import com.firatkaya.model.projection.UserDetailExcept;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,7 +18,7 @@ public interface UserService extends UserDetailsService {
 
     User getUserByUsername(String username);
 
-    List<User> getAll();
+    Collection<UserDetailExcept> getAll();
 
     User saveUser(User user);
 
@@ -47,4 +47,6 @@ public interface UserService extends UserDetailsService {
     void updateUserImage(MultipartFile file, String userId);
 
     String authenticateUser(AuthenticationRequest authRequest) throws Exception;
+    
+    
 }

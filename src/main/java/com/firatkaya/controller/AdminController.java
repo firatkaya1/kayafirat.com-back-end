@@ -54,16 +54,23 @@ public class AdminController {
         commentService.updateComment(request);
         return ResponseEntity.ok(HttpStatus.OK);
     }
+    @DeleteMapping(value = "/comment")
+    public ResponseEntity<?> deleteComment(@RequestParam String id,@RequestParam String postId){
+        commentService.deleteComment(id,postId);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @GetMapping(value ="/user")
+    public ResponseEntity<?> getUser(@RequestParam String email){
+        return ResponseEntity.ok(userService.getUserByEmail(email));
+    }
 
     @GetMapping(value ="/users")
     public ResponseEntity<?> getAllUsers(){
         return ResponseEntity.ok(userService.getAll());
     }
 
-    @GetMapping(value ="/users")
-    public ResponseEntity<?> getUser(@RequestParam String email){
-        return ResponseEntity.ok(userService.getUserByEmail(email));
-    }
+
 
 
 

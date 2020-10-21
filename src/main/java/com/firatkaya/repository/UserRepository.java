@@ -3,6 +3,7 @@ package com.firatkaya.repository;
 import java.util.Collection;
 import java.util.List;
 
+import com.firatkaya.model.projection.UserDetailExcept;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -17,8 +18,6 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     User findByUserEmail(String email);
 
-    User findByUserId(String userId);
-
     User findByUserName(String userName);
 
     boolean existsByUserName(String username);
@@ -27,6 +26,9 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     boolean existsByUserId(String userId);
 
+    @Query(value = "SELECT * FROM user",nativeQuery = true)
+    <T> Collection<T> findAll(Class<T> type);
+
     @Query(value = "SELECT * FROM user where "
             + "user_email LIKE (CONCAT(:keyword,'%')) or "
             + "user_email LIKE (CONCAT('%',:keyword)) or "
@@ -34,7 +36,7 @@ public interface UserRepository extends JpaRepository<User, String> {
             + "user_name LIKE (CONCAT(:keyword,'%')) or "
             + "user_name LIKE (CONCAT('%',:keyword)) or "
             + "user_name LIKE (CONCAT('%',:keyword,'%')) LIMIT 10 ", nativeQuery = true)
-    <T> Collection<T> searchByUsernameAndUseremail(@Param("keyword") String keyword, Class<T> type);
+    <T> Collection<T> searchByUsernameAndUserEmail(@Param("keyword") String keyword, Class<T> type);
 
     @Modifying
     @Query(value = "UPDATE user SET user_password = :password  WHERE user_email = :email", nativeQuery = true)
@@ -56,7 +58,7 @@ public interface UserRepository extends JpaRepository<User, String> {
     void updateUserPermissions(@Param("user") UserPermissions userPermissions);
 
     @Query(value = "SELECT EXISTS(SELECT * FROM user WHERE user_email=:email and user_id = :userId and is_verification = 0);", nativeQuery = true)
-    int existsByUserEmailandUserId(@Param("email") String email, @Param("userId") String userId);
+    int existsByUserEmailUserId(@Param("email") String email, @Param("userId") String userId);
 
     @Modifying
     @Query(value = "UPDATE user SET user_birthday_date = :birthdate  WHERE user_email = :email", nativeQuery = true)
