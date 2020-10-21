@@ -45,16 +45,6 @@ public class LoginController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    /*
-    BU method güvenlik açığına neden olduğu için iptal ediyorum.
-
-    @PostMapping(value = "/recaptcha")
-    public ResponseEntity<?> validateGoogleCaptcha(@RequestBody HashMap<String, String> request) {
-
-        return ResponseEntity.ok(userService.validateCaptcha(request.get("key")));
-    }
-
-     */
 
 
 }
