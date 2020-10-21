@@ -29,7 +29,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class EmailServiceImpl implements EmailService {
+public class IEmailService implements EmailService {
 
 	private final JavaMailSender mailSender;
 	private final UserRepository userRepository;

@@ -16,7 +16,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Map;
 
 @Service
-public class OauthServiceImpl implements OauthService {
+public class IOauthService implements OauthService {
 
     private final RestTemplate restTemplate;
     private final UserRepository userRepository;
@@ -24,7 +24,7 @@ public class OauthServiceImpl implements OauthService {
     private final Environment env;
 
     @Autowired
-    public OauthServiceImpl(RestTemplateBuilder restTemplateBuilder,UserRepository userRepository, UserService userService,Environment env) {
+    public IOauthService(RestTemplateBuilder restTemplateBuilder, UserRepository userRepository, UserService userService, Environment env) {
         this.restTemplate = restTemplateBuilder.build();
         this.userRepository = userRepository;
         this.userService = userService;

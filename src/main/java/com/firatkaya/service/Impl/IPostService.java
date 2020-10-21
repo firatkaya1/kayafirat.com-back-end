@@ -25,7 +25,7 @@ import com.firatkaya.service.PostService;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class    PostServiceImp implements PostService {
+public class IPostService implements PostService {
 
     private final PostRepository postRepository;
 

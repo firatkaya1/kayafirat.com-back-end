@@ -25,7 +25,7 @@ import com.firatkaya.service.CommentService;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class CommentServiceImp implements CommentService {
+public class ICommentService implements CommentService {
 
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;

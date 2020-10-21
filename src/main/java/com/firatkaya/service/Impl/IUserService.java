@@ -48,7 +48,7 @@ import com.firatkaya.service.UserService;
 
 
 @Service
-public class UserServiceImp implements UserService {
+public class IUserService implements UserService {
 
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
@@ -69,10 +69,10 @@ public class UserServiceImp implements UserService {
     private final RestTemplate restTemplate;
 
     @Autowired
-    public UserServiceImp(RestTemplateBuilder restTemplateBuilder,
-                          UserRepository userRepository,
-                          CommentRepository commentRepository,
-                          EmailService emailService ) {
+    public IUserService(RestTemplateBuilder restTemplateBuilder,
+                        UserRepository userRepository,
+                        CommentRepository commentRepository,
+                        EmailService emailService ) {
 
         this.restTemplate = restTemplateBuilder.build();
         this.userRepository = userRepository;

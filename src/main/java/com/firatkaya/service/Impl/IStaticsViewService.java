@@ -14,7 +14,7 @@ import com.firatkaya.service.StaticsViewService;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class StaticsViewServiceImpl implements StaticsViewService {
+public class IStaticsViewService implements StaticsViewService {
 
     private final StaticsViewRepository staticViewRepo;
     private final PostRepository postRepo;

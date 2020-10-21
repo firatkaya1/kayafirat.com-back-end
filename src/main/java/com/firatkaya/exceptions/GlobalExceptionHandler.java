@@ -171,7 +171,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
                                                              HttpStatus status, WebRequest request) {
-        // TODO Auto-generated method stub
+
         return super.handleExceptionInternal(ex, body, headers, status, request);
     }
 
