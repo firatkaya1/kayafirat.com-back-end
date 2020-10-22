@@ -25,7 +25,7 @@ public class Error {
     private String email;
 
     @Column(name = "error_message")
-    private String errorMessage;
+        private String errorMessage;
 
     @Column(name = "created_date", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Date createdDate;

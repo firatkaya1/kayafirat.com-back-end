@@ -27,7 +27,8 @@ public class ErrorController {
     }
     @PostMapping
     public ResponseEntity<?> addError(@RequestBody Error error, @RequestParam @ValidateCaptcha String captcha)   {
-        return ResponseEntity.ok(errorService.saveError(error));
+        errorService.saveError(error);
+        return ResponseEntity.ok(HttpStatus.OK);
     }
     @PutMapping
     public ResponseEntity<?> updateError(@RequestBody Error error){
