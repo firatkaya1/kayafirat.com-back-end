@@ -1,3 +1,6 @@
 # kayafirat.com-back-end
 
-çok yakında buradayım.
+aşağıdaki linke tıklayarak dökümana ulaşabilirsiniz.
+
+
+[document.kayafirat.com](https://document.kayafirat.com)
