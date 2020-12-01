@@ -1,6 +1,9 @@
 # kayafirat.com-back-end
 
-aşağıdaki linke tıklayarak dökümana ulaşabilirsiniz.
 
+Kişisel blogumun kaynak kodlarını temsil eder.
+[blog.kayafirat.com](https://blog.kayafirat.com)
+
+aşağıdaki linke tıklayarak dökümana ulaşabilirsiniz.
 
 [document.kayafirat.com](https://document.kayafirat.com)
