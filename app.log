@@ -1,0 +1,61 @@
+2020-12-14 01:43:04.103  INFO 12119 --- [main] com.kayafirat.FiratkayaApplication       : Starting FiratkayaApplication on kaya with PID 12119 (/home/kaya/IdeaProjects/kayafirat.com-back-end/target/classes started by kaya in /home/kaya/IdeaProjects/kayafirat.com-back-end)
+2020-12-14 01:43:04.108  INFO 12119 --- [main] com.kayafirat.FiratkayaApplication       : No active profile set, falling back to default profiles: default
+2020-12-14 01:43:05.724  INFO 12119 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-12-14 01:43:05.725  INFO 12119 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.35]
+2020-12-14 01:43:05.798  INFO 12119 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-12-14 01:43:06.054 DEBUG 12119 --- [main] com.zaxxer.hikari.HikariConfig           : Driver class com.mysql.cj.jdbc.Driver found in Thread context class loader TomcatEmbeddedWebappClassLoader
+  context: ROOT
+  delegate: true
+----------> Parent Classloader:
+jdk.internal.loader.ClassLoaders$AppClassLoader@3d4eac69
+
+2020-12-14 01:43:06.069 DEBUG 12119 --- [main] com.zaxxer.hikari.HikariConfig           : SpringBootJPAHikariCP - configuration:
+2020-12-14 01:43:06.071 DEBUG 12119 --- [main] com.zaxxer.hikari.HikariConfig           : allowPoolSuspension.............false
+2020-12-14 01:43:06.071 DEBUG 12119 --- [main] com.zaxxer.hikari.HikariConfig           : autoCommit......................true
+2020-12-14 01:43:06.071 DEBUG 12119 --- [main] com.zaxxer.hikari.HikariConfig           : catalog.........................none
+2020-12-14 01:43:06.071 DEBUG 12119 --- [main] com.zaxxer.hikari.HikariConfig           : connectionInitSql...............none
+2020-12-14 01:43:06.071 DEBUG 12119 --- [main] com.zaxxer.hikari.HikariConfig           : connectionTestQuery.............none
+2020-12-14 01:43:06.072 DEBUG 12119 --- [main] com.zaxxer.hikari.HikariConfig           : connectionTimeout...............30000
+2020-12-14 01:43:06.072 DEBUG 12119 --- [main] com.zaxxer.hikari.HikariConfig           : dataSource......................none
+2020-12-14 01:43:06.072 DEBUG 12119 --- [main] com.zaxxer.hikari.HikariConfig           : dataSourceClassName.............none
+2020-12-14 01:43:06.072 DEBUG 12119 --- [main] com.zaxxer.hikari.HikariConfig           : dataSourceJNDI..................none
+2020-12-14 01:43:06.072 DEBUG 12119 --- [main] com.zaxxer.hikari.HikariConfig           : dataSourceProperties............{maintainTimeStats=false, password=<masked>, rewriteBatchedStatements=true, prepStmtCacheSqlLimit=2048, elideSetAutoCommits=true, cacheResultSetMetadata=true, cachePrepStmts=true, prepStmtCacheSize=250, useServerPrepStmts=true, useLocalSessionState=true, cacheServerConfiguration=true}
+2020-12-14 01:43:06.072 DEBUG 12119 --- [main] com.zaxxer.hikari.HikariConfig           : driverClassName................."com.mysql.cj.jdbc.Driver"
+2020-12-14 01:43:06.072 DEBUG 12119 --- [main] com.zaxxer.hikari.HikariConfig           : exceptionOverrideClassName......none
+2020-12-14 01:43:06.072 DEBUG 12119 --- [main] com.zaxxer.hikari.HikariConfig           : healthCheckProperties...........{}
+2020-12-14 01:43:06.073 DEBUG 12119 --- [main] com.zaxxer.hikari.HikariConfig           : healthCheckRegistry.............none
+2020-12-14 01:43:06.073 DEBUG 12119 --- [main] com.zaxxer.hikari.HikariConfig           : idleTimeout.....................30000
+2020-12-14 01:43:06.073 DEBUG 12119 --- [main] com.zaxxer.hikari.HikariConfig           : initializationFailTimeout.......1
+2020-12-14 01:43:06.073 DEBUG 12119 --- [main] com.zaxxer.hikari.HikariConfig           : isolateInternalQueries..........false
+2020-12-14 01:43:06.073 DEBUG 12119 --- [main] com.zaxxer.hikari.HikariConfig           : jdbcUrl.........................jdbc:mysql://144.91.104.115:3306/firatkayablog?serverTimezone=UTC
+2020-12-14 01:43:06.073 DEBUG 12119 --- [main] com.zaxxer.hikari.HikariConfig           : leakDetectionThreshold..........0
+2020-12-14 01:43:06.073 DEBUG 12119 --- [main] com.zaxxer.hikari.HikariConfig           : maxLifetime.....................2000000
+2020-12-14 01:43:06.073 DEBUG 12119 --- [main] com.zaxxer.hikari.HikariConfig           : maximumPoolSize.................20
+2020-12-14 01:43:06.073 DEBUG 12119 --- [main] com.zaxxer.hikari.HikariConfig           : metricRegistry..................none
+2020-12-14 01:43:06.074 DEBUG 12119 --- [main] com.zaxxer.hikari.HikariConfig           : metricsTrackerFactory...........none
+2020-12-14 01:43:06.074 DEBUG 12119 --- [main] com.zaxxer.hikari.HikariConfig           : minimumIdle.....................5
+2020-12-14 01:43:06.074 DEBUG 12119 --- [main] com.zaxxer.hikari.HikariConfig           : password........................<masked>
+2020-12-14 01:43:06.074 DEBUG 12119 --- [main] com.zaxxer.hikari.HikariConfig           : poolName........................"SpringBootJPAHikariCP"
+2020-12-14 01:43:06.074 DEBUG 12119 --- [main] com.zaxxer.hikari.HikariConfig           : readOnly........................false
+2020-12-14 01:43:06.074 DEBUG 12119 --- [main] com.zaxxer.hikari.HikariConfig           : registerMbeans..................false
+2020-12-14 01:43:06.074 DEBUG 12119 --- [main] com.zaxxer.hikari.HikariConfig           : scheduledExecutor...............none
+2020-12-14 01:43:06.074 DEBUG 12119 --- [main] com.zaxxer.hikari.HikariConfig           : schema..........................none
+2020-12-14 01:43:06.074 DEBUG 12119 --- [main] com.zaxxer.hikari.HikariConfig           : threadFactory...................internal
+2020-12-14 01:43:06.074 DEBUG 12119 --- [main] com.zaxxer.hikari.HikariConfig           : transactionIsolation............default
+2020-12-14 01:43:06.074 DEBUG 12119 --- [main] com.zaxxer.hikari.HikariConfig           : username........................"personelEcommerce"
+2020-12-14 01:43:06.075 DEBUG 12119 --- [main] com.zaxxer.hikari.HikariConfig           : validationTimeout...............5000
+2020-12-14 01:43:06.076  INFO 12119 --- [main] com.zaxxer.hikari.HikariDataSource       : SpringBootJPAHikariCP - Starting...
+2020-12-14 01:43:07.315  INFO 12119 --- [main] com.zaxxer.hikari.HikariDataSource       : SpringBootJPAHikariCP - Start completed.
+2020-12-14 01:43:07.428  INFO 12119 --- [task-1] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2020-12-14 01:43:07.472  INFO 12119 --- [task-1] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.15.Final
+2020-12-14 01:43:07.564  INFO 12119 --- [task-1] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020-12-14 01:43:07.637  INFO 12119 --- [task-1] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2020-12-14 01:43:09.323 DEBUG 12119 --- [task-1] org.hibernate.SQL                        : alter table comment add constraint FKs1slvnkuemjsq2kj4h3vhx7i1 foreign key (post_id) references post (post_id)
+2020-12-14 01:43:09.524 DEBUG 12119 --- [task-1] org.hibernate.SQL                        : alter table post add constraint FK75u1j48vwgw83f1p310hut2iy foreign key (post_seo_fk) references postseo (post_id)
+2020-12-14 01:43:09.727 DEBUG 12119 --- [task-1] org.hibernate.SQL                        : alter table user add constraint FKaav6twkc687lujieojldgsvvp foreign key (user_permissions_fk) references user_permissions (user_email)
+2020-12-14 01:43:09.857 DEBUG 12119 --- [task-1] org.hibernate.SQL                        : alter table user add constraint FKoimde6iybhfgvn1xfe4xxdtvk foreign key (user_profile_fk) references user_profile (user_email)
+2020-12-14 01:43:09.995  INFO 12119 --- [task-1] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-12-14 01:43:10.859  INFO 12119 --- [main] com.kayafirat.FiratkayaApplication       : Started FiratkayaApplication in 7.186 seconds (JVM running for 7.834)
+2020-12-14 01:43:10.873 DEBUG 12119 --- [scheduling-1] com.kayafirat.logging.EventLogging       : class com.kayafirat.service.Impl.Schedules classındaki reportCurrentTime() methoda  istek yapıldı. 	Args:[]
+2020-12-14 01:43:11.031 DEBUG 12119 --- [scheduling-1] org.hibernate.SQL                        : DELETE FROM staticsview WHERE view_date < (NOW() - INTERVAL 15 MINUTE)
+2020-12-14 01:43:11.300 DEBUG 12119 --- [scheduling-1] com.kayafirat.logging.EventLogging       : class com.kayafirat.service.Impl.Schedules classındaki reportCurrentTime() methodun cevabı döndürüldü 	Args:null
