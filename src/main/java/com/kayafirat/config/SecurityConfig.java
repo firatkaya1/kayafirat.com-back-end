@@ -27,16 +27,13 @@ import java.util.Arrays;
 @EnableGlobalMethodSecurity(prePostEnabled = true,securedEnabled = true )
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-
-    private final UserService userService;
-
-    private final JwtRequestFilter jwtRequestFilter;
+    @Autowired
+    private UserService userService;
 
     @Autowired
-    public SecurityConfig(UserService userService,JwtRequestFilter jwtRequestFilter ) {
-        this.userService = userService;
-        this.jwtRequestFilter = jwtRequestFilter;
-    }
+    private JwtRequestFilter jwtRequestFilter;
+
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
