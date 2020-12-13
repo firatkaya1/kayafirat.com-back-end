@@ -21,11 +21,6 @@ public interface PostRepository extends JpaRepository<Post, String> {
     @Query(value = "SELECT post_id,post_tag,post_title,post_header,post_time,post_max_view FROM firatkayablog.post", nativeQuery = true)
     List<PostExceptr> findAllProjectBy();
 
-
-    @Modifying
-    @Query(value = "UPDATE post SET post_max_comment = post_max_comment + 1 WHERE post_id = :postId", nativeQuery = true)
-    void increaseTotalComment(@Param("postId") String postId);
-
     @Query(value = "SELECT post_id,post_tag,post_title,post_header,post_time,post_max_view,post_max_comment FROM firatkayablog.post", nativeQuery = true)
     Page<PostExceptr> findAllProjectedBy(Pageable page);
 
@@ -37,7 +32,6 @@ public interface PostRepository extends JpaRepository<Post, String> {
 
     Post findByPostTitle(String postTitle);
 
- 
     @Query(value = "SELECT * FROM post order by post_time DESC LIMIT :lim", nativeQuery = true)
     <T> Collection<T> orderByDesc(@Param("lim") int limit, Class<T> type);
 

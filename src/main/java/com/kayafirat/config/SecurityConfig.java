@@ -42,8 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and()
                 .csrf()
-                //.csrfTokenRepository(cookieCsrfTokenRepository()).and()
-                .disable()
+                .csrfTokenRepository(cookieCsrfTokenRepository()).and()
                 .authorizeRequests()
                 .antMatchers("/v1/auth/github").permitAll()
                 .antMatchers("/v1/auth/linkedin").permitAll()
@@ -82,7 +81,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private CookieCsrfTokenRepository cookieCsrfTokenRepository() {
         final CookieCsrfTokenRepository cookieCsrfTokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
         cookieCsrfTokenRepository.setCookiePath("/");
-       // cookieCsrfTokenRepository.setCookieDomain("kayafirat.com");
+        //cookieCsrfTokenRepository.setCookieDomain("kayafirat.com");
         cookieCsrfTokenRepository.setCookieHttpOnly(false);
 
         return cookieCsrfTokenRepository;

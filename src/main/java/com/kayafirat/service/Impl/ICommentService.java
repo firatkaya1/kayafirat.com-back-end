@@ -64,7 +64,6 @@ public class ICommentService implements CommentService {
             comment.setUsername(user.getUserName());
         }
 
-        postRepository.increaseTotalComment(postId);
         return commentRepository.save(comment);
     }
 

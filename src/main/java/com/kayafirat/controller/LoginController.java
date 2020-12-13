@@ -34,7 +34,6 @@ public class LoginController {
         return ResponseEntity.ok().body(token);
     }
 
-
     @PostMapping(value = "/logout")
     public ResponseEntity<?> logout(HttpServletResponse res) {
         res.addCookie(cookieUtil.deleteCookie("authenticate",true,true));
