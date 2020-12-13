@@ -1,9 +1,10 @@
 package com.kayafirat.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -33,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtRequestFilter jwtRequestFilter;
 
     @Autowired
-    public SecurityConfig(@Lazy UserService userService, JwtRequestFilter jwtRequestFilter ) {
+    public SecurityConfig(UserService userService, JwtRequestFilter jwtRequestFilter ) {
         this.userService = userService;
         this.jwtRequestFilter = jwtRequestFilter;
     }
